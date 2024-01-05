@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Admin
+  Lab
+  Nurse
+  Patient
+}
+
+model User {
+  id String @id @default(cuid()) @map("_id")
+  name String 
+  email String @unique
+  role UserRole @default(Patient)
+  passwordHash String 
+  emailVerified DateTime?
+  emailVerificationCode String?
+  avatarId String? @unique
+  avatar Document?  @relation(fields: [avatarId],references: [id])
+  blogs Blog[]
+  patients Patient[]
+  messageSent Message[] @relation("messageSent")
+  messageReceived Message[] @relation("messageReceived")
+  
+}
+
+model Document {
+  id String @id @default(cuid()) @map("_id")
+  memeType String
+  path String
+  url String
+  user User? 
+  blog Blog?
+}
+model Category{
+  id String @id @default(cuid()) @map("_id")
+  label String @unique
+  color String
+  CategoryBlogs BlogCategory[]
+}
+
+model BlogCategory{
+  blogId String 
+  categoryId String 
+  category Category @relation(fields: [categoryId], references: [id])
+  blog Blog  @relation(fields: [blogId], references: [id])
+  @@id([blogId,categoryId])
+}
+
+model Blog{
+  id String @id @default(cuid()) @map("_id")
+  title String
+  content String @db.LongText
+  publishedAt DateTime @default(now())
+  categories BlogCategory[] 
+  authorId String
+  imageId String  @unique
+  image Document @relation(fields: [imageId], references: [id])
+  author User @relation(fields:[authorId],references: [id])
+
+}
+
+model Message {
+  id String @id @default(cuid()) @map("_id")
+  senderId String 
+  receiverId String 
+  content String @db.MediumText
+  createdAt DateTime
+  sender User  @relation("messageSent",fields: [senderId], references: [id])
+  receiver User @relation("messageReceived",fields: [receiverId], references: [id])
+}
+
+enum Program {
+  PAP
+  DAP
+  PSP 
+}
+
+model Patient {
+  id String @id @default(cuid()) @map("_id")
+  firstname String 
+  lastname String 
+  birthDate DateTime
+  avatarId String? @unique
+  program Program
+  address String
+  note String
+  doctor User @relation(fields:[doctorId],references: [id])
+  doctorId String
+}
