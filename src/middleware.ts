@@ -22,6 +22,7 @@ export async function middleware(request: NextRequest) {
   var isValid = await verifyToken();
 
   if (isValid) {
+    if (pathname.startsWith("/uploads")) return NextResponse.next();
     if (nonAuthRouts.includes(pathname))
       return NextResponse.redirect(new URL("/home", request.url));
     var decoded = jwtDecoded();
