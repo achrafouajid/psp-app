@@ -16,11 +16,11 @@ export default async function register(data: data) {
   };
   const user = await prisma.user.findUnique({
     where: {
-      email: data.email,
+      email: data.email.toLowerCase(),
     },
   });
 
-  const password =Hash.make(data.password)
+  const password = Hash.make(data.password);
 
   if (user == null) {
     const user = await prisma.user.create({

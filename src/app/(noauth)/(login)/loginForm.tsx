@@ -6,16 +6,36 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import logo from "public/doctordash.png";
+import { useRouter } from "next/navigation";
+import { useStateContext } from "@/Contexts/ThemeContext";
+import axios from "axios";
 export default function LoginForm() {
+  const [loading, setloading] = useState(false);
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
     onSubmit: async ({ password, username }) => {
-      const res = await login(username, password);
-      if (res == false) toast.error("Email ou mot de passe incorrect !");
-      else toast.success("Connexion réussie !");
+      setloading(true);
+      try {
+        const res = await axios.post("/api/login", {
+          username,
+          password,
+        });
+
+        if (res.data.success == false) {
+          setloading(false);
+          toast.error("Email ou mot de passe incorrect !");
+        } else {
+          router.push("/home");
+          toast.success("Connexion réussie !");
+        }
+      } catch (error) {
+        console.log(error);
+        setloading(false);
+      }
     },
   });
 

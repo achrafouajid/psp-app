@@ -17,7 +17,6 @@ export default async function login(username: string, password: string) {
   }
 
   const isAuth = Hash.verify(password, user.passwordHash);
-
   if (isAuth) {
     const expiresIn = new Date(new Date().setMonth(new Date().getMonth() + 1));
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -41,7 +40,7 @@ export default async function login(username: string, password: string) {
       httpOnly: true,
       secure: true,
     });
-    redirect("/home");
+    return true;
   }
   return false;
 }
