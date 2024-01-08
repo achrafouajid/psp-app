@@ -105,7 +105,6 @@ export default function AddBlog(props: { categories: Category[] }) {
           <div className="flex flex-col items-center">
             <Button
               type="submit"
-              onClick=""
               color="white"
               bgColor={currentColor}
               text="Soummettre"

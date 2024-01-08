@@ -37,7 +37,7 @@ export function Contacts({ contacts, changeChat, selected }: data) {
                   />
                 </div>
                 <div className="username">
-                  <h3 className="text-white">{contact.name}</h3>
+                  <h3 className="text-white">{contact.lastName}</h3>
                 </div>
               </div>
             ))}
@@ -51,7 +51,7 @@ export function Contacts({ contacts, changeChat, selected }: data) {
               />
             </div>
             <div className="username">
-              <h2 className="text-white lg:text-lg">{selected?.name}</h2>
+              <h2 className="text-white lg:text-lg">{selected?.lastName}</h2>
             </div>
           </div>
         </div>

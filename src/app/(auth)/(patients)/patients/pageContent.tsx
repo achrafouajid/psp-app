@@ -30,7 +30,7 @@ const PageContent = ({
           notes: e.notes,
           program: e.program,
           birthDate: e.birthDate,
-          avatar: e.avatar?.url,
+          avatar: e.image?.url,
           address: e.address ?? "-",
           name: e.lastName.concat(" ", e.firstName),
           id: e.id,

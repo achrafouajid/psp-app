@@ -24,7 +24,9 @@ const Scheduler = () => {
   const [scheduleObj, setScheduleObj] = useState(undefined);
 
   const change = (args: { value: Date }) => {
+    /* @ts-ignore */
     scheduleObj!.selectedDate = args.value;
+    /* @ts-ignore */
     scheduleObj!.dataBind();
   };
 
@@ -35,6 +37,7 @@ const Scheduler = () => {
     <>
       <ScheduleComponent
         height="650px"
+        /* @ts-ignore */
         ref={(schedule) => setScheduleObj(schedule)}
         selectedDate={new Date(2021, 0, 10)}
         eventSettings={{ dataSource: scheduleData }}
@@ -42,6 +45,7 @@ const Scheduler = () => {
       >
         <ViewsDirective>
           {["Day", "Week", "WorkWeek", "Month", "Agenda"].map((item) => (
+            /* @ts-ignore */
             <ViewDirective key={item} option={item} />
           ))}
         </ViewsDirective>

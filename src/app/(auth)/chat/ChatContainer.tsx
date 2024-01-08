@@ -63,7 +63,9 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
             />
           </div>
           <div className="username">
-            <h3 className="text-[#f17c34]">{currentUser.name}</h3>
+            <h3 className="text-[#f17c34]">
+              {currentUser.lastName + " " + currentUser.firstName}
+            </h3>
           </div>
         </div>
       </div>

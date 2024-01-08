@@ -24,7 +24,7 @@ export default async function login(username: string, password: string) {
 
     const jwt = await new jose.SignJWT({
       userId: user.id,
-      fullName: user.name,
+      fullName: user.lastName.concat(" ", user.firstName),
       role: user.role,
     })
       .setProtectedHeader({ alg })

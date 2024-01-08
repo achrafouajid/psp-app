@@ -55,7 +55,6 @@ const Settings: React.FC = () => {
 
                 <div className="flex flex-col space-y-5 sm:ml-8">
                   <Button
-                    href="/settings"
                     color="white"
                     bgColor={currentColor}
                     text="Changer Photo"
@@ -63,7 +62,6 @@ const Settings: React.FC = () => {
                     width="full"
                   />
                   <Button
-                    href="/settings"
                     color="white"
                     bgColor="red"
                     text="Supprimer Photo"
@@ -159,7 +157,6 @@ const Settings: React.FC = () => {
 
                 <div className="flex justify-end">
                   <Button
-                    href="/settings"
                     color="white"
                     bgColor={currentColor}
                     text="Sauvegarder"
