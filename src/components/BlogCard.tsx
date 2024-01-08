@@ -11,7 +11,8 @@ const BlogCard = (props: Awaited<ReturnType<typeof get_blogs>>[number]) => {
       </div>
       <div className="p-4">
         <span className="bg-eeffcc rounded-md border border-ccf px-2 py-1 inline-block">
-          {props.author.name}
+          {props.author.lastName}
+          {props.author.firstName}
         </span>
         {/*   <span className="bg-eeffcc rounded-md border border-ccf px-2 py-1 inline-block">
           {job}

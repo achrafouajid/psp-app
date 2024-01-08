@@ -22,8 +22,5 @@ export async function POST(req: Request) {
     });
   } else {
     redirect("/home");
-    return Response.json({
-      success: true,
-    });
   }
 }

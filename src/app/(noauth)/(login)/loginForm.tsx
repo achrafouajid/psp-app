@@ -5,7 +5,7 @@ import login from "../../../../server/auth/login";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import logo from "public/doctordash.png";
+import logo from "public/rafiki.jpg";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import axios from "axios";

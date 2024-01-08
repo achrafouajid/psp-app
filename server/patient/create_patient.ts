@@ -1,4 +1,5 @@
-"use server";
+{
+  /*"use server";
 import { revalidatePath } from "next/cache";
 import prisma from "../../prisma/client";
 import { Program } from "@prisma/client";
@@ -26,4 +27,6 @@ export default async function create_patient(
     },
   });
   revalidatePath("/");
+}
+*/
 }

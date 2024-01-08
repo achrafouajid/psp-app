@@ -7,7 +7,8 @@ import { registerResponseEnum } from "./types";
 type data = {
   email: string;
   password: string;
-  name: string;
+  firstName: string;
+  lastName: string;
 };
 export default async function register(data: data) {
   const response = {
@@ -23,11 +24,12 @@ export default async function register(data: data) {
   const password = Hash.make(data.password);
 
   if (user == null) {
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
-        name: data.name,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
-        passwordHash: Hash.make(data.password),
+        passwordHash: password,
       },
     });
     response.status = registerResponseEnum.success;

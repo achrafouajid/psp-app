@@ -1,48 +1,8 @@
-"use client";
 import React from "react";
-import {
-  GridComponent,
-  ColumnsDirective,
-  ColumnDirective,
-  Page,
-  Selection,
-  Inject,
-  Edit,
-  Toolbar,
-  Sort,
-  Filter,
-} from "@syncfusion/ej2-react-grids";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
+import PageContent from "../patients/pageContent";
 
-import { patientsData, patientsGrid } from "@/data/dummy";
-import Header from "@/components/Header";
-
-const Patients = () => {
-  const selectionsettings = { persistSelection: true };
-  const toolbarOptions = ["Delete"];
-  const editing = { allowDeleting: true, allowEditing: true };
-
-  return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Patients" title="Gestion Patients" />
-      <GridComponent
-        dataSource={patientsData}
-        enableHover={false}
-        allowPaging
-        pageSettings={{ pageCount: 5 }}
-        selectionSettings={selectionsettings}
-        toolbar={toolbarOptions}
-        editSettings={editing}
-        allowSorting
-      >
-        <ColumnsDirective>
-          {patientsGrid.map((item, index) => (
-            <ColumnDirective key={index} {...item} />
-          ))}
-        </ColumnsDirective>
-        <Inject services={[Page, Selection, Toolbar, Edit, Sort, Filter]} />
-      </GridComponent>
-    </div>
-  );
-};
-
-export default Patients;
+export default async function page() {
+  const data = await getAllPatients();
+  return <PageContent data={data} />;
+}

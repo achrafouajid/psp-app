@@ -9,10 +9,15 @@ import {
   Page,
 } from "@syncfusion/ej2-react-grids";
 
-import { employeesData, employeesGrid } from "@/data/patientsData";
+import { employeesGrid } from "@/data/patientsData";
 import Header from "@/components/Header";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
 
-const Employees = () => {
+const PageContent = ({
+  data,
+}: {
+  data: Awaited<ReturnType<typeof getAllPatients>>;
+}) => {
   const toolbarOptions = ["Search"];
 
   const editing = { allowDeleting: true, allowEditing: true };
@@ -21,11 +26,21 @@ const Employees = () => {
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Patients" title="Liste des patients" />
       <GridComponent
-        dataSource={employeesData}
+        dataSource={data.map((e) => ({
+          notes: e.notes,
+          program: e.program,
+          birthDate: e.birthDate,
+          avatar: e.avatar?.url,
+          address: e.address ?? "-",
+          name: e.lastName.concat(" ", e.firstName),
+          id: e.id,
+        }))}
         width="auto"
         allowPaging
         allowSorting
-        pageSettings={{ pageCount: 5 }}
+        pageSettings={{
+          pageSize: 3,
+        }}
         editSettings={editing}
         toolbar={toolbarOptions}
       >
@@ -40,4 +55,4 @@ const Employees = () => {
     </div>
   );
 };
-export default Employees;
+export default PageContent;

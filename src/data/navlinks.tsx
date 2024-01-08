@@ -67,13 +67,6 @@ export const links: LinksGroup[] = [
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
-        title: "Liste Patients",
-        href: "/patients-list",
-        icon: <IoMdContacts />,
-        activatedFor: [UserRole.Admin, UserRole.Nurse],
-        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
-      },
-      {
         title: "Créer Dossier Patient",
         href: "/add-patient",
         icon: <FiUserPlus />,
@@ -156,7 +149,7 @@ export const links: LinksGroup[] = [
       },
       {
         title: "Notes",
-        href: "/kanban",
+        href: "/notes",
         icon: <BsKanban />,
         activatedFor: [
           UserRole.Admin,
@@ -170,68 +163,6 @@ export const links: LinksGroup[] = [
           UserRole.Nurse,
           UserRole.Patient,
         ],
-      },
-    ],
-  },
-  {
-    title: "Charts",
-    links: [
-      {
-        title: "Ligne",
-        href: "/line",
-        icon: <AiOutlineStock />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Zone",
-        href: "/area",
-        icon: <AiOutlineAreaChart />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-
-      {
-        title: "Barre",
-        href: "/bar",
-        icon: <AiOutlineBarChart />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Cercle",
-        href: "/pie",
-        icon: <FiPieChart />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Finance",
-        href: "/financial",
-        icon: <RiStockLine />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Couleurs",
-        href: "color-mapping",
-        icon: <BsBarChart />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Pyramides",
-        href: "/pyramid",
-        icon: <GiLouvrePyramid />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
-      },
-      {
-        title: "Pile",
-        href: "/stacked",
-        icon: <AiOutlineBarChart />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin],
       },
     ],
   },

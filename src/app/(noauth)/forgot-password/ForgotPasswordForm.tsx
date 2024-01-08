@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import logo from "public/doctordash.png";
+import logo from "public/rafiki.jpg";
 import OtpForm from "./OtpForm";
 export default function ForgotPasswordForm() {
   const formik = useFormik({

@@ -2,13 +2,13 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import * as yup from "yup";
 import Link from "next/link";
-import { ToastOptions, toast } from "react-toastify";
 import { useFormik } from "formik";
 import register from "../../../../server/auth/register";
 import Image from "next/image";
-import logo from "public/doctordash.png";
+import logo from "public/rafiki.jpg";
 import { useRouter } from "next/navigation";
 import { registerResponseEnum } from "../../../../server/auth/types";
+import toast from "react-hot-toast";
 const schema = yup.object().shape({
   password: yup
     .string()
@@ -24,7 +24,8 @@ export default function RegisterForm() {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -32,13 +33,15 @@ export default function RegisterForm() {
     onSubmit: async (values) => {
       const res = await register({
         email: values.email,
-        name: values.name,
+        firstName: values.firstName,
+        lastName: values.lastName,
         password: values.password,
       });
       if (res.status == registerResponseEnum.exist)
-        toast.error("email deja utilisé ");
+        toast.error("Cet Email déjà utilisé ");
       else {
         router.push("/");
+        toast.success("Inscription réussie !");
       }
     },
   });
@@ -62,15 +65,25 @@ export default function RegisterForm() {
         </div>
 
         <input
+          required
           type="text"
-          placeholder="Nom d'utilisateur"
-          name="name"
+          placeholder="Nom"
+          name="lastName"
           readOnly={formik.isSubmitting}
           onChange={formik.handleChange}
           className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
         />
-
         <input
+          required
+          type="text"
+          placeholder="Prénom"
+          name="firstName"
+          readOnly={formik.isSubmitting}
+          onChange={formik.handleChange}
+          className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+        />
+        <input
+          required
           type="email"
           placeholder="Email"
           name="email"
@@ -80,6 +93,7 @@ export default function RegisterForm() {
         />
 
         <input
+          required
           type="password"
           placeholder="Mot de passe"
           name="password"
@@ -89,6 +103,7 @@ export default function RegisterForm() {
         />
 
         <input
+          required
           type="password"
           placeholder="Confirmer mot de passe"
           name="confirmPassword"

@@ -32,8 +32,7 @@ export default function NavLink(props: NavLinkProps) {
   if (props.activatedFor.includes(user.role))
     return (
       <Link
-        href={"." + `${props.href}`}
-        onClick={handleCloseSideBar}
+        href={props.href.replace("/", "")}
         style={{
           backgroundColor: active ? currentColor : "",
         }}

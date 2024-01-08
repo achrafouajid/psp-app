@@ -26,7 +26,7 @@ export default function AddBlog(props: { categories: Category[] }) {
         >
           <div className="mb-6">
             <label
-              className="block uppercase tracking-wide text-[#f17c34] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
               htmlFor="grid-zip"
             >
               Image
@@ -41,7 +41,7 @@ export default function AddBlog(props: { categories: Category[] }) {
           </div>
           <div className="mb-6">
             <label
-              className="block uppercase tracking-wide text-[#f17c34] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
               htmlFor="grid-zip"
             >
               Titre du Blog
@@ -57,7 +57,7 @@ export default function AddBlog(props: { categories: Category[] }) {
           </div>
           <div className=" mb-6 ">
             <label
-              className="block uppercase tracking-wide text-[#f17c34] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
               htmlFor="grid-state"
             >
               Catégories
@@ -91,7 +91,7 @@ export default function AddBlog(props: { categories: Category[] }) {
 
           {/*   <div className=" mb-6">
             <label
-              className="block uppercase tracking-wide text-[#f17c34] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
               htmlFor="grid-state"
             >
               Notes

@@ -1,6 +1,5 @@
-import * as jose from "jose";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import verifyToken from "../server/auth/verifyToken";
 import { links } from "./data/navlinks";
 import jwtDecoded from "../server/auth/jwtDecoded";
@@ -29,6 +28,10 @@ export async function middleware(request: NextRequest) {
     if (nonAuthRoutes.includes(pathname))
       return NextResponse.redirect(new URL("/home", request.url));
     var decoded = jwtDecoded();
+    var existInPaths = links
+      .flatMap((e) => e.links)
+      .find((e) => pathname.startsWith(e.href));
+    if (!existInPaths) return NextResponse.next();
     const isAuthorized = links
       .flatMap((e) => e.links)
       .find(

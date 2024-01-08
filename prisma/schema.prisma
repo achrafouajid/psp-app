@@ -17,20 +17,48 @@ enum UserRole {
   Patient
 }
 
+enum UserStatus {
+NeedInitialization
+Active
+}
+
+enum ProgramEnum {
+  PAP
+  DAP
+  PSP 
+} 
+
+model Patient {
+  id String @id @default(cuid()) @map("_id")
+  firstName String 
+  lastName String 
+  address String? 
+  birthDate DateTime?
+  avatarId String? @unique
+  notes String?
+  program ProgramEnum?
+  image Document? @relation(fields: [avatarId],references: [id])
+  
+}
 model User {
   id String @id @default(cuid()) @map("_id")
-  name String 
+  firstName String 
+  lastName String 
+  address String? 
   email String @unique
   role UserRole @default(Patient)
   passwordHash String 
   emailVerified DateTime?
+  birthDate DateTime?
+  status UserStatus @default(Active)
   emailVerificationCode String?
   avatarId String? @unique
   avatar Document?  @relation(fields: [avatarId],references: [id])
   blogs Blog[]
-  patients Patient[]
   messageSent Message[] @relation("messageSent")
   messageReceived Message[] @relation("messageReceived")
+  notes String?
+  program ProgramEnum?
   
 }
 
@@ -41,6 +69,7 @@ model Document {
   url String
   user User? 
   blog Blog?
+  patient Patient?
 }
 model Category{
   id String @id @default(cuid()) @map("_id")
@@ -80,21 +109,6 @@ model Message {
   receiver User @relation("messageReceived",fields: [receiverId], references: [id])
 }
 
-enum Program {
-  PAP
-  DAP
-  PSP 
-}
 
-model Patient {
-  id String @id @default(cuid()) @map("_id")
-  firstname String 
-  lastname String 
-  birthDate DateTime
-  avatarId String? @unique
-  program Program
-  address String
-  note String
-  doctor User @relation(fields:[doctorId],references: [id])
-  doctorId String
-}
+
+

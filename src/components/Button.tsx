@@ -1,32 +1,36 @@
 import { useStateContext } from "@/Contexts/ThemeContext";
-import React from "react";
+import React, { ComponentProps } from "react";
 
-const Button = ({
-  icon,
-  bgColor,
-  color,
-  bgHoverColor,
-  size,
-  text,
-  borderRadius,
-  width,
-  onClick,
-  type,
-}: any) => {
+type props = ComponentProps<"button"> & {
+  icon?: any;
+  bgColor?: any;
+  color?: any;
+  bgHoverColor?: any;
+  size?: any;
+  text?: any;
+  borderRadius?: any;
+  width?: any;
+};
+const Button = (props: props) => {
   const { setIsClicked, initialState } = useStateContext();
 
   return (
     <button
-      type={type ?? "button"}
-      onClick={async () => {
-        if (onClick) await onClick();
+      {...props}
+      type={props.type ?? "button"}
+      onClick={async (e) => {
+        if (props.onClick) await props.onClick(e);
 
         setIsClicked(initialState);
       }}
-      style={{ backgroundColor: bgColor, color, borderRadius }}
-      className={` text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}
+      style={{
+        backgroundColor: props.bgColor,
+        color: props.color,
+        borderRadius: props.borderRadius,
+      }}
+      className={` text-${props.size} p-3 w-${props.width} hover:drop-shadow-xl hover:bg-${props.bgHoverColor}`}
     >
-      {icon} {text}
+      {props.icon} {props.text}
     </button>
   );
 };

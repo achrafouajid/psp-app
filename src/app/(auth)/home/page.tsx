@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { BsCurrencyDollar } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
 import { IoIosMore } from "react-icons/io";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
@@ -18,6 +17,7 @@ import {
   ecomPieChartData,
 } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
+import { FaUserInjured } from "react-icons/fa";
 
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -42,22 +42,22 @@ const Ecommerce = () => {
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
           <div className="flex justify-between items-center">
             <div>
-              <p className="font-bold text-gray-400">Earnings</p>
-              <p className="text-2xl">$63,448.78</p>
+              <p className="font-bold text-gray-400">Nombre de patients</p>
+              <p className="text-2xl">150</p>
             </div>
             <button
               type="button"
               style={{ backgroundColor: currentColor }}
               className="text-2xl opacity-0.9 text-white hover:drop-shadow-xl rounded-full  p-4"
             >
-              <BsCurrencyDollar />
+              <FaUserInjured />
             </button>
           </div>
           <div className="mt-6">
             <Button
               color="white"
               bgColor={currentColor}
-              text="Download"
+              text="Visualiser"
               borderRadius="10px"
             />
           </div>
@@ -90,13 +90,13 @@ const Ecommerce = () => {
       <div className="flex gap-10 flex-wrap justify-center">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg m-3 p-4 rounded-2xl md:w-780  ">
           <div className="flex justify-between">
-            <p className="font-semibold text-xl">Revenue Updates</p>
+            <p className="font-semibold text-xl">Revenus</p>
             <div className="flex items-center gap-4">
               <p className="flex items-center gap-2 text-gray-600 hover:drop-shadow-xl">
                 <span>
                   <GoDotFill />
                 </span>
-                <span>Expense</span>
+                <span>Dépenses</span>
               </p>
               <p className="flex items-center gap-2 text-green-400 hover:drop-shadow-xl">
                 <span>
@@ -120,7 +120,7 @@ const Ecommerce = () => {
               <div className="mt-8">
                 <p className="text-3xl font-semibold">$48,487</p>
 
-                <p className="text-gray-500 mt-1">Expense</p>
+                <p className="text-gray-500 mt-1">Dépenses</p>
               </div>
 
               <div className="mt-5">
@@ -154,13 +154,13 @@ const Ecommerce = () => {
             style={{ backgroundColor: currentColor }}
           >
             <div className="flex justify-between items-center ">
-              <p className="font-semibold text-white text-2xl">Earnings</p>
+              <p className="font-semibold text-white text-2xl">Gains</p>
 
               <div>
                 <p className="text-2xl text-white font-semibold mt-8">
                   $63,448.78
                 </p>
-                <p className="text-gray-200">Monthly revenue</p>
+                <p className="text-gray-200">Revenu mensuel</p>
               </div>
             </div>
 
@@ -180,7 +180,7 @@ const Ecommerce = () => {
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
             <div>
               <p className="text-2xl font-semibold ">$43,246</p>
-              <p className="text-gray-400">Yearly sales</p>
+              <p className="text-gray-400">Ventes annuelles</p>
             </div>
 
             <div className="w-40">
