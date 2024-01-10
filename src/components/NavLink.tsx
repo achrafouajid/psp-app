@@ -18,21 +18,14 @@ export default function NavLink(props: NavLinkProps) {
   const pathname = usePathname();
   const user = useSession();
   const active = pathname.startsWith(props.href);
-  const { currentColor, activeMenu, setActiveMenu, screenSize } =
-    useStateContext();
-
-  const handleCloseSideBar = () => {
-    if (activeMenu !== undefined && screenSize <= 900) {
-      setActiveMenu(false);
-    }
-  };
+  const { currentColor } = useStateContext();
 
   if (!props.visibleFor.includes(user.role)) return null;
 
   if (props.activatedFor.includes(user.role))
     return (
       <Link
-        href={props.href.replace("/", "")}
+        href={props.href}
         style={{
           backgroundColor: active ? currentColor : "",
         }}

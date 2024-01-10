@@ -10,6 +10,7 @@ type props = ComponentProps<"button"> & {
   text?: any;
   borderRadius?: any;
   width?: any;
+  fontSize?: any;
 };
 const Button = (props: props) => {
   const { setIsClicked, initialState } = useStateContext();
@@ -27,8 +28,9 @@ const Button = (props: props) => {
         backgroundColor: props.bgColor,
         color: props.color,
         borderRadius: props.borderRadius,
+        fontSize: props.fontSize,
       }}
-      className={` text-${props.size} p-3 w-${props.width} hover:drop-shadow-xl hover:bg-${props.bgHoverColor}`}
+      className={` text-${props.size} p-3 w-${props.width} hover:drop-shadow-xl hover:bg-${props.bgHoverColor} flex items-center gap-1`}
     >
       {props.icon} {props.text}
     </button>

@@ -136,6 +136,18 @@ export const links: LinksGroup[] = [
         ],
       },
       {
+        title: "Whatsapp",
+        href: "/whatsapp",
+        icon: <IoChatbubblesOutline />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse, UserRole.Patient],
+        visibleFor: [
+          UserRole.Admin,
+          UserRole.Lab,
+          UserRole.Nurse,
+          UserRole.Patient,
+        ],
+      },
+      {
         title: "Rendez-vous",
         href: "/calendar",
         icon: <AiOutlineCalendar />,

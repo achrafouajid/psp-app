@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { CiSettings } from "react-icons/ci";
 
-const gridEmployeeProfile = (props: any) =>
+export const gridProfile = (props: any) =>
   props.avatar ? (
     <img className="rounded-full w-10 h-10" src={props.avatar} alt="employee" />
   ) : (
@@ -18,7 +18,7 @@ export const employeesGrid = [
   {
     headerText: "",
     width: "40px",
-    template: gridEmployeeProfile,
+    template: gridProfile,
     textAlign: "Center",
   },
   {

@@ -3,19 +3,19 @@ import Button from "@/components/Button";
 import React, { useRef } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
-import getPatient from "../../../../../../server/patient/get_patient";
 import { useFormik } from "formik";
-import updatePatient from "../../../../../../server/patient/update_patient";
 import toast from "react-hot-toast";
 import { ProgramEnum } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { FaFilePdf } from "react-icons/fa";
+import getUser from "../../../../../server/auth/get_user";
+import updateUserRole from "../../../../../server/auth/update_user";
 
-const PatientProfile = ({
+const UserProfile = ({
   data,
 }: {
-  data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
+  data: NonNullable<Awaited<ReturnType<typeof getUser>>>;
 }) => {
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
@@ -28,18 +28,7 @@ const PatientProfile = ({
       birthDate: data.birthDate?.toISOString().slice(0, 10),
     },
     onSubmit: async (values) => {
-      const formadata = new FormData();
-
-      formadata.append("firstName", values.firstName);
-      formadata.append("lastName", values.lastName);
-      formadata.append("birthDate", values.birthDate?.toString() ?? "");
-      formadata.append("address", values.address ?? "");
-      formadata.append("notes", values.notes ?? "");
-      formadata.append("program", values.program ?? "");
-      formadata.append("id", values.id ?? "");
-      formadata.append("image", values.image);
-
-      const res = await updatePatient(formadata);
+      const res = await updateUserRole();
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
@@ -47,26 +36,7 @@ const PatientProfile = ({
       }
     },
   });
-  async function generatePDF() {
-    const doc = new jsPDF();
-    doc.text(
-      `                                               Fiche Patient`,
-      10,
-      10
-    );
 
-    const img = document.createElement("img");
-    img.src = "/" + data.image?.url;
-
-    doc.addImage(img, "png", 0, 0, 50, 50);
-    doc.text(`Prénom: ${data.firstName}`, 10, 100);
-    doc.text(`Nom: ${data.lastName}`, 10, 110);
-    doc.text(`Date de Naissance: ${data.birthDate}`, 10, 120);
-    doc.text(`Addresse: ${data.address}`, 10, 130);
-    doc.text(`Programme: ${data.program}`, 10, 140);
-    doc.text(`Notes: ${data.notes}`, 10, 150);
-    doc.save("patientInfo.pdf");
-  }
   return (
     <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
       <aside className="hidden py-4 md:w-1/3 lg:w-1/4 md:block">
@@ -288,4 +258,4 @@ const PatientProfile = ({
   );
 };
 
-export default PatientProfile;
+export default UserProfile;
