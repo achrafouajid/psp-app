@@ -38,6 +38,7 @@ model Patient {
   notes String?
   program ProgramEnum?
   image Document? @relation(fields: [avatarId],references: [id])
+  createdAt DateTime @default(now())
   
 }
 model User {

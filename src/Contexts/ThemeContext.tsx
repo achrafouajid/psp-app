@@ -18,7 +18,7 @@ const initialContextState = {
   cart: false,
   userProfile: false,
   notification: false,
-  currentColor: "#03C9D7",
+  currentColor: "#396EA5",
   currentMode: "Light",
   activeMenu: true,
   screenSize: 0,

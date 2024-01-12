@@ -1,7 +1,6 @@
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
-import { chatData } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Button from "./Button";
 import Image from "next/image";
@@ -33,7 +32,7 @@ const Notification = () => {
         />
       </div>
       <div className="mt-5 ">
-        {chatData?.map((item, index) => (
+        {/*    {chatData?.map((item, index) => (
           <div
             key={index}
             className="flex items-center leading-8 gap-5 border-b-1 border-color p-3"
@@ -51,7 +50,7 @@ const Notification = () => {
               </p>
             </div>
           </div>
-        ))}
+        ))} */}
         <div className="mt-5">
           <Button
             color="white"

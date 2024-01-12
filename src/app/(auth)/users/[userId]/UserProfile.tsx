@@ -5,7 +5,7 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { ProgramEnum } from "@prisma/client";
+import { ProgramEnum, UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { FaFilePdf } from "react-icons/fa";
@@ -28,7 +28,7 @@ const UserProfile = ({
       birthDate: data.birthDate?.toISOString().slice(0, 10),
     },
     onSubmit: async (values) => {
-      const res = await updateUserRole();
+      const res = await updateUserRole(values.id, values.role);
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
@@ -72,11 +72,11 @@ const UserProfile = ({
               <div className="grid max-w-2xl mx-auto mt-8">
                 <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
                   <Image
-                    key={data.image?.url}
+                    key={data.avatar?.url}
                     className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                     src={
-                      data.image?.url
-                        ? "/" + data.image?.url
+                      data.avatar?.url
+                        ? "/" + data.avatar?.url
                         : "/doctordash.png"
                     }
                     alt="Bordered avatar"
@@ -97,14 +97,6 @@ const UserProfile = ({
                       color="white"
                       bgColor={currentColor}
                       text="Changer Photo"
-                      borderRadius="10px"
-                    />
-                    <Button
-                      onClick={(values) => generatePDF()}
-                      icon={<FaFilePdf />}
-                      color="white"
-                      bgColor={currentColor}
-                      text="Télécharger"
                       borderRadius="10px"
                     />
                   </div>
@@ -198,11 +190,11 @@ const UserProfile = ({
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-state"
                         onChange={formik.handleChange}
-                        name="program"
-                        value={formik.values.program ?? ProgramEnum.PSP}
+                        name="role"
+                        value={formik.values.role}
                         disabled={formik.isSubmitting}
                       >
-                        {Object.values(ProgramEnum).map((e) => (
+                        {Object.values(UserRole).map((e) => (
                           <option value={e}>{e}</option>
                         ))}
                       </select>
