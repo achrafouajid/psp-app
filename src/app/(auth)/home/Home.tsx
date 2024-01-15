@@ -221,35 +221,7 @@ const Home = ({
                 color="white"
                 icon={<FaFilePdf />}
                 bgColor={currentColor}
-                text="Rapport Patients"
-                borderRadius="10px"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
-          <div className=" m-4 pr-10">
-            <div>
-              <p>
-                <span className="text-3xl font-semibold">0</span>
-                <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
-                  23%
-                </span>
-              </p>
-              <p className="text-gray-500 mt-1">Dossiers ce mois</p>
-            </div>
-            <div className="mt-8">
-              <p className="text-3xl font-semibold">150</p>
-
-              <p className="text-gray-500 mt-1">Dépenses</p>
-            </div>
-
-            <div className="mt-10">
-              <Button
-                color="white"
-                icon={<FaFilePdf />}
-                bgColor={currentColor}
-                text="Rapport Dossiers"
+                text="Télécharger Rapport"
                 borderRadius="10px"
               />
             </div>

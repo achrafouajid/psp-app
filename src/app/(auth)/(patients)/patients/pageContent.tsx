@@ -7,19 +7,24 @@ import {
   ColumnDirective,
   Search,
   Page,
+  Sort,
+  Toolbar,
+  Edit,
+  Filter,
 } from "@syncfusion/ej2-react-grids";
 
 import { employeesGrid } from "@/data/patientsData";
 import Header from "@/components/Header";
 import getAllPatients from "../../../../../server/patient/getAllpatients";
+import { Selection } from "@syncfusion/ej2-react-charts";
 
 const PageContent = ({
   data,
 }: {
   data: Awaited<ReturnType<typeof getAllPatients>>;
 }) => {
-  const toolbarOptions = ["Search"];
-
+  const selectionsettings = { persistSelection: true };
+  const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
 
   return (
@@ -36,13 +41,13 @@ const PageContent = ({
           id: e.id,
         }))}
         width="auto"
+        enableHover={true}
         allowPaging
-        allowSorting
-        pageSettings={{
-          pageSize: 3,
-        }}
-        editSettings={editing}
+        pageSettings={{ pageSize: 5 }}
+        selectionSettings={selectionsettings}
         toolbar={toolbarOptions}
+        editSettings={editing}
+        allowSorting
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -50,7 +55,9 @@ const PageContent = ({
             <ColumnDirective key={index} {...item} />
           ))}
         </ColumnsDirective>
-        <Inject services={[Search, Page]} />
+        <Inject
+          services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
+        />
       </GridComponent>
     </div>
   );

@@ -83,8 +83,8 @@ const PatientProfile = ({
           <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
             <Image
               key={data.image?.url}
-              className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-              src={data.image?.url ? "/" + data.image?.url : "/doctordash.png"}
+              className="object-fill w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+              src={data.image?.url ? "/" + data.image?.url : "/noavatar.png"}
               alt="Bordered avatar"
               width={500}
               height={500}

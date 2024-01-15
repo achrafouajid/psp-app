@@ -1,14 +1,12 @@
 "use client";
 import Button from "@/components/Button";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { ProgramEnum, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { jsPDF } from "jspdf";
-import { FaFilePdf } from "react-icons/fa";
 import getUser from "../../../../../server/auth/get_user";
 import updateUserRole from "../../../../../server/auth/update_user";
 
@@ -20,6 +18,7 @@ const UserProfile = ({
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
+  const [isDisabled, setisDisabled] = useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -39,29 +38,6 @@ const UserProfile = ({
 
   return (
     <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
-      <aside className="hidden py-4 md:w-1/3 lg:w-1/4 md:block">
-        <div className="sticky flex flex-col gap-2 p-4 text-sm border-r border-indigo-100 top-12">
-          <h2 className="pl-3 mb-4 text-2xl font-semibold">Settings</h2>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2.5 font-bold bg-white text-indigo-900 border rounded-full"
-          >
-            Profil
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2.5 font-semibold hover:text-indigo-900 hover:border hover:rounded-full"
-          >
-            Paramètres
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2.5 font-semibold hover:text-indigo-900 hover:border hover:rounded-full"
-          >
-            Notifications
-          </a>
-        </div>
-      </aside>
       <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-3/4">
         <div className="p-2 md:p-4">
           <div className="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
@@ -73,17 +49,18 @@ const UserProfile = ({
                 <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
                   <Image
                     key={data.avatar?.url}
-                    className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                    className="object-fill w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                     src={
                       data.avatar?.url
                         ? "/" + data.avatar?.url
-                        : "/doctordash.png"
+                        : "/noavatar.png"
                     }
                     alt="Bordered avatar"
                     width={500}
                     height={500}
                   />
                   <input
+                    readOnly={isDisabled}
                     type="file"
                     ref={ref}
                     hidden
@@ -112,6 +89,7 @@ const UserProfile = ({
                         Prénom
                       </label>
                       <input
+                        readOnly={isDisabled}
                         type="text"
                         className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                         placeholder="Your first name"
@@ -130,6 +108,7 @@ const UserProfile = ({
                         Nom
                       </label>
                       <input
+                        readOnly={isDisabled}
                         type="text"
                         defaultValue={data.lastName}
                         id="last_name"
@@ -148,15 +127,16 @@ const UserProfile = ({
                       htmlFor="profession"
                       className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
                     >
-                      Adresse
+                      Email
                     </label>
                     <input
+                      readOnly={isDisabled}
                       type="text"
                       id="profession"
                       className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       onChange={formik.handleChange}
                       name="address"
-                      value={formik.values.address ?? ""}
+                      value={formik.values.email ?? ""}
                       disabled={formik.isSubmitting}
                     />
                   </div>
@@ -165,16 +145,16 @@ const UserProfile = ({
                       htmlFor="profession"
                       className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
                     >
-                      Date de naissance
+                      Status
                     </label>
                     <input
-                      type="date"
+                      readOnly={isDisabled}
+                      type="text"
                       id="profession"
-                      defaultValue=""
                       className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       onChange={formik.handleChange}
-                      name="birthDate"
-                      value={formik.values.birthDate}
+                      name="address"
+                      value={formik.values.status ?? ""}
                       disabled={formik.isSubmitting}
                     />
                   </div>
@@ -183,7 +163,7 @@ const UserProfile = ({
                       htmlFor="profession"
                       className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
                     >
-                      Programme
+                      Rôle
                     </label>
                     <div className="relative">
                       <select
@@ -208,25 +188,6 @@ const UserProfile = ({
                         </svg>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <label
-                      htmlFor="message"
-                      className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
-                    >
-                      Notes
-                    </label>
-                    <textarea
-                      id="message"
-                      defaultValue={data.notes ?? ""}
-                      rows={4}
-                      className="block p-2.5 w-full text-sm text-indigo-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 "
-                      onChange={formik.handleChange}
-                      name="notes"
-                      value={formik.values.notes ?? ""}
-                      disabled={formik.isSubmitting}
-                    ></textarea>
                   </div>
 
                   <div className="flex justify-end">
