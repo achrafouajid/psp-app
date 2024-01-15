@@ -16,7 +16,6 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { FaFilePdf, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
-
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent

@@ -1,7 +1,6 @@
 "use server";
 import prisma from "../../prisma/client";
 import { revalidatePath } from "next/cache";
-import upload from "../upload/upload";
 import getUser from "./get_user";
 import { UserRole } from "@prisma/client";
 

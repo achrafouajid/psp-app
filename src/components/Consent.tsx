@@ -3,7 +3,7 @@ import React from "react";
 const Consent = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-blur">
-      <div className="bg-[#f17c34] p-8 rounded-md shadow-lg max-w-md w-full">
+      <div className="bg-[#396EA5] p-8 rounded-md shadow-lg max-w-md w-full">
         {/* Scrollable consent text */}
         <div className="bg-gray-100 p-4 rounded-md mb-4">
           <div className="max-h-96 overflow-y-auto mt-4">
@@ -11,7 +11,7 @@ const Consent = () => {
               <p>
                 <span style={{ fontSize: "20pt" }}>
                   Consentement éclairé pour l'utilisation de l'application web
-                  de gestion de patients PSP BI MSH :
+                  de gestion de patients RAFIKI FI SIHATI :
                 </span>
               </p>
               <p>
@@ -27,8 +27,8 @@ const Consent = () => {
               </p>
               <p>
                 <span style={{ fontSize: "11pt" }}>
-                  En utilisant PSP BI MSH, vous consentez à l'utilisation de
-                  cette application web dans le but spécifique de gérer les
+                  En utilisant RAFIKI FI SIHATI, vous consentez à l'utilisation
+                  de cette application web dans le but spécifique de gérer les
                   informations relatives aux patients, y compris mais sans s'y
                   limiter, les dossiers médicaux, les rendez-vous, les
                   prescriptions, et autres données pertinentes liées à la santé.
@@ -45,8 +45,8 @@ const Consent = () => {
               <p>
                 <span style={{ fontSize: "11pt" }}>
                   Vous reconnaissez que les informations personnelles et
-                  médicales des patients sont hautement confidentielles. PSP BI
-                  MSH s'engage à mettre en place des mesures de sécurité
+                  médicales des patients sont hautement confidentielles. RAFIKI
+                  FI SIHATI s'engage à mettre en place des mesures de sécurité
                   robustes pour protéger ces données contre tout accès non
                   autorisé, perte, divulgation, ou altération.
                 </span>
@@ -79,7 +79,7 @@ const Consent = () => {
                   Vous comprenez et acceptez que vous êtes entièrement
                   responsable de l'exactitude, de la légalité et de la
                   pertinence des données que vous saisissez dans l'application.
-                  PSP BI MSH décline toute responsabilité découlant de
+                  RAFIKI FI SIHATI décline toute responsabilité découlant de
                   l'utilisation inappropriée ou frauduleuse de l'application.
                 </span>
               </p>
@@ -95,7 +95,7 @@ const Consent = () => {
                 <span style={{ fontSize: "11pt" }}>
                   Vous consentez à recevoir des mises à jour régulières de
                   l'application pour assurer son bon fonctionnement et
-                  bénéficier des dernières fonctionnalités. PSP BI MSH se
+                  bénéficier des dernières fonctionnalités. RAFIKI FI SIHATI se
                   réserve le droit de modifier les fonctionnalités de
                   l'application, les termes et conditions, et toute autre
                   information associée.
@@ -111,10 +111,11 @@ const Consent = () => {
               </p>
               <p>
                 <span style={{ fontSize: "11pt" }}>
-                  Vous consentez à ce que PSP BI MSH collecte, stocke et traite
-                  vos données conformément à sa politique de confidentialité.
-                  Vous avez le droit de demander l'accès à vos données
-                  personnelles et de demander des corrections si nécessaire.
+                  Vous consentez à ce que RAFIKI FI SIHATI collecte, stocke et
+                  traite vos données conformément à sa politique de
+                  confidentialité. Vous avez le droit de demander l'accès à vos
+                  données personnelles et de demander des corrections si
+                  nécessaire.
                 </span>
               </p>
               <p>
@@ -162,11 +163,11 @@ const Consent = () => {
               >
                 <input
                   type="checkbox"
-                  className="bg-[#0c545c] focus:accent-[#0c545c]"
+                  className="bg-[#396EA5] focus:accent-[#3965a5]"
                 />{" "}
                 En acceptant ces termes, vous confirmez avoir lu, compris et
                 consentez volontairement à utiliser l'application web de gestion
-                de patients PSP BI MSH conformément à ces conditions. Vous
+                de patients RAFIKI FI SIHATI conformément à ces conditions. Vous
                 reconnaissez également que votre utilisation de l'application
                 est soumise aux lois et réglementations en vigueur.
               </span>
@@ -174,10 +175,10 @@ const Consent = () => {
           </div>
         </div>
         <div className="flex justify-between">
-          <button className="bg-gray-400 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#157891]">
+          <button className="bg-gray-400 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]">
             J'accepte
           </button>
-          <button className="bg-red-700 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#157891]">
+          <button className="bg-red-700 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]">
             Je n'accepte pas
           </button>
         </div>

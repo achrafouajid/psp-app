@@ -49,6 +49,7 @@ model Patient {
   image Document? @relation(fields: [avatarId],references: [id])
   createdAt DateTime @default(now())
   requests Request[]
+  isConsent Boolean @default(false)
   
 }
 

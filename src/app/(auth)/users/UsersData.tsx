@@ -33,7 +33,7 @@ const usersGrid = [
     textAlign: "Center",
   },
   {
-    headerText: "Name",
+    headerText: "Nom Complet",
     field: "Name",
     width: "150",
     template: "",
