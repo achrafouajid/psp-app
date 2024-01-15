@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
-import newRequest from "../../../../../../../server/patient/requests/newRequest";
-import getPatient from "../../../../../../../server/patient/get_patient";
+import newRequest from "../../../../../../../../server/patient/requests/newRequest";
+import getPatient from "../../../../../../../../server/patient/get_patient";
 
 export default function FirstRequest({
   data,

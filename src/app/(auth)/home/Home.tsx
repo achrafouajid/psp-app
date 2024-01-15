@@ -15,6 +15,7 @@ import {
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { FaFilePdf, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
+import getRequestCount from "../../../../server/patient/requests/getRequestCount";
 
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -32,8 +33,10 @@ const DropDown = ({ currentMode }: any) => (
 
 const Home = ({
   data,
+  data2,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
+  data2: Awaited<ReturnType<typeof getRequestCount>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
 
@@ -77,7 +80,7 @@ const Home = ({
                 {item.icon}
               </button>
               <p className="mt-3">
-                <span className="text-lg font-semibold">{item.amount}</span>
+                <span className="text-lg font-semibold">{data2}</span>
                 <span className={`text-sm text-${item.pcColor} ml-2`}>
                   {item.percentage}
                 </span>
@@ -140,8 +143,8 @@ const Home = ({
 
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
             <div>
-              <p className="text-2xl font-semibold ">$43,246</p>
-              <p className="text-gray-400">Ventes annuelles</p>
+              <p className="text-2xl font-semibold ">{data2}</p>
+              <p className="text-gray-400">Demandes ces 3 derniers mois</p>
             </div>
 
             <div className="w-40">
@@ -211,9 +214,9 @@ const Home = ({
               <p className="text-gray-500 mt-1">Patients ce mois</p>
             </div>
             <div className="mt-8">
-              <p className="text-3xl font-semibold">150</p>
+              <p className="text-3xl font-semibold">{data2}</p>
 
-              <p className="text-gray-500 mt-1">Dépenses</p>
+              <p className="text-gray-500 mt-1">Demandes ce mois</p>
             </div>
 
             <div className="mt-10">

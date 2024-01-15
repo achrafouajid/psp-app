@@ -31,7 +31,7 @@ export default function Stepper() {
             </p>
           </div>
         </div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-black transition-all duration-300 bg-gray-900 rounded-full place-items-center">
+        <div className="relative z-10 grid w-10 h-10 font-bold text-white transition-all duration-300 bg-gray-900 rounded-full place-items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -48,10 +48,10 @@ export default function Stepper() {
             ></path>
           </svg>
           <div className="absolute -bottom-[4.5rem] w-max text-center">
-            <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
+            <h6 className="block font-sans text-base text-black antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
               Etape 2
             </h6>
-            <p className="block font-sans text-base antialiased font-normal leading-relaxed text-blue-gray-900">
+            <p className="block font-sans text-base text-black antialiased font-normal leading-relaxed text-blue-gray-900">
               Dossier complet
             </p>
           </div>

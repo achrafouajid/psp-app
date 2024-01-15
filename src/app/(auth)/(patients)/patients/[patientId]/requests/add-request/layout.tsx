@@ -1,5 +1,5 @@
 import React from "react";
-import Stepper from "../Stepper";
+import Stepper from "../../Stepper";
 
 export default async function layout({ children }: any) {
   return (

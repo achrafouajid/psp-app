@@ -248,17 +248,19 @@ const PatientProfile = ({
               ></textarea>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col items-center mb-5">
-          <Link href={`./${data.id}/requests`}>Accéder aux demandes</Link>
-          <Button
-            type="submit"
-            color="white"
-            bgColor={currentColor}
-            text={isDisabled ? "Modifier" : "Sauvegarder"}
-            borderRadius="10px"
-            disabled={formik.isSubmitting}
-          />
+          <div className="flex mb-5 justify-between items-center">
+            <Link href={`./${data.id}/requests`} className="text-[#396EA5]">
+              Accéder aux demandes
+            </Link>
+            <Button
+              type="submit"
+              color="white"
+              bgColor={currentColor}
+              text={isDisabled ? "Modifier" : "Sauvegarder"}
+              borderRadius="10px"
+              disabled={formik.isSubmitting}
+            />
+          </div>
         </div>
       </form>
     </div>

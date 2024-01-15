@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "../../../prisma/client";
 import getPatient from "../get_patient";
 import upload from "../../upload/upload";
+import { redirect } from "next/navigation";
 
 export default async function newRequest(data: FormData) {
   const patientId = data.get("patientId")?.toString();
@@ -28,6 +29,5 @@ export default async function newRequest(data: FormData) {
     },
   });
   revalidatePath("/");
-
-  return true;
+  redirect("./");
 }

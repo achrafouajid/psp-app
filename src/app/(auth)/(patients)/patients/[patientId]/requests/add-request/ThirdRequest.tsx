@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import firstRequest from "../../../../../../../server/patient/firstRequest";
 import toast from "react-hot-toast";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
@@ -17,7 +16,6 @@ export default function ThirdRequest() {
       notes: "",
     },
     onSubmit: async (values) => {
-      const res = await firstRequest();
       toast.success("Dossier patient créé avec succès !");
     },
   });

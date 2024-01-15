@@ -54,6 +54,7 @@ model Patient {
 
 model Request {
   id String @id @default(cuid()) @map("_id")
+  number Int @default(autoincrement()) @unique
   createdAt DateTime
   remark String?
   statuses RequestStatus[]

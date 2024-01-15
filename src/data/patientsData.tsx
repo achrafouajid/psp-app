@@ -55,9 +55,45 @@ export const employeesGrid = [
     textAlign: "Center",
   },
   {
+    headerText: "Demande",
+    field: "requests",
+    width: "120",
+    textAlign: "Center",
+  },
+  {
     headerText: "",
     width: "40px",
     template: gridPatientProfile,
+    textAlign: "Center",
+  },
+];
+export const reqGrid = [
+  {
+    headerText: "Numéro de Demande",
+    field: "number",
+    width: "10",
+    format: "yMd",
+    textAlign: "Center",
+  },
+  {
+    headerText: "Date de création",
+    field: "date",
+    width: "50",
+    format: "yMd",
+    textAlign: "Center",
+  },
+
+  {
+    headerText: "Remarque",
+    field: "remark",
+    width: "120",
+    textAlign: "Center",
+  },
+
+  {
+    headerText: "Nb de documents",
+    width: "100",
+    field: "documentCount",
     textAlign: "Center",
   },
 ];

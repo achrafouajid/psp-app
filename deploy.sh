@@ -7,6 +7,6 @@ cd ./psp-bi-msh
 git reset --hard HEAD
 git pull
 npm i 
+npx prisma db push
 npm run build 
-systemctl restart psp
 EOF

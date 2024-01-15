@@ -53,7 +53,7 @@ export default function OtpForm() {
               <div className="flex flex-col space-y-5 items-center">
                 <button
                   type="submit"
-                  className="bg-[#0c545c] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#157891]"
+                  className="bg-[#396EA5] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]"
                 >
                   Vérifier
                 </button>

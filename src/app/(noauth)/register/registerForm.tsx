@@ -46,89 +46,75 @@ export default function RegisterForm() {
     },
   });
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-[#116272]">
-      <form
-        className="flex flex-col gap-8 bg-[#ffffff] rounded-2xl p-4 lg:p-8 w-full max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-10rem)]"
-        action=""
-        onSubmit={formik.handleSubmit}
+    <form
+      className="flex flex-col gap-8 bg-[#ffffff] rounded-2xl p-4 lg:p-8 w-full max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-10rem)]"
+      action=""
+      onSubmit={formik.handleSubmit}
+    >
+      <input
+        required
+        type="text"
+        placeholder="Nom"
+        name="lastName"
+        readOnly={formik.isSubmitting}
+        onChange={formik.handleChange}
+        className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      />
+      <input
+        required
+        type="text"
+        placeholder="Prénom"
+        name="firstName"
+        readOnly={formik.isSubmitting}
+        onChange={formik.handleChange}
+        className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      />
+      <input
+        required
+        type="email"
+        placeholder="Email"
+        name="email"
+        readOnly={formik.isSubmitting}
+        onChange={formik.handleChange}
+        className="bg-transparent p-4 border border-[#0c545c#4e0eff] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      />
+
+      <input
+        required
+        type="password"
+        placeholder="Mot de passe"
+        name="password"
+        readOnly={formik.isSubmitting}
+        onChange={formik.handleChange}
+        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      />
+
+      <input
+        required
+        type="password"
+        placeholder="Confirmer mot de passe"
+        name="confirmPassword"
+        readOnly={formik.isSubmitting}
+        onChange={formik.handleChange}
+        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      />
+      <div className="text-white">
+        <p>{formik.errors.confirmPassword} </p>
+        <p>{formik.errors.password} </p>
+      </div>
+      <button
+        type="submit"
+        className="bg-[#396EA5] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]"
       >
-        <div className="brand flex flex-col items-center gap-4">
-          <Image
-            alt="logo"
-            width={225}
-            src={logo}
-            className="object-contain mb-4"
-          />
-          <h1 className="text-[#f17c34] uppercase text-2xl lg:text-3xl text-center">
-            PSP BI MSH
-          </h1>
-        </div>
+        S'inscrire
+      </button>
 
-        <input
-          required
-          type="text"
-          placeholder="Nom"
-          name="lastName"
-          readOnly={formik.isSubmitting}
-          onChange={formik.handleChange}
-          className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        />
-        <input
-          required
-          type="text"
-          placeholder="Prénom"
-          name="firstName"
-          readOnly={formik.isSubmitting}
-          onChange={formik.handleChange}
-          className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        />
-        <input
-          required
-          type="email"
-          placeholder="Email"
-          name="email"
-          readOnly={formik.isSubmitting}
-          onChange={formik.handleChange}
-          className="bg-transparent p-4 border border-[#0c545c#4e0eff] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        />
-
-        <input
-          required
-          type="password"
-          placeholder="Mot de passe"
-          name="password"
-          readOnly={formik.isSubmitting}
-          onChange={formik.handleChange}
-          className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        />
-
-        <input
-          required
-          type="password"
-          placeholder="Confirmer mot de passe"
-          name="confirmPassword"
-          readOnly={formik.isSubmitting}
-          onChange={formik.handleChange}
-          className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        />
-        <div className="text-white">
-          <p>{formik.errors.confirmPassword} </p>
-          <p>{formik.errors.password} </p>
-        </div>
-        <button
-          type="submit"
-          className="bg-[#0c545c] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#157891]"
-        >
-          S'inscrire
-        </button>
-
-        <span className="text-[#0c545c] uppercase">
-          Vous avez déjà un compte ?{" "}
-          <Link href="/" className="text-[#f17c34] no-underline font-bold">
-            Connectez vous !
-          </Link>
-        </span>
-      </form>
-    </div>
+      <span className="text-[#0c545c] uppercase">
+        Vous avez déjà un compte ?{" "}
+        <Link href="/" className="text-[#396EA5] no-underline font-bold">
+          Connectez vous !
+        </Link>
+      </span>
+    </form>
   );
 }
