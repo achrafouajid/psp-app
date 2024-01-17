@@ -5,6 +5,7 @@ import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 
 import { Stacked, Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
 import {
   earningData,
   recentTransactions,
@@ -16,6 +17,7 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { FaFilePdf, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
+import { FiFileText } from "react-icons/fi";
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent
@@ -38,6 +40,7 @@ const Home = ({
   data2: Awaited<ReturnType<typeof getRequestCount>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
+  const router = useRouter();
 
   return (
     <div className="">
@@ -49,6 +52,9 @@ const Home = ({
               <p className="text-2xl">{data}</p>
             </div>
             <button
+              onClick={() => {
+                router.push("/patients");
+              }}
               type="button"
               style={{ backgroundColor: currentColor }}
               className="text-2xl opacity-0.9 text-white hover:drop-shadow-xl rounded-full  p-4"
@@ -58,6 +64,9 @@ const Home = ({
           </div>
           <div className="mt-6">
             <Button
+              onClick={() => {
+                router.push("/patients");
+              }}
               color="white"
               bgColor={currentColor}
               text="Visualiser"
@@ -190,9 +199,13 @@ const Home = ({
           <div className="flex justify-between items-center mt-5 border-t-1 border-color">
             <div className="mt-3">
               <Button
+                onClick={() => {
+                  router.push("/patients");
+                }}
+                icon={<FiFileText />}
                 color="white"
                 bgColor={currentColor}
-                text="Add"
+                text="+ Demande"
                 borderRadius="10px"
               />
             </div>
@@ -207,7 +220,7 @@ const Home = ({
               <p>
                 <span className="text-3xl font-semibold">{data}</span>
                 <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
-                  23%
+                  0%
                 </span>
               </p>
               <p className="text-gray-500 mt-1">Patients ce mois</p>

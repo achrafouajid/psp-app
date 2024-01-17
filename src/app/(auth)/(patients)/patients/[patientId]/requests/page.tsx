@@ -1,8 +1,8 @@
 import React from "react";
-import getAllRequests from "../../../../../../../server/patient/requests/getAllRequests";
+import getPatientRequests from "../../../../../../../server/patient/requests/get_patient_requests";
 import Request from "./Request";
 
 export default async function page({ params: { patientId } }: any) {
-  const data = await getAllRequests(patientId);
+  const data = await getPatientRequests(patientId);
   return <Request data={data} />;
 }

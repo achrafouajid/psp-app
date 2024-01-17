@@ -9,6 +9,7 @@ type data = {
   password: string;
   firstName: string;
   lastName: string;
+  termsAndConditions: Boolean;
 };
 export default async function register(data: data) {
   const response = {

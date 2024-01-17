@@ -7,7 +7,7 @@ import {
 } from "react-icons/ai";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { MdCategory } from "react-icons/md";
-import { FiShoppingBag, FiEdit, FiPieChart } from "react-icons/fi";
+import { FiShoppingBag, FiEdit, FiPieChart, FiFileText } from "react-icons/fi";
 import { BsKanban, BsBarChart } from "react-icons/bs";
 import { BiColorFill } from "react-icons/bi";
 import { IoMdContacts } from "react-icons/io";
@@ -70,6 +70,13 @@ export const links: LinksGroup[] = [
         title: "Créer Dossier Patient",
         href: "/add-patient",
         icon: <FiUserPlus />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
+      },
+      {
+        title: "Demandes",
+        href: "/requests",
+        icon: <FiFileText />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },

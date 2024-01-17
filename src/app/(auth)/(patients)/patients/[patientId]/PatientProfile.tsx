@@ -12,12 +12,10 @@ import { useRouter } from "next/navigation";
 import { jsPDF } from "jspdf";
 import { FaFilePdf } from "react-icons/fa";
 import Link from "next/link";
+import { usePatient } from "@/Contexts/PatientContext";
 
-const PatientProfile = ({
-  data,
-}: {
-  data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
-}) => {
+const PatientProfile = () => {
+  const data = usePatient();
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();

@@ -1,6 +1,9 @@
+import { routes } from "@/utils/routes";
 import Link from "next/link";
 import React from "react";
 import { CiSettings } from "react-icons/ci";
+import { FaRegEye } from "react-icons/fa";
+import { FiFilePlus } from "react-icons/fi";
 
 export const gridProfile = (props: any) =>
   props.avatar ? (
@@ -8,10 +11,28 @@ export const gridProfile = (props: any) =>
   ) : (
     <div className="rounded-full w-10 h-10"></div>
   );
-
+const gridView = (props: any) => (
+  <Link
+    href={routes.patientRequest(props.patientId, props.requestId)}
+    className="flex justify-center items-center"
+  >
+    <FaRegEye />
+  </Link>
+);
 const gridPatientProfile = (props: any) => (
-  <Link href={`/patients/${props.id}`}>
+  <Link
+    className="flex justify-center items-center"
+    href={`/patients/${props.id}`}
+  >
     <CiSettings />
+  </Link>
+);
+const gridAddReq = (props: any) => (
+  <Link
+    className="flex justify-center items-center"
+    href={`/patients/${props.id}/requests/add-request`}
+  >
+    <FiFilePlus />
   </Link>
 );
 export const employeesGrid = [
@@ -23,7 +44,7 @@ export const employeesGrid = [
   },
   {
     headerText: "Patient",
-    width: "150",
+    width: "100",
     field: "name",
     textAlign: "start",
   },
@@ -43,7 +64,7 @@ export const employeesGrid = [
   },
   {
     headerText: "Programme",
-    width: "170",
+    width: "80",
     textAlign: "Center",
     field: "program",
   },
@@ -57,12 +78,18 @@ export const employeesGrid = [
   {
     headerText: "Demande",
     field: "requests",
-    width: "120",
+    width: "100",
     textAlign: "Center",
   },
   {
-    headerText: "",
-    width: "40px",
+    headerText: "Créer Demande",
+    width: "100",
+    template: gridAddReq,
+    textAlign: "Center",
+  },
+  {
+    headerText: "Paramètres",
+    width: "80",
     template: gridPatientProfile,
     textAlign: "Center",
   },
@@ -73,7 +100,14 @@ export const reqGrid = [
     field: "number",
     width: "10",
     format: "yMd",
-    textAlign: "Center",
+    textAlign: "left",
+  },
+  {
+    headerText: "Nom du Patient",
+    field: "name",
+    width: "120",
+    format: "yMd",
+    textAlign: "left",
   },
   {
     headerText: "Date de création",
@@ -94,6 +128,18 @@ export const reqGrid = [
     headerText: "Nb de documents",
     width: "100",
     field: "documentCount",
+    textAlign: "Center",
+  },
+  {
+    headerText: "Dernier status",
+    width: "100",
+    field: "status",
+    textAlign: "Center",
+  },
+  {
+    headerText: "Visualiser",
+    width: "40",
+    template: gridView,
     textAlign: "Center",
   },
 ];

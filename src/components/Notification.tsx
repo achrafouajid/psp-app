@@ -55,7 +55,7 @@ const Notification = () => {
           <Button
             color="white"
             bgColor={currentColor}
-            text="See all notifications"
+            text="Voir toutes les notifications"
             borderRadius="10px"
             width="full"
           />

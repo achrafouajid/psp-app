@@ -1,19 +1,21 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Consent = () => {
+  const router = useRouter();
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blur">
-      <div className="bg-[#396EA5] p-8 rounded-md shadow-lg max-w-md w-full">
-        {/* Scrollable consent text */}
+    <div className="flex items-center justify-center">
+      <div className="bg-[#396EA5] p-8 max-w-md w-full">
         <div className="bg-gray-100 p-4 rounded-md mb-4">
+          <p className="border-b-4 border-[#3965a5]">
+            <span style={{ fontSize: "20pt" }}>
+              Consentement éclairé pour l'utilisation de l'application web de
+              gestion de patients RAFIKI FI SIHATI :
+            </span>
+          </p>
           <div className="max-h-96 overflow-y-auto mt-4">
             <div>
-              <p>
-                <span style={{ fontSize: "20pt" }}>
-                  Consentement éclairé pour l'utilisation de l'application web
-                  de gestion de patients RAFIKI FI SIHATI :
-                </span>
-              </p>
               <p>
                 <br />
               </p>
@@ -156,31 +158,6 @@ const Consent = () => {
               <h3></h3>
             </div>
           </div>
-          <div className="border-t-4 border-[#0c545c]">
-            <strong>
-              <span
-                style={{ color: "#434343", fontSize: "13.999999999999998pt" }}
-              >
-                <input
-                  type="checkbox"
-                  className="bg-[#396EA5] focus:accent-[#3965a5]"
-                />{" "}
-                En acceptant ces termes, vous confirmez avoir lu, compris et
-                consentez volontairement à utiliser l'application web de gestion
-                de patients RAFIKI FI SIHATI conformément à ces conditions. Vous
-                reconnaissez également que votre utilisation de l'application
-                est soumise aux lois et réglementations en vigueur.
-              </span>
-            </strong>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <button className="bg-gray-400 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]">
-            J'accepte
-          </button>
-          <button className="bg-red-700 text-white py-2 px-4 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]">
-            Je n'accepte pas
-          </button>
         </div>
       </div>
     </div>

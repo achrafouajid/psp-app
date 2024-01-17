@@ -73,16 +73,18 @@ const Navbar = () => {
         icon={<AiOutlineMenu />}
       />
       <div className="flex">
-        <NavButton
+        {/*   <NavButton
           title="Cart"
           customFunc={() => handleClick("cart")}
           color={currentColor}
           icon={<FiShoppingCart />}
-        />
+        /> */}
         <NavButton
           title="Chat"
           dotColor="#03C9D7"
-          customFunc={() => handleClick("chat")}
+          customFunc={() => {
+            /*handleClick("chat")*/
+          }}
           color={currentColor}
           icon={<BsChatLeft />}
         />
@@ -109,11 +111,14 @@ const Navbar = () => {
                 {user.lastName} {user.firstName}
               </span>
             </p>
-            <MdKeyboardArrowDown className="text-gray-400 text-14" />
+            <MdKeyboardArrowDown
+              id="profile"
+              className="text-gray-400 text-14"
+            />
           </div>
         </TooltipComponent>
 
-        {isClicked.cart && <Cart />}
+        {/*isClicked.cart && <Cart />*/}
         {isClicked.chat && <Chat contacts={[]} />}
         {isClicked.notification && <Notification />}
         {isClicked.userProfile && <UserProfile />}

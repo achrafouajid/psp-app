@@ -16,33 +16,37 @@ import {
 import { reqGrid } from "@/data/patientsData";
 import Header from "@/components/Header";
 import { Selection } from "@syncfusion/ej2-react-charts";
-import getPatientRequests from "../../../../../../../server/patient/requests/get_patient_requests";
-import Link from "next/link";
+import getAllRequests from "../../../../../server/patient/requests/getAllRequests";
+import Button from "@/components/Button";
+import { FiFileText } from "react-icons/fi";
+import { useStateContext } from "@/Contexts/ThemeContext";
+import { useRouter } from "next/navigation";
 
 const Request = ({
   data,
 }: {
-  data: Awaited<ReturnType<typeof getPatientRequests>>;
+  data: Awaited<ReturnType<typeof getAllRequests>>;
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
+  const { currentColor } = useStateContext();
+  const router = useRouter();
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header
-        category="Demandes"
-        title={`Liste des Demandes ${data.lastName + " " + data.firstName}`}
-      />
+      <Header category="Demandes" title={`Liste des Demandes`} />
 
       <GridComponent
-        dataSource={data.requests.map((e) => ({
+        dataSource={data.map((e) => ({
           requestId: e.id,
           patientId: e.patientId,
           number: e.number.toString(),
+          name: e.Patient.lastName.concat(" ", e.Patient.firstName),
           date: e.createdAt,
           remark: e.remark,
           documentCount: e._count.documents,
+          status: e.statuses.at(0)?.status.toString(),
         }))}
         width="auto"
         enableHover={true}
@@ -63,10 +67,18 @@ const Request = ({
           services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
         />
       </GridComponent>
-
-      <Link href={`./requests/add-request`} className="text-[#396EA5] mt-5">
-        Créer une nouvelle demande
-      </Link>
+      <div className="mt-5">
+        <Button
+          onClick={() => {
+            router.push("/patients");
+          }}
+          icon={<FiFileText />}
+          color="white"
+          bgColor={currentColor}
+          text="+ Demande"
+          borderRadius="10px"
+        />
+      </div>
     </div>
   );
 };

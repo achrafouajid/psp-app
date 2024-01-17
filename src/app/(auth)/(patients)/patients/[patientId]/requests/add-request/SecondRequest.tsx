@@ -1,24 +1,44 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Dropzone from "react-dropzone";
 import toast from "react-hot-toast";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
+import getPatient from "../../../../../../../../server/patient/get_patient";
+import newRequest from "../../../../../../../../server/patient/requests/newRequest";
 
-export default function SecondRequest() {
+export default function SecondRequest({
+  data,
+}: {
+  data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
+}) {
   const { currentColor } = useStateContext();
+  const [imgPrvs, setimgPrvs] = useState<string[]>([]);
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      birthDate: "01/01/1950",
-      address: "",
-      notes: "",
+      createdAt: new Date().toISOString().split("T")[0],
+      remark: "",
+      documents: [] as File[],
     },
     onSubmit: async (values) => {
-      toast.success("Dossier patient créé avec succès !");
+      const formdata = new FormData();
+      formdata.append("patientId", data.id);
+      formdata.append("createdAt", values.createdAt);
+      formdata.append("remark", values.remark);
+      values.documents.forEach((i) => formdata.append("documents", i));
+      const res = await newRequest(formdata);
+      toast.success("Demande de  patient créé avec succès !");
     },
   });
+  useEffect(() => {
+    setimgPrvs(formik.values.documents.map((i) => URL.createObjectURL(i)));
+
+    return () => {
+      imgPrvs.forEach((i) => URL.revokeObjectURL(i));
+    };
+  }, [formik.values.documents]);
+
   return (
     <div className="w-full mt-20">
       <form
@@ -37,8 +57,8 @@ export default function SecondRequest() {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               required
               onChange={formik.handleChange}
-              name="birthDate"
-              value={formik.values.birthDate}
+              name="createdAt"
+              value={formik.values.createdAt}
               disabled={formik.isSubmitting}
               type="date"
               placeholder="01/01/1920"
@@ -55,10 +75,10 @@ export default function SecondRequest() {
           </label>
           <div className="relative">
             <textarea
-              className=" rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               onChange={formik.handleChange}
-              name="notes"
-              value={formik.values.notes}
+              name="remark"
+              value={formik.values.remark}
               disabled={formik.isSubmitting}
             ></textarea>
           </div>
@@ -67,23 +87,32 @@ export default function SecondRequest() {
           className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
           htmlFor="grid-state"
         >
-          Documents:
+          Documents à fournir:
         </label>
-        <div className="border border-dashed border-gray-500 relative">
-          <input
-            type="file"
-            multiple
-            className="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50"
-          />
-          <div className="text-center p-10 absolute top-0 right-0 left-0 m-auto">
-            <h4>
-              Glissez les documents ici
-              <br />
-              ou
-            </h4>
-            <p className="">Selectionner documents</p>
-          </div>
-        </div>
+        <Dropzone
+          onDrop={(acceptedFiles) =>
+            formik.setFieldValue("documents", acceptedFiles)
+          }
+        >
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div
+                {...getRootProps()}
+                className="border border-dashed border-gray-500 relative cursor-pointer w-full h-full p-20 z-50"
+              >
+                <input {...getInputProps()} />
+
+                <p>
+                  Glissez les documents à fournir ou Cliquez ici pour
+                  sélectionner
+                </p>
+                <div className="flex flex-wrap">
+                  {formik.values.documents.map((e) => e.name)}
+                </div>
+              </div>
+            </section>
+          )}
+        </Dropzone>
         <div className="flex flex-col items-center mt-5">
           <Button
             color="white"

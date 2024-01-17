@@ -12,6 +12,9 @@ export default async function currentUser() {
     where: {
       id: jwtoken.userId,
     },
+    include: {
+      avatar: true,
+    },
   });
   return user;
 }

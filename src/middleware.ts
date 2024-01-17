@@ -9,6 +9,7 @@ const nonAuthRoutes = [
   "/register",
   "/forgot-password",
   "/change-password",
+  "/consent",
 ];
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
