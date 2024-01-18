@@ -3,9 +3,7 @@ import React from "react";
 
 import { notFound } from "next/navigation";
 import { usePatient } from "@/Contexts/PatientContext";
-import FirstRequest from "./FirstRequest";
-import SecondRequest from "./SecondRequest";
-import ThirdRequest from "./ThirdRequest";
+import CreateRequest from "./CreateRequest";
 
 export default async function page() {
   const patient = usePatient();
@@ -13,9 +11,7 @@ export default async function page() {
 
   return (
     <div>
-      <FirstRequest data={patient} />
-      <SecondRequest data={patient} />
-      <ThirdRequest data={patient} />
+      <CreateRequest data={patient} />
     </div>
   );
 }

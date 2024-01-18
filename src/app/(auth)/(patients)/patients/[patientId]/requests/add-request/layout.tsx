@@ -22,18 +22,6 @@ export default async function layout({ children }: any) {
             <BsClipboard2Pulse size={20} className="mr-3" /> Créer une Demande
           </Link>
           <Link
-            href="./add-request/second-request"
-            className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
-          >
-            <LuFolderCheck size={20} className="mr-3" /> Constitution du dossier
-          </Link>
-          <Link
-            href="./add-request/third-request"
-            className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
-          >
-            <LuFolderArchive size={20} className="mr-3" /> Dossier complet
-          </Link>
-          <Link
             href="./add-request/request-status"
             className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
           >

@@ -7,6 +7,7 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import newRequest from "../../../../../../../../server/patient/requests/newRequest";
 import getRequest from "../../../../../../../../server/patient/requests/getRequest";
+import { RequestStatusEnum } from "@prisma/client";
 
 export default function ViewRequest({
   data,
@@ -15,6 +16,8 @@ export default function ViewRequest({
 }) {
   const { currentColor } = useStateContext();
   const [imgPrvs, setimgPrvs] = useState<string[]>([]);
+  const currentStatus = data.statuses.find((e) => e.current);
+
   const formik = useFormik({
     initialValues: {
       createdAt: new Date().toISOString().split("T")[0],
@@ -38,6 +41,7 @@ export default function ViewRequest({
       imgPrvs.forEach((i) => URL.revokeObjectURL(i));
     };
   }, [formik.values.documents]);
+  //if (currentStatus?.status==RequestStatusEnum.Created  )
 
   return (
     <div className="w-full mt-20 p-5">

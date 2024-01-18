@@ -23,7 +23,7 @@ export default async function newRequest(
       remark: remark,
       statuses: {
         create: {
-          status: RequestStatusEnum.Created,
+          status: "Created" as RequestStatusEnum,
           createdAt: new Date(),
           current: true,
         },
