@@ -1,33 +1,40 @@
-// components/CriteriaCheckboxes.tsx
-
 import React from "react";
+import { Field, useFormikContext } from "formik";
 
 export interface Criteria {
   label: string;
-  isChecked: boolean;
+  name: string;
 }
 
 interface CriteriaCheckboxesProps {
   criteriaType: string;
   criteriaList: Criteria[];
-  handleCheckboxChange: (index: number, criteriaType: string) => void;
 }
 
 const CriteriaCheckboxes: React.FC<CriteriaCheckboxesProps> = ({
   criteriaType,
   criteriaList,
-  handleCheckboxChange,
 }) => {
+  const { values, setFieldValue } = useFormikContext<{
+    [key: string]: boolean;
+  }>();
+
+  const handleCheckboxChange = (index: number) => {
+    const criteriaName = criteriaList[index].name;
+    setFieldValue(criteriaName, !values[criteriaName]);
+  };
+
   return (
     <div className="flex flex-col">
-      <p className="font-bold mb-2">{`Critères ${criteriaType}`}</p>
+      <p className="font-bold mb-2 text-[#396EA5]">{`Critères ${criteriaType}`}</p>
       {criteriaList.map((criteria, index) => (
         <div key={index} className="flex items-center mb-2">
-          <input
+          <Field
             type="checkbox"
             id={`${criteriaType}_${index}`}
-            checked={criteria.isChecked}
-            onChange={() => handleCheckboxChange(index, criteriaType)}
+            name={criteria.name}
+            checked={values[criteria.name]}
+            onChange={() => handleCheckboxChange(index)}
             className="mr-2"
           />
           <label htmlFor={`${criteriaType}_${index}`}>{criteria.label}</label>

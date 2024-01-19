@@ -12,7 +12,11 @@ export default async function getRequest(id: string, patientId: string) {
           current: true,
         },
       },
-      Patient: true,
+      Patient: {
+        include: {
+          image: true,
+        },
+      },
       _count: {
         select: {
           documents: true,

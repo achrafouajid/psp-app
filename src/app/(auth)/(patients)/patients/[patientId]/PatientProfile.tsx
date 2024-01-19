@@ -3,7 +3,6 @@ import Button from "@/components/Button";
 import React, { useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
-import getPatient from "../../../../../../server/patient/get_patient";
 import { useFormik } from "formik";
 import updatePatient from "../../../../../../server/patient/update_patient";
 import toast from "react-hot-toast";

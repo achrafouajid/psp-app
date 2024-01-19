@@ -5,10 +5,10 @@ import toast from "react-hot-toast";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
-import getPatient from "../../../../../../../../server/patient/get_patient";
-import newRequest from "../../../../../../../../server/patient/requests/newRequest";
+import getPatient from "../../../../../../../../../server/patient/get_patient";
+import ConstRequest from "../../../../../../../../../server/patient/requests/constituteRequest";
 
-export default function SecondRequest({
+export default function ConstituteRequest({
   data,
 }: {
   data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
@@ -27,8 +27,8 @@ export default function SecondRequest({
       formdata.append("createdAt", values.createdAt);
       formdata.append("remark", values.remark);
       values.documents.forEach((i) => formdata.append("documents", i));
-      const res = await newRequest(formdata);
-      toast.success("Demande de  patient créé avec succès !");
+      const res = await ConstRequest(formdata);
+      toast.success("Le dossier a été mis à jour !");
     },
   });
   useEffect(() => {

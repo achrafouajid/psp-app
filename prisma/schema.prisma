@@ -31,11 +31,40 @@ Accepted
 Declined
 }
 
+enum DiagnosticEnum {
+Scanner
+Biopsie
+}
+
 enum ProgramEnum {
   PAP
   DAP
   PSP 
-} 
+}
+enum SocialEnum {
+  CNOPS
+  CNSS
+  FAR
+  Prive
+  Other
+}  
+enum EducationEnum {
+  Analphabete
+  Primaire
+  College
+  Lycee
+  Universitaire
+}
+enum HabitatEnum {
+  Urbain
+  SubUrbain
+  Rural
+}
+enum EstablishmentEnum {
+  Hopital
+  Clinique
+  Cabinet
+}
 
 model Patient {
   id String @id @default(cuid()) @map("_id")
@@ -50,9 +79,67 @@ model Patient {
   createdAt DateTime @default(now())
   requests Request[]
   isConsent Boolean @default(false)
-  
+  doctor Doctor?
+  inclCriteria inclCriteria? 
+  exclCriteria exclCriteria? 
+  inclDate DateTime?
+  isMajor Boolean
+  isSocial Boolean
+  isConfDiag Boolean
+  isIncomplete Boolean
+  isAbroad Boolean
+  isUnreachable Boolean
+  tel String?
+  mail String?
+  social SocialEnum?
+  othersocial String?
+  education EducationEnum?
+  habitat HabitatEnum
+  iscaregiver Boolean
+  caregiver CareGiver? 
+  diagnostic DiagnosticEnum?
+  diagnosticDate DateTime?
+  prerequest Boolean?
+  statusRequest Boolean?
+  refDoc Boolean?
+
+}
+model CareGiver {
+  id String @id @default(cuid()) @map("_id")
+  fullName String? 
+  patientId String @unique
+  tel String?
+  Patient Patient @relation(fields:[patientId],references: [id])
+
 }
 
+model inclCriteria {
+  id String @id @default(cuid()) @map("_id")
+  patientId String @unique
+  isMajor Boolean
+  isConfDiag Boolean
+  isSocial Boolean
+  isConsent Boolean
+  Patient Patient @relation(fields:[patientId],references: [id])
+}
+
+model exclCriteria {
+  id String @id @default(cuid()) @map("_id")
+  patientId String @unique
+  isIncomplete Boolean
+  isAbroad Boolean
+  isUnreachable Boolean
+  Patient Patient @relation(fields:[patientId],references: [id])
+}
+model Doctor{
+  id String @id @default(cuid()) @map("_id")
+  firstName String
+  lastName String
+  establishment EstablishmentEnum
+  service String?
+  Patient Patient @relation(fields:[id],references: [id])
+
+}
 model Request {
   id String @id @default(cuid()) @map("_id")
   number Int @default(autoincrement()) @unique

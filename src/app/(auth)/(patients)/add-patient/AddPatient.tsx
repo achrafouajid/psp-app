@@ -1,13 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { registerResponseEnum } from "../../../../../server/auth/types";
 import addPatient from "../../../../../server/patient/add_patient";
-import { ProgramEnum } from "@prisma/client";
-import CriteriaCheckboxes, { Criteria } from "./CriteriaCheckboxes";
+import {
+  DiagnosticEnum,
+  EducationEnum,
+  EstablishmentEnum,
+  HabitatEnum,
+  ProgramEnum,
+  SocialEnum,
+} from "@prisma/client";
 
 export default function AddPatient() {
   const { currentColor } = useStateContext();
@@ -19,6 +25,32 @@ export default function AddPatient() {
       address: "",
       program: ProgramEnum.PSP,
       notes: "",
+      isMajor: false,
+      isConfDiag: false,
+      isSocial: false,
+      isConsent: false,
+      isIncomplete: false,
+      isAbroad: false,
+      isUnreachable: false,
+      docfirstName: "",
+      doclastName: "",
+      establishment: EstablishmentEnum.Hopital as EstablishmentEnum,
+      service: "",
+      inclDate: "01/01/2024",
+      tel: "",
+      mail: "",
+      social: SocialEnum.CNOPS as SocialEnum,
+      othersocial: "",
+      education: EducationEnum.Analphabete as EducationEnum,
+      habitat: HabitatEnum.Urbain as HabitatEnum,
+      iscaregiver: false,
+      caregiverfullName: "",
+      caregivertel: "",
+      diagnostic: DiagnosticEnum.Scanner as DiagnosticEnum,
+      diagnosticDate: "01/01/2024",
+      prerequest: false,
+      statusrequest: false,
+      refDoc: false,
     },
     onSubmit: async (values) => {
       const res = await addPatient(values);
@@ -30,43 +62,32 @@ export default function AddPatient() {
       }
     },
   });
-  const [inclusionCriteria, setInclusionCriteria] = useState<Criteria[]>([
-    { label: "Patient over 18 years old", isChecked: false },
+  const inclusionCriteria = [
+    { label: "Patient over 18 years old", name: "isMajor" },
     {
       label:
         "Diagnosis confirmed of PULMONARY IDIOPATHIC FIBROSIS with proof (Scanner or Biopsy)",
-      isChecked: false,
+      name: "isConfDiag",
     },
-    { label: "Patients with health insurance", isChecked: false },
-    { label: "Consent form signed by Patient", isChecked: false },
-  ]);
+    { label: "Patients with health insurance", name: "isSocial" },
+    { label: "Consent form signed by Patient", name: "isConsent" },
+  ];
 
-  const [exclusionCriteria, setExclusionCriteria] = useState<Criteria[]>([
+  const exclusionCriteria = [
     {
       label:
         "Incomplete medical file in terms of diagnosis, test results (to be defined)",
-      isChecked: false,
+      name: "isIncomplete",
     },
-    { label: "Patients with outside Morocco", isChecked: false },
-    { label: "Unreachable patient", isChecked: false },
-  ]);
+    { label: "Patients with outside Morocco", name: "isAbroad" },
+    { label: "Unreachable patient", name: "isUnreachable" },
+  ];
 
-  const handleCheckboxChange = (index: number, criteriaType: string) => {
-    if (criteriaType === "inclusion") {
-      const updatedCriteria = [...inclusionCriteria];
-      updatedCriteria[index].isChecked = !updatedCriteria[index].isChecked;
-      setInclusionCriteria(updatedCriteria);
-    } else {
-      const updatedCriteria = [...exclusionCriteria];
-      updatedCriteria[index].isChecked = !updatedCriteria[index].isChecked;
-      setExclusionCriteria(updatedCriteria);
-    }
-  };
   return (
     <div className="">
       <div className="w-full mx-4">
         <form
-          className="w-full border border-[#f17c34] rounded-lg p-8"
+          className="w-full border border-[#396EA5] rounded-lg p-8"
           onSubmit={formik.handleSubmit}
         >
           <h1 className="text-[#396EA5] text-xl font-extrabold mb-3">
@@ -76,7 +97,7 @@ export default function AddPatient() {
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="lastName"
               >
                 Nom <span className="text-red-500">*</span>
               </label>
@@ -87,9 +108,8 @@ export default function AddPatient() {
                 name="lastName"
                 value={formik.values.lastName}
                 disabled={formik.isSubmitting}
-                id="grid-first-name"
                 type="text"
-                placeholder="Jane"
+                placeholder="Nom patient"
               />
               <p className="text-red-500 text-xs italic">
                 * Veuillez remplir ces champs.
@@ -98,7 +118,7 @@ export default function AddPatient() {
             <div className="w-full md:w-1/2 px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-last-name"
+                htmlFor="firstName"
               >
                 Prénom <span className="text-red-500">*</span>
               </label>
@@ -109,9 +129,8 @@ export default function AddPatient() {
                 name="firstName"
                 value={formik.values.firstName}
                 disabled={formik.isSubmitting}
-                id="grid-last-name"
                 type="text"
-                placeholder="Doe"
+                placeholder="Prénom Patient"
               />
             </div>
           </div>
@@ -120,7 +139,7 @@ export default function AddPatient() {
             <div className="w-full px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-password"
+                htmlFor="birthDate"
               >
                 Date de naissance
               </label>
@@ -139,7 +158,7 @@ export default function AddPatient() {
           <div className="mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-zip"
+              htmlFor="address"
             >
               Adresse
             </label>
@@ -149,7 +168,6 @@ export default function AddPatient() {
               name="address"
               value={formik.values.address}
               disabled={formik.isSubmitting}
-              id="grid-zip"
               type="text"
               placeholder="123 Rue A 20220"
             />
@@ -157,14 +175,13 @@ export default function AddPatient() {
           <div className=" mb-6 ">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-state"
+              htmlFor="program"
             >
               Programme
             </label>
             <div className="relative">
               <select
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="grid-state"
                 onChange={formik.handleChange}
                 name="program"
                 value={formik.values.program}
@@ -189,7 +206,7 @@ export default function AddPatient() {
           <div className=" mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-state"
+              htmlFor="notes"
             >
               Notes
             </label>
@@ -209,16 +226,46 @@ export default function AddPatient() {
           <h1 className="text-[#396EA5] text-l font-bold">a- Inclusion</h1>
           <div className="container mx-auto mt-3">
             <div className="flex justify-between">
-              <CriteriaCheckboxes
-                criteriaType="inclusion"
-                criteriaList={inclusionCriteria}
-                handleCheckboxChange={handleCheckboxChange}
-              />
-              <CriteriaCheckboxes
-                criteriaType="exclusion"
-                criteriaList={exclusionCriteria}
-                handleCheckboxChange={handleCheckboxChange}
-              />
+              <div className="flex flex-col">
+                <p className="font-bold mb-2 text-[#396EA5]">
+                  Inclusion Criteria
+                </p>
+                {inclusionCriteria.map((criteria) => (
+                  <div key={criteria.name} className="mb-2">
+                    <input
+                      type="checkbox"
+                      id={criteria.name}
+                      name={criteria.name}
+                      onChange={formik.handleChange}
+                      /* @ts-ignore */
+                      value={formik.values[criteria.name]}
+                      disabled={formik.isSubmitting}
+                      className="mr-2"
+                    />
+                    <label htmlFor={criteria.name}>{criteria.label}</label>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col">
+                <p className="font-bold mb-2 text-[#396EA5]">
+                  Exclusion Criteria
+                </p>
+                {exclusionCriteria.map((criteria) => (
+                  <div key={criteria.name} className="mb-2">
+                    <input
+                      type="checkbox"
+                      id={criteria.name}
+                      name={criteria.name}
+                      onChange={formik.handleChange}
+                      /* @ts-ignore */
+                      value={formik.values[criteria.name]}
+                      disabled={formik.isSubmitting}
+                      className="mr-2"
+                    />
+                    <label htmlFor={criteria.name}>{criteria.label}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <h1 className="text-[#396EA5] text-l font-bold">
@@ -229,20 +276,18 @@ export default function AddPatient() {
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="doclastName"
               >
                 Nom Médecin traitant<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                required
                 onChange={formik.handleChange}
-                name="lastName"
-                value={formik.values.lastName}
+                name="doclastName"
+                value={formik.values.doclastName}
                 disabled={formik.isSubmitting}
-                id="grid-first-name"
                 type="text"
-                placeholder="Jane"
+                placeholder="Nom médecin"
               />
               <p className="text-red-500 text-xs italic">
                 * Veuillez remplir ces champs.
@@ -251,20 +296,18 @@ export default function AddPatient() {
             <div className="w-full md:w-1/2 px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-last-name"
+                htmlFor="docfirstName"
               >
                 Prénom Médecin traitant<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                required
                 onChange={formik.handleChange}
-                name="firstName"
-                value={formik.values.firstName}
+                name="docfirstName"
+                value={formik.values.docfirstName}
                 disabled={formik.isSubmitting}
-                id="grid-last-name"
                 type="text"
-                placeholder="Doe"
+                placeholder="Prénom Médecin"
               />
             </div>
 
@@ -272,42 +315,69 @@ export default function AddPatient() {
               <div className=" md:w-1/2 px-3 items-center">
                 <label
                   className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                  htmlFor="grid-first-name"
+                  htmlFor="establishment"
                 >
                   Etablissement
                 </label>
                 <div className="flex flex-row">
                   <div className="flex items-center mb-2 gap-1 ml-2">
-                    <input type="radio" className="mr-2" name="radio1" />
-                    <label> Hôpital </label>
+                    <input
+                      type="radio"
+                      className="mr-2"
+                      name="etablissement"
+                      value="Hopital"
+                      checked={
+                        formik.values.establishment ===
+                        EstablishmentEnum.Hopital
+                      }
+                      onChange={formik.handleChange}
+                    />
+                    <label htmlFor="hopital"> Hôpital </label>
                   </div>
                   <div className="flex items-center mb-2 gap-1 ml-2">
-                    <input type="radio" className="mr-2" name="radio1" />
-                    <label> Clinique </label>
+                    <input
+                      type="radio"
+                      className="mr-2"
+                      name="establishement"
+                      value="Clinique"
+                      checked={
+                        formik.values.establishment ==
+                        EstablishmentEnum.Clinique
+                      }
+                      onChange={formik.handleChange}
+                    />
+                    <label htmlFor="clinique"> Clinique </label>
                   </div>
                   <div className="flex items-center mb-2 gap-1 ml-2">
-                    <input type="radio" className="mr-2" name="radio1" />
-                    <label> Cabinet </label>
+                    <input
+                      type="radio"
+                      className="mr-2"
+                      name="establishement"
+                      value="Cabinet"
+                      checked={
+                        formik.values.establishment == EstablishmentEnum.Cabinet
+                      }
+                      onChange={formik.handleChange}
+                    />
+                    <label htmlFor="cabinet"> Cabinet </label>
                   </div>
                 </div>
               </div>
               <div className=" md:w-1/2 px-3 items-center">
                 <label
                   className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                  htmlFor="grid-first-name"
+                  htmlFor="service"
                 >
                   Service
                 </label>
                 <input
-                  className=" bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  required
+                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   onChange={formik.handleChange}
                   name="service"
-                  value={formik.values.firstName}
+                  value={formik.values.service}
                   disabled={formik.isSubmitting}
-                  id="grid-last-name"
                   type="text"
-                  placeholder="Doe"
+                  placeholder="Service"
                 />
               </div>
             </div>
@@ -316,16 +386,16 @@ export default function AddPatient() {
             <div className="w-full px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-password"
+                htmlFor="inclDate"
               >
                 Date d'inclusion
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                required
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
-                name="createdAt"
-                value="{formik.values.createdAt}"
+                name="inclDate"
+                value={formik.values.inclDate}
+                disabled={formik.isSubmitting}
                 type="date"
                 placeholder="01/01/1920"
               />
@@ -334,25 +404,24 @@ export default function AddPatient() {
           <div className="mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-zip"
+              htmlFor="tel"
             >
               Contact Téléphonique
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               onChange={formik.handleChange}
-              name="address"
-              value={formik.values.address}
+              name="tel"
+              value={formik.values.tel}
               disabled={formik.isSubmitting}
-              id="grid-zip"
-              type="number"
+              type="tel"
               placeholder="+212 60000000"
             />
           </div>
           <div className="mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-zip"
+              htmlFor="mail"
             >
               Contact Mail
             </label>
@@ -360,8 +429,8 @@ export default function AddPatient() {
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               onChange={formik.handleChange}
               name="mail"
-              value={formik.values.address}
-              id="grid-zip"
+              value={formik.values.mail}
+              disabled={formik.isSubmitting}
               type="mail"
               placeholder="example@example.com"
             />
@@ -373,190 +442,319 @@ export default function AddPatient() {
             <div className=" md:w-1/2 px-3 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="social"
               >
                 Couverture Sociale
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio2" />
-                  <label> CNOPS </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="social"
+                    value="CNOPS"
+                    checked={formik.values.social === SocialEnum.CNOPS}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="CNOPS"> CNOPS </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio2" />
-                  <label> CNSS </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="social"
+                    value="CNSS"
+                    checked={formik.values.social == SocialEnum.CNSS}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="CNSS"> CNSS </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio2" />
-                  <label> FAR </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="social"
+                    value="FAR"
+                    checked={formik.values.social == SocialEnum.FAR}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="FAR"> FAR </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio2" />
-                  <label> Assurance Privée </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="social"
+                    value="Prive"
+                    checked={formik.values.social == SocialEnum.Prive}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Prive"> Assurance Privée </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="social"
+                    value="Other"
+                    checked={formik.values.social == SocialEnum.Other}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Other"> Autre </label>
                 </div>
               </div>
             </div>
             <div className=" md:w-1/2 px-3 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="othersocial"
               >
                 Autre
               </label>
               <input
-                className=" bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                required
+                className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
-                name="service"
-                value={formik.values.firstName}
+                name="othersocial"
+                value={formik.values.othersocial}
                 disabled={formik.isSubmitting}
-                id="grid-last-name"
                 type="text"
-                placeholder="Doe"
+                placeholder="préciser ..."
               />
             </div>
           </div>
           <div className="mb-6 flex flex-row  w-full items-center px-3">
-            <label
-              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-first-name"
-            >
-              Niveau éducationnel
-            </label>
-            <div className="flex flex-row">
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio3" />
-                <label> Analphabète </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio3" />
-                <label> Primaire</label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio3" />
-                <label> Collège</label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio3" />
-                <label> Lycée </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio3" />
-                <label> Universitaire </label>
-              </div>
-            </div>
-          </div>
-          <div className="mb-6 flex flex-row  w-full items-center px-3">
-            <label
-              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-first-name"
-            >
-              Lieu d'habitat
-            </label>
-            <div className="flex flex-row">
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio4" />
-                <label> Urbain </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio4" />
-                <label> Sub-Urbain</label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input type="radio" className="mr-2" name="radio4" />
-                <label> Rural</label>
-              </div>
-            </div>
-          </div>
-          <div className="mb-6 flex flex-row  w-full items-center px-3">
-            <div className="md:w-1/2 px-3 items-center">
+            <div className=" md:w-1/2 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="education"
               >
-                Care Giver (Soignant)
+                Niveau Educationnel
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio4" />
-                  <label> Oui </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="education"
+                    value="Analphabete"
+                    checked={
+                      formik.values.education === EducationEnum.Analphabete
+                    }
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Analphabete"> Analphabète </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio4" />
-                  <label> Non</label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="education"
+                    value="Primaire"
+                    checked={formik.values.education == EducationEnum.Primaire}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Primaire"> Primaire </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="education"
+                    value="College"
+                    checked={formik.values.education == EducationEnum.College}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="College"> Collège </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="education"
+                    value="Lycee"
+                    checked={formik.values.education == EducationEnum.Lycee}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Lycee"> Lycée </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="education"
+                    value="Universitaire"
+                    checked={
+                      formik.values.education == EducationEnum.Universitaire
+                    }
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Universitaire"> Universitaire </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mb-6 flex flex-row  w-full items-center px-3">
+            <div className=" md:w-1/2 items-center">
+              <label
+                className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                htmlFor="habitat"
+              >
+                Lieu d'Habitat
+              </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="habitat"
+                    value="Urbain"
+                    checked={formik.values.habitat === HabitatEnum.Urbain}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Urbain"> Urbain </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="habitat"
+                    value="SubUrbain"
+                    checked={formik.values.habitat == HabitatEnum.SubUrbain}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="SubUrbain"> Sub-urbain </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="habitat"
+                    value="Rural"
+                    checked={formik.values.habitat == HabitatEnum.Rural}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Rural"> Rural </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mb-6 flex flex-row  w-full items-center px-3">
+            <div className=" md:w-1/2 items-center">
+              <label
+                className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                htmlFor="iscaregiver"
+              >
+                Care Giver Soignant(e)
+              </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="iscaregiver"
+                    checked={formik.values.iscaregiver}
+                    onChange={(e) =>
+                      formik.setFieldValue("iscaregiver", e.target.checked)
+                    }
+                  />
+                  <label htmlFor="iscaregiver"> Oui </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="iscaregiver"
+                    checked={!formik.values.iscaregiver}
+                    onChange={(e) => {
+                      formik.setFieldValue("iscaregiver", !e.target.checked);
+                    }}
+                  />
+                  <label htmlFor="iscaregiver"> Non </label>
                 </div>
               </div>
             </div>
             <div className="md:w-1/2 px-3 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="caregiverfullName"
               >
                 Si Oui
               </label>
               <input
-                className=" bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                required
+                className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
-                name="service"
-                value={formik.values.firstName}
+                name="caregiverfullName"
+                value={formik.values.caregiverfullName}
                 disabled={formik.isSubmitting}
-                id="grid-last-name"
                 type="text"
-                placeholder="Doe"
+                placeholder="Nom Prénom Soignant(e)"
               />
             </div>
           </div>
           <div className="mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="grid-zip"
+              htmlFor="caregivertel"
             >
               Contact Téléphonique Care Giver (Soignant(e))
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               onChange={formik.handleChange}
-              name="address"
-              value={formik.values.address}
+              name="caregivertel"
+              value={formik.values.caregivertel}
               disabled={formik.isSubmitting}
-              id="grid-zip"
-              type="number"
+              type="tel"
               placeholder="+212 60000000"
             />
           </div>
           <div className="mb-6 flex flex-row  w-full items-center px-3">
-            <div className="md:w-1/2 px-3 items-center">
+            <div className=" md:w-1/2 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="diagnostic"
               >
-                Confirmation de Diagnostique
+                Confirmation de diagnostique
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio5" />
-                  <label> Scanner </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="diagnostic"
+                    value={DiagnosticEnum.Biopsie}
+                    checked={
+                      formik.values.diagnostic === DiagnosticEnum.Biopsie
+                    }
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Biopsie"> Biopsie </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio5" />
-                  <label> Biopsie</label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="diagnostic"
+                    value={DiagnosticEnum.Scanner}
+                    checked={formik.values.diagnostic == DiagnosticEnum.Scanner}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Scanner"> Scanner</label>
                 </div>
               </div>
             </div>
             <div className="md:w-1/2 px-3 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="diagnosticDate"
               >
                 Date
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                required
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
-                name="birthDate"
-                value={formik.values.birthDate}
+                name="diagnosticDate"
+                value={formik.values.diagnosticDate}
                 disabled={formik.isSubmitting}
                 type="date"
                 placeholder="01/01/1920"
@@ -564,57 +762,105 @@ export default function AddPatient() {
             </div>
           </div>
           <div className="mb-6 flex flex-row  w-full items-center px-3">
-            <div className="md:w-1/2 px-3 items-center">
+            <div className=" md:w-1/2 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="prerequest"
               >
-                Demande préalable effectuée
+                Demande Préalable effectuée
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio6" />
-                  <label> Oui </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="prerequest"
+                    checked={formik.values.prerequest}
+                    onChange={(e) =>
+                      formik.setFieldValue("prerequest", e.target.checked)
+                    }
+                  />
+                  <label htmlFor="prerequest"> Oui </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio6" />
-                  <label> Non</label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="prerequest"
+                    checked={!formik.values.prerequest}
+                    onChange={(e) => {
+                      formik.setFieldValue("prerequest", !e.target.checked);
+                    }}
+                  />
+                  <label htmlFor="prerequest"> Non </label>
                 </div>
               </div>
             </div>
-            <div className="md:w-1/2 px-3 items-center">
+            <div className=" md:w-1/2 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="prerequest"
               >
-                Si Oui , Etat d'avancement de la demande :
+                Si Oui, état d'avancement de la demande
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio7" />
-                  <label> Positive </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="statusrequest"
+                    checked={formik.values.statusrequest}
+                    onChange={(e) =>
+                      formik.setFieldValue("statusrequest", e.target.checked)
+                    }
+                  />
+                  <label htmlFor="statusrequest"> Positive </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio7" />
-                  <label> Négative</label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="statusrequest"
+                    checked={!formik.values.statusrequest}
+                    onChange={(e) => {
+                      formik.setFieldValue("statusrequest", !e.target.checked);
+                    }}
+                  />
+                  <label htmlFor="statusrequest"> Négative </label>
                 </div>
               </div>
             </div>
-            <div className="md:w-1/2 px-3 items-center">
+            <div className=" md:w-1/2 items-center">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="grid-first-name"
+                htmlFor="prerequest"
               >
-                Si Oui , Possession du document de refus
+                Si Oui, possession du documennt de refus
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio8" />
-                  <label> Oui </label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="refDoc"
+                    checked={formik.values.refDoc}
+                    onChange={(e) =>
+                      formik.setFieldValue("statusrequest", e.target.checked)
+                    }
+                  />
+                  <label htmlFor="refDoc"> Oui </label>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input type="radio" className="mr-2" name="radio8" />
-                  <label> Non</label>
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="refDoc"
+                    checked={!formik.values.refDoc}
+                    onChange={(e) => {
+                      formik.setFieldValue("statusrequest", !e.target.checked);
+                    }}
+                  />
+                  <label htmlFor="refDoc"> Non </label>
                 </div>
               </div>
             </div>
