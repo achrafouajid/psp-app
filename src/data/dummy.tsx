@@ -617,14 +617,6 @@ export const dropdownData = [
     Time: "May 2021",
   },
 ];
-export const SparklineAreaData = [
-  { x: 2023, yval: 10 },
-  { x: 2024, yval: 10 },
-  { x: 2025, yval: 0 },
-  { x: 2026, yval: 0 },
-  { x: 2027, yval: 0 },
-];
-
 export const lineCustomSeries = [
   {
     dataSource: lineChartData[0],

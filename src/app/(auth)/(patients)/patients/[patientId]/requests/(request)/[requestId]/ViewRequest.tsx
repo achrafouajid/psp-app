@@ -19,4 +19,6 @@ export default function ViewRequest({
     return <CompleteRequest data={data} />;
   else if (currentStatus?.status == RequestStatusEnum.Complete)
     return <StatusRequest data={data} />;
+  else if (currentStatus?.status == RequestStatusEnum.Pending)
+    return <StatusRequest data={data} />;
 }

@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import {
   recentTransactions,
   dropdownData,
-  SparklineAreaData,
   ecomPieChartData,
 } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
@@ -49,7 +48,7 @@ const Home = ({
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
 
-  const earningData = [
+  const demandes = [
     {
       icon: <BsClipboard2Pulse />,
       amount: data2,
@@ -87,6 +86,13 @@ const Home = ({
       pcColor: "red-600",
     },
   ];
+  const SparklineAreaData = [
+    { x: 2023, yval: 10 },
+    { x: 2024, yval: 10 },
+    { x: 2025, yval: 0 },
+    { x: 2026, yval: 0 },
+    { x: 2027, yval: 0 },
+  ];
 
   return (
     <div className="">
@@ -121,7 +127,7 @@ const Home = ({
           </div>
         </div>
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
-          {earningData.map((item) => (
+          {demandes.map((item) => (
             <div
               key={item.title}
               className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl "
