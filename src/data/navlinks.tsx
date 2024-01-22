@@ -142,7 +142,7 @@ export const links: LinksGroup[] = [
           UserRole.Patient,
         ],
       },
-      {
+      /*{
         title: "Whatsapp",
         href: "/whatsapp",
         icon: <IoChatbubblesOutline />,
@@ -153,7 +153,7 @@ export const links: LinksGroup[] = [
           UserRole.Nurse,
           UserRole.Patient,
         ],
-      },
+      },*/
       {
         title: "Rendez-vous",
         href: "/calendar",

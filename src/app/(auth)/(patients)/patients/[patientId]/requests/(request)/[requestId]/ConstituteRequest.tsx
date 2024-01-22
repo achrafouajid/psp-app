@@ -7,11 +7,12 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import getPatient from "../../../../../../../../../server/patient/get_patient";
 import ConstRequest from "../../../../../../../../../server/patient/requests/constituteRequest";
+import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
 
 export default function ConstituteRequest({
   data,
 }: {
-  data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
+  data: NonNullable<Awaited<ReturnType<typeof getRequest>>>;
 }) {
   const { currentColor } = useStateContext();
   const [imgPrvs, setimgPrvs] = useState<string[]>([]);
@@ -23,7 +24,8 @@ export default function ConstituteRequest({
     },
     onSubmit: async (values) => {
       const formdata = new FormData();
-      formdata.append("patientId", data.id);
+      formdata.append("id", data.id);
+      formdata.append("patientId", data.patientId);
       formdata.append("createdAt", values.createdAt);
       formdata.append("remark", values.remark);
       values.documents.forEach((i) => formdata.append("documents", i));

@@ -21,7 +21,7 @@ export default async function ConstRequest(data: FormData) {
 
   await prisma.request.update({
     where: {
-      id,
+      id: id,
     },
     data: {
       patientId: patientId!,
