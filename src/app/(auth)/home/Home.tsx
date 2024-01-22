@@ -7,7 +7,6 @@ import { Stacked, Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import {
-  earningData,
   recentTransactions,
   dropdownData,
   SparklineAreaData,
@@ -18,6 +17,8 @@ import { FaFilePdf, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
 import { FiFileText } from "react-icons/fi";
+import { BsClipboard2Pulse } from "react-icons/bs";
+import { LuFolderArchive, LuFolderCheck, LuFolderClock } from "react-icons/lu";
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent
@@ -35,12 +36,57 @@ const DropDown = ({ currentMode }: any) => (
 const Home = ({
   data,
   data2,
+  accepted,
+  complete,
+  pending,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
+  accepted: number;
+  complete: number;
+  pending: number;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
+
+  const earningData = [
+    {
+      icon: <BsClipboard2Pulse />,
+      amount: data2,
+      percentage: "0%",
+      title: "Demandes Totales traitées",
+      iconColor: "#03C9D7",
+      iconBg: "#E5FAFB",
+      pcColor: "red-600",
+    },
+    {
+      icon: <LuFolderCheck />,
+      amount: accepted,
+      percentage: "0%",
+      title: "Dossiers Constitués",
+      iconColor: "rgb(255, 244, 229)",
+      iconBg: "rgb(254, 201, 15)",
+      pcColor: "green-600",
+    },
+    {
+      icon: <LuFolderArchive />,
+      amount: complete,
+      percentage: "0%",
+      title: "Dossiers Complets",
+      iconColor: "rgb(228, 106, 118)",
+      iconBg: "rgb(255, 244, 229)",
+      pcColor: "green-600",
+    },
+    {
+      icon: <LuFolderClock />,
+      amount: pending,
+      percentage: "0%",
+      title: "Dossiers en Attente",
+      iconColor: "rgb(0, 194, 146)",
+      iconBg: "rgb(235, 250, 242)",
+      pcColor: "red-600",
+    },
+  ];
 
   return (
     <div className="">
@@ -88,7 +134,7 @@ const Home = ({
                 {item.icon}
               </button>
               <p className="mt-3">
-                <span className="text-lg font-semibold">{data2}</span>
+                <span className="text-lg font-semibold">{item.amount}</span>
                 <span className={`text-sm text-${item.pcColor} ml-2`}>
                   {item.percentage}
                 </span>

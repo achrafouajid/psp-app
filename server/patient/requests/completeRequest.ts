@@ -34,7 +34,7 @@ export default async function CompRequest(data: FormData) {
       },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Complete);
+  await newRequestStatus(id!, RequestStatusEnum.Pending);
   revalidatePath("/");
   redirect("./");
 }

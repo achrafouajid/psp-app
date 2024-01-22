@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import getPatient from "../../../../../../../../../server/patient/get_patient";
 import ConstRequest from "../../../../../../../../../server/patient/requests/constituteRequest";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
+import StepperTwo from "./StepperTwo";
 
 export default function ConstituteRequest({
   data,
@@ -42,91 +43,94 @@ export default function ConstituteRequest({
   }, [formik.values.documents]);
 
   return (
-    <div className="w-full mt-20">
-      <form
-        className="w-full border border-[#f17c34] rounded-lg p-8"
-        onSubmit={formik.handleSubmit}
-      >
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
+    <>
+      <StepperTwo />
+      <div className="w-full mt-20">
+        <form
+          className="w-full border border-[#f17c34] rounded-lg p-8"
+          onSubmit={formik.handleSubmit}
+        >
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3">
+              <label
+                className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+                htmlFor="grid-password"
+              >
+                Date constitution du Dossier
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                required
+                onChange={formik.handleChange}
+                name="createdAt"
+                value={formik.values.createdAt}
+                disabled={formik.isSubmitting}
+                type="date"
+                placeholder="01/01/1920"
+              />
+            </div>
+          </div>
+
+          <div className=" mb-6">
             <label
               className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
-              htmlFor="grid-password"
+              htmlFor="grid-state"
             >
-              Date constitution du Dossier
+              Remarques
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              required
-              onChange={formik.handleChange}
-              name="createdAt"
-              value={formik.values.createdAt}
-              disabled={formik.isSubmitting}
-              type="date"
-              placeholder="01/01/1920"
-            />
+            <div className="relative">
+              <textarea
+                className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                onChange={formik.handleChange}
+                name="remark"
+                value={formik.values.remark}
+                disabled={formik.isSubmitting}
+              ></textarea>
+            </div>
           </div>
-        </div>
-
-        <div className=" mb-6">
           <label
             className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
             htmlFor="grid-state"
           >
-            Remarques
+            Documents à fournir:
           </label>
-          <div className="relative">
-            <textarea
-              className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              onChange={formik.handleChange}
-              name="remark"
-              value={formik.values.remark}
-              disabled={formik.isSubmitting}
-            ></textarea>
-          </div>
-        </div>
-        <label
-          className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
-          htmlFor="grid-state"
-        >
-          Documents à fournir:
-        </label>
-        <Dropzone
-          onDrop={(acceptedFiles) =>
-            formik.setFieldValue("documents", acceptedFiles)
-          }
-        >
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              <div
-                {...getRootProps()}
-                className="border border-dashed border-gray-500 relative cursor-pointer w-full h-full p-20 z-50"
-              >
-                <input {...getInputProps()} />
+          <Dropzone
+            onDrop={(acceptedFiles) =>
+              formik.setFieldValue("documents", acceptedFiles)
+            }
+          >
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div
+                  {...getRootProps()}
+                  className="border border-dashed border-gray-500 relative cursor-pointer w-full h-full p-20 z-50"
+                >
+                  <input {...getInputProps()} />
 
-                <p>
-                  Glissez les documents à fournir ou Cliquez ici pour
-                  sélectionner
-                </p>
-                <div className="flex flex-wrap">
-                  {formik.values.documents.map((e) => e.name)}
+                  <p>
+                    Glissez les documents à fournir ou Cliquez ici pour
+                    sélectionner
+                  </p>
+                  <div className="flex flex-wrap">
+                    {formik.values.documents.map((e) => e.name)}
+                  </div>
                 </div>
-              </div>
-            </section>
-          )}
-        </Dropzone>
-        <div className="flex flex-col items-center mt-5">
-          <Button
-            color="white"
-            bgColor={currentColor}
-            text="Soummettre"
-            borderRadius="10px"
-            width="50px"
-            disabled={formik.isSubmitting}
-            type="submit"
-          />
-        </div>
-      </form>
-    </div>
+              </section>
+            )}
+          </Dropzone>
+          <div className="flex flex-col items-center mt-5">
+            <Button
+              color="white"
+              bgColor={currentColor}
+              text="Soummettre"
+              borderRadius="10px"
+              width="50px"
+              disabled={formik.isSubmitting}
+              type="submit"
+            />
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

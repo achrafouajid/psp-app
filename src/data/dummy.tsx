@@ -38,11 +38,7 @@ import { TbClipboardCheck } from "react-icons/tb";
 
 export const gridOrderImage = (props: any) => (
   <div>
-    <img
-      className="rounded-xl h-20 md:ml-3"
-      src={props.ProductImage}
-      alt="order-item"
-    />
+    <img className="rounded-xl h-20 md:ml-3" src="test.jpeg" alt="order-item" />
   </div>
 );
 
@@ -227,44 +223,6 @@ export const cartData = [
     price: "$190",
   },
 ];
-export const earningData = [
-  {
-    icon: <BsClipboard2Pulse />,
-    amount: "39,354",
-    percentage: "0%",
-    title: "Demandes Totales traitées",
-    iconColor: "#03C9D7",
-    iconBg: "#E5FAFB",
-    pcColor: "red-600",
-  },
-  {
-    icon: <LuFolderCheck />,
-    amount: "4,396",
-    percentage: "0%",
-    title: "Dossiers Constitués",
-    iconColor: "rgb(255, 244, 229)",
-    iconBg: "rgb(254, 201, 15)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <LuFolderArchive />,
-    amount: "423,39",
-    percentage: "0%",
-    title: "Dossiers Complets",
-    iconColor: "rgb(228, 106, 118)",
-    iconBg: "rgb(255, 244, 229)",
-    pcColor: "green-600",
-  },
-  {
-    icon: <LuFolderClock />,
-    amount: "39,354",
-    percentage: "0%",
-    title: "Dossiers en Attente",
-    iconColor: "rgb(0, 194, 146)",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-];
 
 export const recentTransactions = [
   {
@@ -321,20 +279,20 @@ export const ordersGrid = [
   },
   {
     field: "OrderItems",
-    headerText: "Item",
+    headerText: "Nom Article",
     width: "150",
     editType: "dropdownedit",
     textAlign: "Center",
   },
   {
     field: "CustomerName",
-    headerText: "Customer Name",
+    headerText: "Nom Auteur",
     width: "150",
     textAlign: "Center",
   },
   {
     field: "TotalAmount",
-    headerText: "Total Amount",
+    headerText: "Catégories",
     format: "C2",
     textAlign: "Center",
     editType: "numericedit",
@@ -349,16 +307,45 @@ export const ordersGrid = [
   },
   {
     field: "OrderID",
-    headerText: "Order ID",
+    headerText: "ID",
     width: "120",
     textAlign: "Center",
   },
 
   {
     field: "Location",
-    headerText: "Location",
+    headerText: "Notes",
     width: "150",
     textAlign: "Center",
+  },
+];
+export const ordersData = [
+  {
+    ID: 1,
+    CustomerName: "Admin test",
+    TotalAmount: "Oncologie",
+    OrderItems: "test blog",
+    Location: "USA",
+    Status: "Actif",
+    StatusBg: "#396EA5",
+  },
+  {
+    ID: 2,
+    CustomerName: "Admin test",
+    TotalAmount: "Oncologie",
+    OrderItems: "test blog",
+    Location: "USA",
+    Status: "Actif",
+    StatusBg: "#396EA5",
+  },
+  {
+    ID: 3,
+    CustomerName: "Admin test",
+    TotalAmount: "Oncologie",
+    OrderItems: "test blog",
+    Location: "USA",
+    Status: "Actif",
+    StatusBg: "#396EA5",
   },
 ];
 
@@ -388,176 +375,6 @@ export const patientsData = [
     Weeks: "11",
     Budget: "$3.9k",
     Location: "India",
-  },
-];
-
-export const ordersData = [
-  {
-    OrderID: 845954,
-    CustomerName: "Jie Yan",
-    TotalAmount: 87.99,
-    OrderItems: "Shoes",
-    Location: "USA",
-    Status: "pending",
-    StatusBg: "#FB9678",
-    ProductImage:
-      "https://cdn.shopclues.com/images1/thumbnails/104158/320/320/148648730-104158193-1592481791.jpg",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-  },
-  {
-    OrderID: 38489,
-    CustomerName: "Miron",
-    TotalAmount: 87.99,
-    OrderItems: "Ice Cream",
-    Location: "USA",
-    Status: "active",
-    StatusBg: "#03C9D7",
-    ProductImage:
-      "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/dairy-free-ice-cream-eae372d.jpg",
-  },
-  {
-    OrderID: 24546,
-    CustomerName: "Frank",
-    TotalAmount: 84.99,
-    OrderItems: "Pan Cake",
-    Location: "Delhi",
-    Status: "complete",
-    StatusBg: "#8BE78B",
-    ProductImage:
-      "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-  },
-
-  {
-    OrderID: 845954,
-    CustomerName: "Jie Yan",
-    TotalAmount: 87.99,
-    OrderItems: "Shoes",
-    Location: "USA",
-    Status: "pending",
-    StatusBg: "#FB9678",
-    ProductImage:
-      "https://cdn.shopclues.com/images1/thumbnails/104158/320/320/148648730-104158193-1592481791.jpg",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-  },
-  {
-    OrderID: 38489,
-    CustomerName: "Miron",
-    TotalAmount: 87.99,
-    OrderItems: "Ice Cream",
-    Location: "USA",
-    Status: "active",
-    StatusBg: "#03C9D7",
-    ProductImage:
-      "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/dairy-free-ice-cream-eae372d.jpg",
-  },
-  {
-    OrderID: 24546,
-    CustomerName: "Frank",
-    TotalAmount: 84.99,
-    OrderItems: "Pan Cake",
-    Location: "Delhi",
-    Status: "complete",
-    StatusBg: "#8BE78B",
-    ProductImage:
-      "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-  },
-
-  {
-    OrderID: 845954,
-    CustomerName: "Jie Yan",
-    TotalAmount: 87.99,
-    OrderItems: "Shoes",
-    Location: "USA",
-    Status: "pending",
-    StatusBg: "#FB9678",
-    ProductImage:
-      "https://cdn.shopclues.com/images1/thumbnails/104158/320/320/148648730-104158193-1592481791.jpg",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
-  },
-  {
-    OrderID: 38489,
-    CustomerName: "Miron",
-    TotalAmount: 87.99,
-    OrderItems: "Ice Cream",
-    Location: "USA",
-    Status: "active",
-    StatusBg: "#03C9D7",
-    ProductImage:
-      "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/dairy-free-ice-cream-eae372d.jpg",
-  },
-  {
-    OrderID: 24546,
-    CustomerName: "Frank",
-    TotalAmount: 84.99,
-    OrderItems: "Pan Cake",
-    Location: "Delhi",
-    Status: "complete",
-    StatusBg: "#8BE78B",
-    ProductImage:
-      "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
-  },
-  {
-    OrderID: 874534,
-    CustomerName: "Danai",
-    TotalAmount: 122.99,
-    OrderItems: "Watch",
-    Location: "USA",
-    Status: "canceled",
-    StatusBg: "#FF5C8E",
-    ProductImage:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/pop-womens-garmin-watches-1641919013.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*",
   },
 ];
 

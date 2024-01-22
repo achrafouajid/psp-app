@@ -14,7 +14,7 @@ export default async function layout({ children }: any) {
             <BsClipboard2Pulse size={20} className="mr-3" /> Créer Demande
           </p>
           <Link
-            href="/patients"
+            href="/requests"
             className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
           >
             <LuFolderSearch size={20} className="mr-3" />
@@ -31,7 +31,6 @@ export default async function layout({ children }: any) {
       </aside>
 
       <div className="w-full min-h-screen md:w-2/3 lg:w-3/4 mt-8 sm:max-w-xl sm:rounded-lg m-4">
-        <Stepper />
         {children}
       </div>
     </div>
