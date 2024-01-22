@@ -1,5 +1,4 @@
 import { RequestStatusEnum } from "@prisma/client";
-import React from "react";
 import prisma from "../../../prisma/client";
 
 export default async function newRequestStatus(
