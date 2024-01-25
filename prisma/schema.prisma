@@ -23,12 +23,12 @@ Active
 }
 
 enum RequestStatusEnum {
-NeedInitialization
-Created
+Constitue
+Cree
 Complete
-Pending
-Accepted
-Declined
+Attente
+Accepte
+Refuse
 }
 
 enum DiagnosticEnum {
@@ -67,7 +67,7 @@ enum EstablishmentEnum {
 }
 
 model Patient {
-  id String @id @default(cuid()) @map("_id")
+  id String @id @default(cuid()) @map("_id") 
   firstName String 
   lastName String 
   address String? 
@@ -77,7 +77,7 @@ model Patient {
   program ProgramEnum?
   image Document? @relation(fields: [avatarId],references: [id])
   createdAt DateTime @default(now())
-  requests Request[]
+  requests Request[] 
   isConsent Boolean @default(false)
   doctor Doctor?
   inclCriteria inclCriteria? 
@@ -104,12 +104,13 @@ model Patient {
   refDoc Boolean?
 
 }
+
 model CareGiver {
   id String @id @default(cuid()) @map("_id")
   fullName String? 
   patientId String @unique
   tel String?
-  Patient Patient @relation(fields:[patientId],references: [id])
+  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
 
 }
 
@@ -120,7 +121,7 @@ model inclCriteria {
   isConfDiag Boolean
   isSocial Boolean
   isConsent Boolean
-  Patient Patient @relation(fields:[patientId],references: [id])
+  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
 }
 
 model exclCriteria {
@@ -129,7 +130,7 @@ model exclCriteria {
   isIncomplete Boolean
   isAbroad Boolean
   isUnreachable Boolean
-  Patient Patient @relation(fields:[patientId],references: [id])
+  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
 }
 model Doctor{
   id String @id @default(cuid()) @map("_id")
@@ -137,7 +138,7 @@ model Doctor{
   lastName String
   establishment EstablishmentEnum
   service String?
-  Patient Patient @relation(fields:[id],references: [id])
+  Patient Patient @relation(fields:[id],references: [id],onDelete: Cascade)
 
 }
 model Request {
@@ -147,7 +148,7 @@ model Request {
   remark String?
   statuses RequestStatus[]
   patientId String
-  Patient Patient @relation(fields:[patientId],references: [id])
+  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
   documents RequestDocument[]
   
 }
@@ -156,7 +157,7 @@ model RequestDocument {
   requestId String
   documentId String @unique
   @@id([requestId,documentId])
-  request Request @relation(fields:[requestId],references:[id])
+  request Request @relation(fields:[requestId],references:[id],onDelete: Cascade)
   document Document @relation(fields: [documentId],references: [id])
 }
 model RequestStatus {
@@ -165,7 +166,7 @@ model RequestStatus {
   current Boolean
   status RequestStatusEnum 
   requestId String 
-  request Request @relation(fields: [requestId],references: [id])
+  request Request @relation(fields: [requestId],references: [id],onDelete: Cascade)
   
 }
 model User {

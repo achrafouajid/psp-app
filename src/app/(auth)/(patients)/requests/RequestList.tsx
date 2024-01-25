@@ -22,7 +22,7 @@ import { FiFileText } from "react-icons/fi";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useRouter } from "next/navigation";
 
-const Request = ({
+const RequestList = ({
   data,
 }: {
   data: Awaited<ReturnType<typeof getAllRequests>>;
@@ -82,4 +82,4 @@ const Request = ({
     </div>
   );
 };
-export default Request;
+export default RequestList;

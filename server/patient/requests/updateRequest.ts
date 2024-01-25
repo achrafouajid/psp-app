@@ -7,7 +7,7 @@ import { RequestStatusEnum } from "@prisma/client";
 import newRequestStatus from "./newRequestStatus";
 import upload from "../../upload/upload";
 
-export default async function ConstRequest(data: FormData) {
+export default async function updateRequest(data: FormData) {
   const id = data.get("id")?.toString();
   const patientId = data.get("patientId")?.toString();
   const date = data.get("createdAt")?.toString();
@@ -21,7 +21,7 @@ export default async function ConstRequest(data: FormData) {
 
   await prisma.request.update({
     where: {
-      id: id,
+      id,
     },
     data: {
       patientId: patientId!,
@@ -34,7 +34,27 @@ export default async function ConstRequest(data: FormData) {
       },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Constitue);
+  await newRequestStatus(id!, RequestStatusEnum.Attente);
+  revalidatePath("/");
+  redirect("./");
+}
+
+export async function acceptRequest(data: FormData) {
+  const id = data.get("id")?.toString();
+  const patientId = data.get("patientId")?.toString();
+  const patient = await getPatient(patientId!);
+  if (patient == null) return false;
+  await newRequestStatus(id!, RequestStatusEnum.Accepte);
+  revalidatePath("/");
+  redirect("./");
+}
+
+export async function refuseRequest(data: FormData) {
+  const id = data.get("id")?.toString();
+  const patientId = data.get("patientId")?.toString();
+  const patient = await getPatient(patientId!);
+  if (patient == null) return false;
+  await newRequestStatus(id!, RequestStatusEnum.Refuse);
   revalidatePath("/");
   redirect("./");
 }

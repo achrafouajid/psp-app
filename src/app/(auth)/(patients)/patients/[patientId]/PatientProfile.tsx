@@ -12,6 +12,7 @@ import { jsPDF } from "jspdf";
 import { FaFilePdf } from "react-icons/fa";
 import Link from "next/link";
 import { usePatient } from "@/Contexts/PatientContext";
+import deletePatient from "../../../../../../server/patient/delete_patient";
 
 const PatientProfile = () => {
   const data = usePatient();
@@ -29,7 +30,6 @@ const PatientProfile = () => {
     onSubmit: async (values) => {
       if (isDisabled) return setisDisabled(false);
       const formadata = new FormData();
-
       formadata.append("firstName", values.firstName);
       formadata.append("lastName", values.lastName);
       formadata.append("birthDate", values.birthDate?.toString() ?? "");
@@ -119,14 +119,14 @@ const PatientProfile = () => {
               <div className="w-full">
                 <label
                   htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-[#0c545c] dark:text-white"
                 >
                   Prénom
                 </label>
                 <input
                   readOnly={isDisabled}
                   type="text"
-                  className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Your first name"
                   onChange={formik.handleChange}
                   name="firstName"
@@ -138,7 +138,7 @@ const PatientProfile = () => {
               <div className="w-full">
                 <label
                   htmlFor="last_name"
-                  className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                 >
                   Nom
                 </label>
@@ -147,7 +147,7 @@ const PatientProfile = () => {
                   type="text"
                   defaultValue={data.lastName}
                   id="last_name"
-                  className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Your last name"
                   onChange={formik.handleChange}
                   name="lastName"
@@ -160,7 +160,7 @@ const PatientProfile = () => {
             <div className="mb-2 sm:mb-6">
               <label
                 htmlFor="profession"
-                className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
               >
                 Adresse
               </label>
@@ -168,7 +168,7 @@ const PatientProfile = () => {
                 readOnly={isDisabled}
                 type="text"
                 id="profession"
-                className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                 onChange={formik.handleChange}
                 name="address"
                 value={formik.values.address ?? ""}
@@ -178,7 +178,7 @@ const PatientProfile = () => {
             <div className="mb-2 sm:mb-6">
               <label
                 htmlFor="profession"
-                className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
               >
                 Date de naissance
               </label>
@@ -187,7 +187,7 @@ const PatientProfile = () => {
                 type="date"
                 id="profession"
                 defaultValue=""
-                className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                 onChange={formik.handleChange}
                 name="birthDate"
                 value={formik.values.birthDate}
@@ -197,7 +197,7 @@ const PatientProfile = () => {
             <div className="mb-2 sm:mb-6">
               <label
                 htmlFor="profession"
-                className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
               >
                 Programme
               </label>
@@ -229,7 +229,7 @@ const PatientProfile = () => {
             <div className="mb-6">
               <label
                 htmlFor="message"
-                className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
               >
                 Notes
               </label>
@@ -237,7 +237,7 @@ const PatientProfile = () => {
                 id="message"
                 defaultValue={data.notes ?? ""}
                 rows={4}
-                className="block p-2.5 w-full text-sm text-indigo-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 "
+                className="block p-2.5 w-full text-sm text-[#396EA5] bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 "
                 onChange={formik.handleChange}
                 name="notes"
                 value={formik.values.notes ?? ""}
@@ -249,6 +249,22 @@ const PatientProfile = () => {
             <Link href={`./${data.id}/requests`} className="text-[#396EA5]">
               Accéder aux demandes
             </Link>
+            <Button
+              color="white"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    "Voulez-vous vraiment supprimer ce patient ? Toutes ses demandes seront supprimées..."
+                  )
+                ) {
+                  deletePatient(data.id);
+                }
+              }}
+              bgColor={isDisabled ? "gray" : "red"}
+              text={isDisabled ? "" : "Supprimer "}
+              borderRadius="10px"
+              disabled={formik.isSubmitting}
+            />
             <Button
               type="submit"
               color="white"

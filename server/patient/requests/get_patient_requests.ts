@@ -12,6 +12,7 @@ export default async function getPatientRequests(id: string) {
       lastName: true,
       requests: {
         include: {
+          statuses: true,
           _count: {
             select: {
               documents: true,

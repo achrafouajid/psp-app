@@ -19,7 +19,7 @@ import { Selection } from "@syncfusion/ej2-react-charts";
 import getPatientRequests from "../../../../../../../server/patient/requests/get_patient_requests";
 import Link from "next/link";
 
-const Request = ({
+const RequestListPatient = ({
   data,
 }: {
   data: Awaited<ReturnType<typeof getPatientRequests>>;
@@ -43,6 +43,7 @@ const Request = ({
           date: e.createdAt,
           remark: e.remark,
           documentCount: e._count.documents,
+          status: e.statuses.find((e) => e.current)?.status,
         }))}
         width="auto"
         enableHover={true}
@@ -70,4 +71,4 @@ const Request = ({
     </div>
   );
 };
-export default Request;
+export default RequestListPatient;

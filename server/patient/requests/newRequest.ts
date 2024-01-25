@@ -21,7 +21,7 @@ export default async function newRequest(data: FormData) {
         create: {
           createdAt: new Date(),
           current: true,
-          status: RequestStatusEnum.Created,
+          status: RequestStatusEnum.Cree,
         },
       },
     },

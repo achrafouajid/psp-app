@@ -3,16 +3,16 @@ import Home from "./Home";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
 import {
-  getAcceptedRequestsCount,
   getCompletedRequestsCount,
+  getConstitueRequestsCount,
   getPendingRequestsCount,
 } from "../../../../server/patient/requests/getRequestsCount";
 
 export default async function page() {
-  const [count, count2, accepted, complete, pending] = await Promise.all([
+  const [count, count2, constitue, complete, attente] = await Promise.all([
     getPatientCount(),
     getRequestCount(),
-    getAcceptedRequestsCount(),
+    getConstitueRequestsCount(),
     getCompletedRequestsCount(),
     getPendingRequestsCount(),
   ]);
@@ -21,9 +21,9 @@ export default async function page() {
       <Home
         data={count}
         data2={count2}
-        accepted={accepted}
+        constitue={constitue}
         complete={complete}
-        pending={pending}
+        attente={attente}
       />
     </div>
   );

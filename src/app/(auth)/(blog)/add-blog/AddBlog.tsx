@@ -22,11 +22,11 @@ export default function AddBlog(props: { categories: Category[] }) {
       <div className=" w-full mx-4">
         <form
           onSubmit={handleSubmit}
-          className="w-full border border-[#f17c34] rounded-lg p-8"
+          className="w-full border border-[#396EA5] rounded-lg p-8"
         >
           <div className="mb-6">
             <label
-              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="grid-zip"
             >
               Image
@@ -41,7 +41,7 @@ export default function AddBlog(props: { categories: Category[] }) {
           </div>
           <div className="mb-6">
             <label
-              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="grid-zip"
             >
               Titre du Blog
@@ -57,7 +57,7 @@ export default function AddBlog(props: { categories: Category[] }) {
           </div>
           <div className=" mb-6 ">
             <label
-              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="grid-state"
             >
               Catégories

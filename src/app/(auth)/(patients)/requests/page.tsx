@@ -1,9 +1,9 @@
 import React from "react";
 
-import Request from "./Request";
 import getAllRequests from "../../../../../server/patient/requests/getAllRequests";
+import RequestList from "./RequestList";
 
 export default async function page() {
   const data = await getAllRequests();
-  return <Request data={data} />;
+  return <RequestList data={data} />;
 }

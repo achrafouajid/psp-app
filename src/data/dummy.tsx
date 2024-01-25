@@ -606,15 +606,15 @@ export const lineChartData = [
 export const dropdownData = [
   {
     Id: "1",
-    Time: "March 2021",
+    Time: "Janvier 2024",
   },
   {
     Id: "2",
-    Time: "April 2021",
+    Time: " Février 2024",
   },
   {
     Id: "3",
-    Time: "May 2021",
+    Time: "Mars 2024",
   },
 ];
 export const lineCustomSeries = [
@@ -677,64 +677,6 @@ export const contextMenuItems: ContextMenuItem[] = [
   "LastPage",
   "NextPage",
 ];
-
-export const ecomPieChartData = [
-  { x: "Q1", y: 7, text: "35%" },
-  { x: "Q2", y: 0, text: "15%" },
-  { x: "Q3", y: 0, text: "25%" },
-  { x: "Q4", y: 0, text: "25%" },
-];
-
-export const stackedChartData = [
-  [
-    { x: "Jan", y: 10 },
-    { x: "Feb", y: 0 },
-    { x: "Mar", y: 0 },
-    { x: "Apr", y: 0 },
-    { x: "May", y: 0 },
-    { x: "Jun", y: 0 },
-    { x: "Jul", y: 0 },
-    { x: "Aug", y: 0 },
-    { x: "Sep", y: 0 },
-    { x: "Oct", y: 0 },
-    { x: "Nov", y: 0 },
-    { x: "Déc", y: 0 },
-  ],
-];
-
-export const stackedCustomSeries = [
-  {
-    dataSource: stackedChartData[0],
-    xName: "x",
-    yName: "y",
-    name: "Patients",
-    type: "StackingColumn",
-    background: "blue",
-  },
-];
-
-export const stackedPrimaryXAxis = {
-  majorGridLines: { width: 0 },
-  minorGridLines: { width: 0 },
-  majorTickLines: { width: 0 },
-  minorTickLines: { width: 0 },
-  interval: 1,
-  lineStyle: { width: 0 },
-  labelIntersectAction: "Rotate45",
-  valueType: "Category",
-};
-
-export const stackedPrimaryYAxis = {
-  lineStyle: { width: 0 },
-  minimum: 0,
-  maximum: 20,
-  interval: 100,
-  majorTickLines: { width: 0 },
-  majorGridLines: { width: 1 },
-  minorGridLines: { width: 1 },
-  minorTickLines: { width: 0 },
-  labelFormat: "{value}",
-};
 
 export const kanbanData = [
   {

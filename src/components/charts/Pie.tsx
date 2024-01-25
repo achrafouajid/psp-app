@@ -32,11 +32,11 @@ const Doughnut = ({ id, data, legendVisiblity, height }: any) => {
       />
       <AccumulationSeriesCollectionDirective>
         <AccumulationSeriesDirective
-          name="Demandes"
+          name="Dossiers"
           dataSource={data}
           xName="x"
           yName="y"
-          innerRadius="40%"
+          innerRadius="50%"
           startAngle={0}
           endAngle={360}
           radius="70%"

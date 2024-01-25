@@ -46,13 +46,13 @@ export default function CompleteRequest({
       <StepperThree />
       <div className="w-full mt-20">
         <form
-          className="w-full border border-[#f17c34] rounded-lg p-8"
+          className="w-full border border-[#396EA5] rounded-lg p-8"
           onSubmit={formik.handleSubmit}
         >
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full px-3">
               <label
-                className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="grid-password"
               >
                 Date Completion du Dossier
@@ -72,7 +72,7 @@ export default function CompleteRequest({
 
           <div className=" mb-6">
             <label
-              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="grid-state"
             >
               Remarques supplémentaires :
@@ -88,7 +88,7 @@ export default function CompleteRequest({
             </div>
           </div>
           <label
-            className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
             htmlFor="grid-state"
           >
             Documents supplémentaires à fournir:

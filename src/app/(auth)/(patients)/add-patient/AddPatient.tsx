@@ -324,7 +324,7 @@ export default function AddPatient() {
                     <input
                       type="radio"
                       className="mr-2"
-                      name="etablissement"
+                      name="establishment"
                       value="Hopital"
                       checked={
                         formik.values.establishment ===
@@ -332,13 +332,13 @@ export default function AddPatient() {
                       }
                       onChange={formik.handleChange}
                     />
-                    <label htmlFor="hopital"> Hôpital </label>
+                    <label htmlFor="Hopital"> Hôpital </label>
                   </div>
                   <div className="flex items-center mb-2 gap-1 ml-2">
                     <input
                       type="radio"
                       className="mr-2"
-                      name="establishement"
+                      name="establishment"
                       value="Clinique"
                       checked={
                         formik.values.establishment ==
@@ -346,20 +346,20 @@ export default function AddPatient() {
                       }
                       onChange={formik.handleChange}
                     />
-                    <label htmlFor="clinique"> Clinique </label>
+                    <label htmlFor="Clinique"> Clinique </label>
                   </div>
                   <div className="flex items-center mb-2 gap-1 ml-2">
                     <input
                       type="radio"
                       className="mr-2"
-                      name="establishement"
+                      name="establishment"
                       value="Cabinet"
                       checked={
                         formik.values.establishment == EstablishmentEnum.Cabinet
                       }
                       onChange={formik.handleChange}
                     />
-                    <label htmlFor="cabinet"> Cabinet </label>
+                    <label htmlFor="Cabinet"> Cabinet </label>
                   </div>
                 </div>
               </div>

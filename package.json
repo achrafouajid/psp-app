@@ -31,6 +31,7 @@
     "buffer": "^6.0.3",
     "emoji-picker-react": "^4.6.0",
     "formik": "^2.4.5",
+    "html2canvas": "^1.4.1",
     "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.1",

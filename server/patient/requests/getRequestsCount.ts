@@ -5,12 +5,13 @@ import { RequestStatusEnum } from "@prisma/client";
 export default async function getRequestsCount() {
   return await prisma.request.count();
 }
-export async function getAcceptedRequestsCount() {
+
+export async function getConstitueRequestsCount() {
   return await prisma.request.count({
     where: {
       statuses: {
         some: {
-          status: RequestStatusEnum.Accepted,
+          status: RequestStatusEnum.Constitue,
           current: true,
         },
       },
@@ -35,7 +36,7 @@ export async function getPendingRequestsCount() {
     where: {
       statuses: {
         some: {
-          status: RequestStatusEnum.Pending,
+          status: RequestStatusEnum.Attente,
           current: true,
         },
       },
