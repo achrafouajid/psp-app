@@ -1,5 +1,4 @@
 "use client";
-import { User } from "@prisma/client";
 import { ReactNode, createContext, useContext } from "react";
 import currentUser from "../../server/auth/currentUser";
 

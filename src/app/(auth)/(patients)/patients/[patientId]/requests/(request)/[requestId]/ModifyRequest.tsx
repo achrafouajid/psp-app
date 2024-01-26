@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useRouter } from "next/navigation";
@@ -8,9 +9,10 @@ import updateRequest from "../../../../../../../../../server/patient/requests/up
 import Button from "@/components/Button";
 import { FaCheck } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
-import deletePatient from "../../../../../../../../../server/patient/delete_patient";
 import Dropzone from "react-dropzone";
 import { CiEdit } from "react-icons/ci";
+import newRequestStatus from "../../../../../../../../../server/patient/requests/newRequestStatus";
+import { RequestStatusEnum } from "@prisma/client";
 
 export default function ModifyRequest({
   data,
@@ -18,6 +20,7 @@ export default function ModifyRequest({
   data: NonNullable<Awaited<ReturnType<typeof getRequest>>>;
 }) {
   const router = useRouter();
+  const [loading, start] = useTransition();
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
@@ -58,7 +61,7 @@ export default function ModifyRequest({
   const currentStatus = data.statuses.find((e) => e.current);
 
   return (
-    <div className="flex flex-col items-center mt-5">
+    <div className="flex flex-col items-center mt-20">
       <h2 className="pl-6 text-2xl font-bold sm:text-xl text-[#396EA5]">
         Dossier de {data.Patient.lastName} {data.Patient.firstName}
       </h2>
@@ -275,21 +278,18 @@ export default function ModifyRequest({
           </div>
 
           <div className="flex mb-5 justify-between items-center">
+            {" "}
             <Button
               color="white"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Voulez-vous vraiment supprimer ce patient ? Toutes ses demandes seront supprimées..."
-                  )
-                ) {
-                  deletePatient(data.id);
-                }
-              }}
+              onClick={() =>
+                start(() =>
+                  newRequestStatus(data.id, RequestStatusEnum.Accepte)
+                )
+              }
               bgColor="red"
               text="Refuser Dossier"
               borderRadius="10px"
-              disabled={formik.isSubmitting}
+              disabled={loading}
               icon={<FaXmark />}
             />
             <Button
@@ -298,8 +298,13 @@ export default function ModifyRequest({
               bgColor={currentColor}
               borderRadius="10px"
               text="Accepter Dossier"
-              disabled={formik.isSubmitting}
+              disabled={loading}
               icon={<FaCheck />}
+              onClick={() =>
+                start(() =>
+                  newRequestStatus(data.id, RequestStatusEnum.Accepte)
+                )
+              }
             />
           </div>
         </div>

@@ -46,42 +46,18 @@ type data = {
   refDoc: boolean;
 };
 
-export default async function addPatient(data: data) {
+export default async function addDoctor(data: data) {
   const response = {
     status: registerResponseEnum.exist,
     data: "",
   };
 
-  await prisma.patient.create({
+  await prisma.doctor.create({
     data: {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      program: data.program,
-      address: data.address,
-      birthDate: new Date(data.birthDate),
-      notes: data.notes,
-      diagnostic: data.diagnostic,
-      isMajor: data.isMajor,
-      isConfDiag: data.isConfDiag,
-      isSocial: data.isSocial,
-      isConsent: data.isConsent,
-      isIncomplete: data.isIncomplete,
-      isAbroad: data.isAbroad,
-      isUnreachable: data.isUnreachable,
-      inclDate: new Date(data.inclDate),
-      social: data.social,
-      othersocial: data.othersocial,
-      education: data.education,
-      habitat: data.habitat,
-      tel: data.tel,
-      mail: data.mail,
-      iscaregiver: data.iscaregiver,
-      caregiver: {
-        create: {
-          fullName: data.caregiverfullName,
-          tel: data.caregivertel,
-        },
-      },
+      establishment: data.establishment,
+      service: data.service,
+      firstName: data.docfirstName,
+      lastName: data.doclastName,
     },
   });
 

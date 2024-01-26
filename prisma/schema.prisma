@@ -66,6 +66,19 @@ enum EstablishmentEnum {
   Cabinet
 }
 
+enum TitleEnum {
+  Pr
+  Dr
+}
+
+enum SecteurEnum {
+  Public
+  Prive
+}
+enum PriorityEnum {
+  HVT
+  LVT
+}
 model Patient {
   id String @id @default(cuid()) @map("_id") 
   firstName String 
@@ -79,7 +92,8 @@ model Patient {
   createdAt DateTime @default(now())
   requests Request[] 
   isConsent Boolean @default(false)
-  doctor Doctor?
+  doctor Doctor? @relation(fields: [doctorId],references: [id])
+  doctorId String?
   inclCriteria inclCriteria? 
   exclCriteria exclCriteria? 
   inclDate DateTime?
@@ -134,13 +148,35 @@ model exclCriteria {
 }
 model Doctor{
   id String @id @default(cuid()) @map("_id")
-  firstName String
-  lastName String
-  establishment EstablishmentEnum
+  title TitleEnum @default(Dr)
+  firstName String?
+  lastName String?
+  establishment EstablishmentEnum?
   service String?
-  Patient Patient @relation(fields:[id],references: [id],onDelete: Cascade)
+  secteur SecteurEnum?
+  Patient Patient[]
+  region Region? @relation(fields:[regionId],references: [id],onDelete: Cascade)
+  regionId String?
+  city String?
+  priority PriorityEnum?
 
 }
+
+model City {
+  id String @id @default(cuid()) @map("_id")
+  name String
+  region Region @relation(fields:[regionId],references: [id],onDelete: Cascade)
+  regionId String
+}
+model Region {
+  id String @id @default(cuid()) @map("_id")
+  name String
+  doctors Doctor[]
+  city City[]
+  attache String?
+  attacheId String
+}
+
 model Request {
   id String @id @default(cuid()) @map("_id")
   number Int @default(autoincrement()) @unique

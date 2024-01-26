@@ -44,7 +44,6 @@ export default function ConstituteRequest({
 
   return (
     <>
-      <StepperTwo />
       <div className="w-full mt-20">
         <form
           className="w-full border border-[#f17c34] rounded-lg p-8"

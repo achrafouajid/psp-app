@@ -20,6 +20,7 @@ import { GiLouvrePyramid } from "react-icons/gi";
 import { GrUserSettings } from "react-icons/gr";
 import { UserRole } from "@prisma/client";
 import { NavLinkProps } from "@/components/NavLink";
+import { FaUserDoctor } from "react-icons/fa6";
 type LinksGroup = {
   title: string;
   links: NavLinkProps[];
@@ -77,6 +78,25 @@ export const links: LinksGroup[] = [
         title: "Demandes",
         href: "/requests",
         icon: <FiFileText />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
+      },
+    ],
+  },
+  {
+    title: "Médecins",
+    links: [
+      {
+        title: "Classification Médecins",
+        href: "/doctors",
+        icon: <FaUserDoctor />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
+      },
+      {
+        title: "Ajouter Médecin",
+        href: "/add-doctors",
+        icon: <FaUserDoctor />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },

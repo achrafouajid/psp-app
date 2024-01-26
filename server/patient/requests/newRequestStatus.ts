@@ -1,3 +1,4 @@
+"use server";
 import { RequestStatusEnum } from "@prisma/client";
 import prisma from "../../../prisma/client";
 

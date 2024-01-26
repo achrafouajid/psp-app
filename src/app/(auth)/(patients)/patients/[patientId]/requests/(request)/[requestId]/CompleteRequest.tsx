@@ -43,7 +43,6 @@ export default function CompleteRequest({
 
   return (
     <>
-      <StepperThree />
       <div className="w-full mt-20">
         <form
           className="w-full border border-[#396EA5] rounded-lg p-8"
