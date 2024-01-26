@@ -149,15 +149,16 @@ model exclCriteria {
 model Doctor{
   id String @id @default(cuid()) @map("_id")
   title TitleEnum @default(Dr)
-  firstName String?
-  lastName String?
+  firstName String
+  lastName String
   establishment EstablishmentEnum?
   service String?
   secteur SecteurEnum?
   Patient Patient[]
   region Region? @relation(fields:[regionId],references: [id],onDelete: Cascade)
   regionId String?
-  city String?
+  city City? @relation(fields:[cityId],references: [id],onDelete: Cascade)
+  cityId String?
   priority PriorityEnum?
 
 }
@@ -167,14 +168,14 @@ model City {
   name String
   region Region @relation(fields:[regionId],references: [id],onDelete: Cascade)
   regionId String
+  doctors Doctor[]
 }
 model Region {
   id String @id @default(cuid()) @map("_id")
-  name String
+  name String @unique
   doctors Doctor[]
   city City[]
   attache String?
-  attacheId String
 }
 
 model Request {

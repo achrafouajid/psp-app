@@ -21,6 +21,7 @@ import { GrUserSettings } from "react-icons/gr";
 import { UserRole } from "@prisma/client";
 import { NavLinkProps } from "@/components/NavLink";
 import { FaUserDoctor } from "react-icons/fa6";
+import { TbSitemap } from "react-icons/tb";
 type LinksGroup = {
   title: string;
   links: NavLinkProps[];
@@ -47,12 +48,20 @@ export const links: LinksGroup[] = [
           UserRole.Patient,
         ],
       },
+
       {
         title: "Gestion Utilisateurs",
         href: "/users",
         icon: <GrUserSettings />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin],
+      },
+      {
+        title: "Gestion Régions",
+        href: "/regions",
+        icon: <TbSitemap />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
     ],
   },
@@ -119,7 +128,7 @@ export const links: LinksGroup[] = [
       },
       {
         title: "Gestion",
-        href: "/blogs-list",
+        href: "/list-blogs",
         icon: <BsKanban />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin, UserRole.Lab],
@@ -133,15 +142,8 @@ export const links: LinksGroup[] = [
       },
       {
         title: "Catégories",
-        href: "/category-list",
+        href: "/category",
         icon: <MdCategory />,
-        activatedFor: [UserRole.Admin],
-        visibleFor: [UserRole.Admin, UserRole.Lab],
-      },
-      {
-        title: "Ajouter Catégorie",
-        href: "/add-category",
-        icon: <BiColorFill />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin, UserRole.Lab],
       },

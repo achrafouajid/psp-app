@@ -91,7 +91,7 @@ const DoctorList = ({
           secteur: e.secteur,
           region: e.region,
           priority: e.priority,
-          name: e.lastName.concat(" ", e.firstName),
+          name: e.title.concat(e.lastName, " ", e.firstName),
           id: e.id,
         }))}
         width="auto"

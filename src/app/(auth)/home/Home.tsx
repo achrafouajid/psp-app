@@ -182,7 +182,10 @@ const Home = ({
   return (
     <div className="" id="capture">
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl w-full lg:w-80 p-8 pt-9 m-3  bg-no-repeat bg-cover bg-center">
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl border w-full lg:w-80 p-8 pt-9 m-3  bg-no-repeat bg-cover bg-center"
+          style={{ borderColor: currentColor }}
+        >
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Total des patients</p>
@@ -215,7 +218,8 @@ const Home = ({
           {demandes.map((item) => (
             <div
               key={item.title}
-              className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl "
+              className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl border"
+              style={{ borderColor: currentColor }}
             >
               <button
                 type="button"
@@ -239,7 +243,10 @@ const Home = ({
       </div>
 
       <div className="flex gap-10 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl md:w-780  ">
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl border md:w-780  "
+          style={{ borderColor: currentColor }}
+        >
           <div className="flex justify-between">
             <p className="font-semibold text-xl">Nouveaux patients par mois</p>
             <div className="flex items-center gap-4">
@@ -259,7 +266,7 @@ const Home = ({
         </div>
         <div>
           <div
-            className=" rounded-2xl md:w-400 p-4 m-3"
+            className=" rounded-2xl md:w-400 p-4 m-3 border border-white"
             style={{ backgroundColor: currentColor }}
           >
             <div className="flex justify-between items-center ">
@@ -286,7 +293,10 @@ const Home = ({
             </div>
           </div>
 
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
+          <div
+            className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10"
+            style={{ borderColor: currentColor }}
+          >
             <div>
               <p className="text-2xl font-semibold ">{data2}</p>
               <p className="text-gray-400">Demandes ces 3 derniers mois</p>
@@ -305,7 +315,10 @@ const Home = ({
       </div>
 
       <div className="flex mt-4 mb-4 gap-4 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
+          style={{ borderColor: currentColor }}
+        >
           <div className="flex justify-between items-center gap-2">
             <p className="text-xl font-semibold">Dossiers</p>
             <DropDown currentMode={currentMode} />
@@ -349,7 +362,10 @@ const Home = ({
           </div>
         </div>
 
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
+          style={{ borderColor: currentColor }}
+        >
           <div className=" m-4 pr-10">
             <div>
               <p>

@@ -5,53 +5,40 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { registerResponseEnum } from "../../../../../server/auth/types";
-import { EstablishmentEnum } from "@prisma/client";
+import {
+  EstablishmentEnum,
+  PriorityEnum,
+  SecteurEnum,
+  TitleEnum,
+} from "@prisma/client";
 import addDoctor from "../../../../../server/doctor/add_doctor";
 
 export default function AddDoctor() {
   const { currentColor } = useStateContext();
   const formik = useFormik({
     initialValues: {
+      title: TitleEnum.Dr as TitleEnum,
       firstName: "",
       lastName: "",
-      birthDate: "01/01/1950",
-      address: "",
-      program: ProgramEnum.PSP,
-      notes: "",
-      isMajor: false,
-      isConfDiag: false,
-      isSocial: false,
-      isConsent: false,
-      isIncomplete: false,
-      isAbroad: false,
-      isUnreachable: false,
-      docfirstName: "",
-      doclastName: "",
       establishment: EstablishmentEnum.Hopital as EstablishmentEnum,
       service: "",
       inclDate: "01/01/2024",
       tel: "",
       mail: "",
-      social: SocialEnum.CNOPS as SocialEnum,
-      othersocial: "",
-      education: EducationEnum.Analphabete as EducationEnum,
-      habitat: HabitatEnum.Urbain as HabitatEnum,
-      iscaregiver: false,
-      caregiverfullName: "",
-      caregivertel: "",
-      diagnostic: DiagnosticEnum.Scanner as DiagnosticEnum,
-      diagnosticDate: "01/01/2024",
-      prerequest: false,
-      statusrequest: false,
-      refDoc: false,
+      secteur: SecteurEnum.Prive as SecteurEnum,
+      region: "",
+      city: "",
+      priority: PriorityEnum.HVT as PriorityEnum,
     },
     onSubmit: async (values) => {
-      const res = await addDoctor(values);
+      {
+        /*   const res = await addDoctor(values);
       if (res.status == registerResponseEnum.exist)
         toast.error("Ce patient existe déjà  !");
       else {
         toast.success("Dossier patient créé avec succès !");
         formik.resetForm();
+      }*/
       }
     },
   });
@@ -68,7 +55,37 @@ export default function AddDoctor() {
           </h1>
 
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                htmlFor="title"
+              >
+                Titre
+              </label>
+              <div className="relative">
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  onChange={formik.handleChange}
+                  name="title"
+                  value={formik.values.title}
+                  disabled={formik.isSubmitting}
+                >
+                  {Object.values(TitleEnum).map((e) => (
+                    <option value={e}>{e}</option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="doclastName"
@@ -79,7 +96,7 @@ export default function AddDoctor() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 onChange={formik.handleChange}
                 name="doclastName"
-                value={formik.values.doclastName}
+                value={formik.values.lastName}
                 disabled={formik.isSubmitting}
                 type="text"
                 placeholder="Nom médecin"
@@ -88,7 +105,7 @@ export default function AddDoctor() {
                 * Veuillez remplir ces champs.
               </p>
             </div>
-            <div className="w-full md:w-1/2 px-3">
+            <div className="w-full md:w-1/3 px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="docfirstName"
@@ -99,7 +116,7 @@ export default function AddDoctor() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
                 name="docfirstName"
-                value={formik.values.docfirstName}
+                value={formik.values.firstName}
                 disabled={formik.isSubmitting}
                 type="text"
                 placeholder="Prénom Médecin"
@@ -175,6 +192,123 @@ export default function AddDoctor() {
                   placeholder="Service"
                 />
               </div>
+            </div>
+            <div className=" flex flex-row  w-full justify-between">
+              <div className=" md:w-1/3 px-3 items-center">
+                <label
+                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                  htmlFor="region"
+                >
+                  Région
+                </label>
+                <input
+                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  onChange={formik.handleChange}
+                  name="region"
+                  value={formik.values.service}
+                  disabled={formik.isSubmitting}
+                  type="text"
+                  placeholder="Région"
+                />
+              </div>
+              <div className="md:w-1/2 px-3 items-center">
+                <label
+                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                  htmlFor="city"
+                >
+                  Ville
+                </label>
+                <input
+                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  onChange={formik.handleChange}
+                  name="city"
+                  value={formik.values.service}
+                  disabled={formik.isSubmitting}
+                  type="text"
+                  placeholder="Ville"
+                />
+              </div>
+
+              <div className=" md:w-1/3 px-3 items-center">
+                <label
+                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                  htmlFor="attache"
+                >
+                  Attaché Hospitalier
+                </label>
+                <input
+                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  onChange={formik.handleChange}
+                  name="attache"
+                  value={formik.values.service}
+                  disabled={formik.isSubmitting}
+                  type="text"
+                  placeholder="Région 1"
+                />
+              </div>
+            </div>
+            <div className="flex flex-row  w-full justify-between">
+              <div className="md:w-1/2 px-3 items-center">
+                <label
+                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                  htmlFor="secteur"
+                >
+                  Secteur
+                </label>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="secteur"
+                    value="Prive"
+                    checked={formik.values.secteur === SecteurEnum.Prive}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Prive"> Prive </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="secteur"
+                    value="Public"
+                    checked={formik.values.secteur == SecteurEnum.Public}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Public"> Public </label>
+                </div>
+              </div>
+              <div className="md:w-1/2 px-3 items-center">
+                <label
+                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                  htmlFor="secteur"
+                >
+                  Priorité
+                </label>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="secteur"
+                    value="Prive"
+                    checked={formik.values.secteur === SecteurEnum.Prive}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Prive"> HVT </label>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <input
+                    type="radio"
+                    className="mr-2"
+                    name="secteur"
+                    value="Public"
+                    checked={formik.values.secteur == SecteurEnum.Public}
+                    onChange={formik.handleChange}
+                  />
+                  <label htmlFor="Public"> LVT </label>
+                </div>
+              </div>
+              <div className="flex flex-row"></div>
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6"></div>

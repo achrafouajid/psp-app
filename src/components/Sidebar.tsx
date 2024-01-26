@@ -32,9 +32,9 @@ const Sidebar = () => {
             >
               <Image
                 alt="logo"
-                width={225}
+                width={255}
                 src={logo}
-                className="object-contain "
+                className="object-contain border rounded-xl"
               />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
