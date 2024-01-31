@@ -78,7 +78,7 @@ const DoctorList = ({
   ];
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
       <Header
         category="Médecins"
         title="Tableau de classification des médecins"
@@ -89,7 +89,8 @@ const DoctorList = ({
           Number: e._count.Patient,
           establishment: e.establishment,
           secteur: e.secteur,
-          region: e.region,
+          region: e.city?.region.name,
+          city: e.city?.name,
           priority: e.priority,
           name: e.title.concat(e.lastName, " ", e.firstName),
           id: e.id,

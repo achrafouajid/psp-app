@@ -63,13 +63,13 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
             />
           </div>
           <div className="username">
-            <h3 className="text-[#f17c34]">
+            <h3 className="text-[#396EA5]">
               {currentUser.lastName + " " + currentUser.firstName}
             </h3>
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 overflow-auto p-8">
+      <div className="flex flex-col gap-4 overflow-auto p-8 bg-[#D1D9E6] border border-[#396EA5] rounded-l-3xl">
         {messages.map((message) => (
           <div
             ref={scrollRef}
@@ -80,7 +80,9 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
           >
             <div
               className={`max-w-[40%] min-w-fit shrink-0 lg:max-w-[70%] break-words p-4 text-lg rounded-lg text-[#d1d1d1] ${
-                message.senderId == user.id ? " bg-[#157891]" : " bg-[#f17c34]"
+                message.senderId == user.id
+                  ? " bg-[#396EA5] text-white"
+                  : " bg-[#D1D9E6] text-[#396EA5]"
               } `}
             >
               {message.content}

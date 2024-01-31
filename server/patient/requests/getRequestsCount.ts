@@ -43,3 +43,29 @@ export async function getPendingRequestsCount() {
     },
   });
 }
+
+export async function getAcceptedRequestsCount() {
+  return await prisma.request.count({
+    where: {
+      statuses: {
+        some: {
+          status: RequestStatusEnum.Accepte,
+          current: true,
+        },
+      },
+    },
+  });
+}
+
+export async function getRefusedRequestsCount() {
+  return await prisma.request.count({
+    where: {
+      statuses: {
+        some: {
+          status: RequestStatusEnum.Refuse,
+          current: true,
+        },
+      },
+    },
+  });
+}

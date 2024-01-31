@@ -17,8 +17,8 @@ export default function Chat({ contacts }: { contacts: data["contacts"] }) {
   const [selected, setselected] = useState<User>();
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4">
-      <div className="h-[85vh] w-[85vw] bg-[#0c545c] grid grid-cols-[25%_75%] lg:grid-cols-[35%_65%]">
+    <div className="flex flex-col justify-center items-center gap-4 border border-[#396EA5] rounded-3xl">
+      <div className="h-[75vh] w-[75vw] grid grid-cols-[25%_75%] lg:grid-cols-[35%_65%]">
         <Contacts contacts={contacts} changeChat={setselected} />
         {!selected ? (
           <Welcome />

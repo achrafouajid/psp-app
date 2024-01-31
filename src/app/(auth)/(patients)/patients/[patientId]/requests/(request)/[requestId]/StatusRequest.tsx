@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
 import Image from "next/image";
-import StepperFour from "./StepperFour";
-import Link from "next/link";
 import ModifyRequest from "./ModifyRequest";
 import Button from "@/components/Button";
 import { FaFilePdf } from "react-icons/fa";

@@ -6,7 +6,7 @@ import get_blogs from "../../../../../server/blog/get_blogs";
 const Blogs = async () => {
   const data = await get_blogs();
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
       <Header category="Blogs" title="Module d'éducation des patients" />
       <div className="flex">
         <div className="w-3/4 bg-[#f9f9f9] py-[50px]">

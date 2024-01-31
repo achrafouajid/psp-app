@@ -51,9 +51,15 @@ async function main() {
     data: {
       name: "Casa Sud",
       city: {
-        connect: {
-          id: casasud.id,
-          name: "Casablanca",
+        createMany: {
+          data: [
+            {
+              name: "Casablanca",
+            },
+            {
+              name: "Casablanca",
+            },
+          ],
         },
       },
     },

@@ -5,21 +5,39 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import create_blog from "../../../../../server/blog/create_blog";
 import { Category } from "@prisma/client";
 import Editor from "./Editor";
+import { useFormik } from "formik";
+import toast from "react-hot-toast";
+import { CategoryEnum } from "../../../../../server/category/types";
 
 export default function AddBlog(props: { categories: Category[] }) {
   const { currentColor } = useStateContext();
   const [content, setcontent] = useState("");
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    formData.set("content", content);
-
-    await create_blog(formData);
-  }
+  const formik = useFormik({
+    initialValues: {
+      image: "",
+      title: "",
+      categories: [],
+      content: "",
+    },
+    onSubmit: async (values) => {
+      const formdata = new FormData();
+      formdata.append("image", values.image);
+      formdata.append("title", values.title);
+      formdata.append("content", values.content);
+      formdata.append("categories", JSON.stringify(values.categories));
+      formdata.set("content", content);
+      const res = await create_blog(formdata);
+      if (res == CategoryEnum.Success) {
+        toast.success("Module Educatif créé avec succès !");
+        formik.resetForm();
+      } else {
+        toast.error("Erreur lors de la création du module Educatif !");
+      }
+    },
+  });
   return (
     <div className=" w-full mx-4 rounded-lg p-8">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="mb-6">
           <label
             className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"

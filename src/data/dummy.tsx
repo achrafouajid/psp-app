@@ -224,25 +224,6 @@ export const cartData = [
   },
 ];
 
-export const recentTransactions = [
-  {
-    icon: <LuFolderCheck />,
-    amount: "0",
-    title: "Dossiers Acceptés",
-    desc: "",
-    iconBg: "#E5FAFB",
-    pcColor: "green-600",
-  },
-  {
-    icon: <LuFolderX />,
-    amount: "0",
-    desc: "",
-    title: "Dossiers refusés",
-    iconBg: "rgb(235, 250, 242)",
-    pcColor: "red-600",
-  },
-];
-
 export const themeColors = [
   {
     name: "blue-theme",

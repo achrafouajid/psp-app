@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useId } from "react";
 import { GoDotFill } from "react-icons/go";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
@@ -16,14 +16,19 @@ import {
 import { Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import { recentTransactions, dropdownData } from "@/data/dummy";
+import { dropdownData } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { FaFilePdf, FaMapMarkerAlt, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
 import { FiFileText } from "react-icons/fi";
 import { BsClipboard2Pulse } from "react-icons/bs";
-import { LuFolderArchive, LuFolderCheck, LuFolderClock } from "react-icons/lu";
+import {
+  LuFolderArchive,
+  LuFolderCheck,
+  LuFolderClock,
+  LuFolderX,
+} from "react-icons/lu";
 import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
 import getAllRegions from "../../../../server/region/getAllRegions";
 const DropDown = ({ currentMode }: any) => (
@@ -47,6 +52,8 @@ const Home = ({
   complete,
   attente,
   regions,
+  accepte,
+  refuse,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -54,6 +61,8 @@ const Home = ({
   constitue: number;
   complete: number;
   attente: number;
+  accepte: number;
+  refuse: number;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -72,8 +81,6 @@ const Home = ({
       { x: "Nov", y: 0 },
       { x: "Déc", y: 0 },
     ],
-  ];
-  const stackedChartData2 = [
     [
       { x: "Pr Nahid ZAGHBA", y: data },
       { x: "Pr Wiam EL KHATTABI", y: 0 },
@@ -91,7 +98,18 @@ const Home = ({
 
   const stackedCustomSeries = [
     {
-      dataSource: stackedChartData2[0],
+      dataSource: stackedChartData[0],
+      xName: "x",
+      yName: "y",
+      name: "Patients",
+      type: "StackingColumn",
+      background: "blue",
+    },
+  ];
+
+  const stackedData = [
+    {
+      dataSource: stackedChartData[1],
       xName: "x",
       yName: "y",
       name: "Patients",
@@ -175,9 +193,27 @@ const Home = ({
     { x: "Fes Orienrtale", y: constitue, text: "25%" },
   ];
   const PieChartData = [
-    { x: "Casa Sud", y: 33, text: "33%" },
-    { x: "Fes Orientale", y: 33, text: "33%" },
-    { x: "Rabat Nord", y: 33, text: "33%" },
+    { x: "Casa Sud", y: 55, text: "33%" },
+    { x: "Fes Orientale", y: 25, text: "33%" },
+    { x: "Rabat Nord", y: 35, text: "33%" },
+  ];
+  const recentTransactions = [
+    {
+      icon: <LuFolderCheck />,
+      amount: accepte,
+      title: "Dossiers Acceptés",
+      desc: "",
+      iconBg: "#E5FAFB",
+      pcColor: "green-600",
+    },
+    {
+      icon: <LuFolderX />,
+      amount: refuse,
+      desc: "",
+      title: "Dossiers refusés",
+      iconBg: "rgb(235, 250, 242)",
+      pcColor: "red-600",
+    },
   ];
 
   const region: { name: string; count: number }[] = regions.flatMap((r) => ({
@@ -190,10 +226,10 @@ const Home = ({
 
   const Stacked = ({ width, height }: any) => {
     const { currentMode } = useStateContext();
-
+    const id = useId();
     return (
       <ChartComponent
-        id="charts"
+        id={id}
         primaryXAxis={stackedPrimaryXAxis as any}
         primaryYAxis={stackedPrimaryYAxis}
         width="675"
@@ -213,10 +249,10 @@ const Home = ({
   };
   const Stacked2 = ({ width, height }: any) => {
     const { currentMode } = useStateContext();
-
+    const id = useId();
     return (
       <ChartComponent
-        id="charts"
+        id={id}
         primaryXAxis={stackedPrimaryXAxis as any}
         primaryYAxis={stackedPrimaryYAxis}
         width="675"
@@ -227,7 +263,7 @@ const Home = ({
       >
         <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
         <SeriesCollectionDirective>
-          {stackedCustomSeries.map((item, index) => (
+          {stackedData.map((item, index) => (
             <SeriesDirective key={index} {...item} />
           ))}
         </SeriesCollectionDirective>
@@ -356,7 +392,7 @@ const Home = ({
               className="text-xl font-semibold"
               style={{ color: currentColor }}
             >
-              Distribution patients sur chaque région :
+              Distribution patients :
             </p>
 
             <div className="w-40">
@@ -364,7 +400,7 @@ const Home = ({
                 id="pie-chart"
                 data={PieChartData}
                 legendVisiblity={true}
-                height="160px"
+                height="200px"
               />
             </div>
           </div>
@@ -521,7 +557,7 @@ const Home = ({
             <div className="mt-4">
               <SparkLine
                 currentColor={currentColor}
-                id="column-sparkLine"
+                id="column-sparkLine2"
                 height="100px"
                 type="Column"
                 data={SparklineAreaData}
@@ -544,7 +580,7 @@ const Home = ({
 
             <div className="w-40">
               <Pie
-                id="pie-chart"
+                id="pie-chart2"
                 data={ecomPieChartData}
                 legendVisiblity={true}
                 height="160px"
