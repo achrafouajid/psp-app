@@ -5,8 +5,6 @@ import { BsChatLeft } from "react-icons/bs";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
-import avatar from "../data/avatar.jpg";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
 import { useSession } from "@/Contexts/UserContext";
@@ -102,8 +100,10 @@ const Navbar = () => {
           >
             <Image
               className="rounded-full w-8 h-8"
-              src={avatar}
+              src={user.avatar?.url ? "/" + user.avatar?.url : "/noavatar.png"}
               alt="user-profile"
+              width={500}
+              height={500}
             />
             <p>
               <span className="text-gray-400 text-14">Bonjour Dr.</span>{" "}

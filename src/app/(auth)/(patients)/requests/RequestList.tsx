@@ -14,7 +14,6 @@ import {
 } from "@syncfusion/ej2-react-grids";
 
 import { reqGrid } from "@/data/patientsData";
-import Header from "@/components/Header";
 import { Selection } from "@syncfusion/ej2-react-charts";
 import getAllRequests from "../../../../../server/patient/requests/getAllRequests";
 import Button from "@/components/Button";
@@ -34,9 +33,7 @@ const RequestList = ({
   const router = useRouter();
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Demandes" title={`Liste des Demandes`} />
-
+    <div>
       <GridComponent
         dataSource={data.map((e) => ({
           requestId: e.id,

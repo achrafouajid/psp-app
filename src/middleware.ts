@@ -16,6 +16,12 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/_next/static")) {
     return NextResponse.next();
   }
+  if (pathname == "/logout") {
+    const res = NextResponse.redirect(new URL("/login", request.url));
+    res.cookies.set("authToken", "", { maxAge: 0 });
+    return res;
+  }
+
   if (pathname.startsWith("/api/login")) {
     return NextResponse.next();
   }
