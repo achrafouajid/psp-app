@@ -78,8 +78,8 @@ const UsersData = ({
   const editing = { allowDeleting: true, allowEditing: true };
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Dashboard" title="Gestion Utilisateurs" />
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
+      <Header category="Tableau de bord" title="Gestion Utilisateurs" />
       <GridComponent
         dataSource={data.map((e) => ({
           email: e.email,

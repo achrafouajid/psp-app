@@ -5,7 +5,10 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import updateRequest from "../../../../../../../../../server/patient/requests/updateRequest";
+import updateRequest, {
+  acceptRequest,
+  refuseRequest,
+} from "../../../../../../../../../server/patient/requests/updateRequest";
 import Button from "@/components/Button";
 import { FaCheck } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
@@ -47,6 +50,20 @@ export default function ModifyRequest({
       else {
         router.refresh();
         toast.success("Le dossier a été mis à jour !");
+      }
+
+      const res2 = await acceptRequest(formdata);
+      if (res2 == false) toast.error("Erreur ! ");
+      else {
+        router.refresh();
+        toast.success("Le dossier a été accepté !");
+      }
+
+      const res3 = await refuseRequest(formdata);
+      if (res3 == false) toast.error("Erreur ! ");
+      else {
+        router.refresh();
+        toast.error("Le dossier a été refusé !");
       }
     },
   });

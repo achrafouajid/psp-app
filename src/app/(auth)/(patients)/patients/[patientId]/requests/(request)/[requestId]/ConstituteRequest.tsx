@@ -8,7 +8,6 @@ import { useFormik } from "formik";
 import getPatient from "../../../../../../../../../server/patient/get_patient";
 import ConstRequest from "../../../../../../../../../server/patient/requests/constituteRequest";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
-import StepperTwo from "./StepperTwo";
 
 export default function ConstituteRequest({
   data,
@@ -46,19 +45,19 @@ export default function ConstituteRequest({
     <>
       <div className="w-full mt-20">
         <form
-          className="w-full border border-[#f17c34] rounded-lg p-8"
+          className="w-full border border-[#396EA5] rounded-lg p-8 mt-16"
           onSubmit={formik.handleSubmit}
         >
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full px-3">
               <label
-                className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="grid-password"
               >
                 Date constitution du Dossier
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-[#396EA5] rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 required
                 onChange={formik.handleChange}
                 name="createdAt"
@@ -72,14 +71,14 @@ export default function ConstituteRequest({
 
           <div className=" mb-6">
             <label
-              className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="grid-state"
             >
               Remarques
             </label>
             <div className="relative">
               <textarea
-                className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-[#396EA5] py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
                 name="remark"
                 value={formik.values.remark}
@@ -88,7 +87,7 @@ export default function ConstituteRequest({
             </div>
           </div>
           <label
-            className="block uppercase tracking-wide text-[#0c545c] text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
             htmlFor="grid-state"
           >
             Documents à fournir:
@@ -102,7 +101,7 @@ export default function ConstituteRequest({
               <section>
                 <div
                   {...getRootProps()}
-                  className="border border-dashed border-gray-500 relative cursor-pointer w-full h-full p-20 z-50"
+                  className="border border-dashed border-[#396EA5] relative cursor-pointer w-full h-full p-20 z-50"
                 >
                   <input {...getInputProps()} />
 

@@ -9,9 +9,9 @@ export default async function getAllDoctors() {
           Patient: true,
         },
       },
-      region: {
+      city: {
         include: {
-          city: true,
+          region: true,
         },
       },
     },

@@ -7,7 +7,6 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
 import CompRequest from "../../../../../../../../../server/patient/requests/completeRequest";
-import StepperThree from "./StepperThree";
 
 export default function CompleteRequest({
   data,
@@ -57,7 +56,7 @@ export default function CompleteRequest({
                 Date Completion du Dossier
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-[#396EA5] rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 required
                 onChange={formik.handleChange}
                 name="createdAt"
@@ -78,7 +77,7 @@ export default function CompleteRequest({
             </label>
             <div className="relative">
               <textarea
-                className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-[#396EA5] py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
                 name="remark"
                 value={formik.values.remark}
@@ -101,7 +100,7 @@ export default function CompleteRequest({
               <section>
                 <div
                   {...getRootProps()}
-                  className="border border-dashed border-gray-500 relative cursor-pointer w-full h-full p-20 z-50"
+                  className="border border-dashed border-[#396EA5] relative cursor-pointer w-full h-full p-20 z-50"
                 >
                   <input {...getInputProps()} />
 

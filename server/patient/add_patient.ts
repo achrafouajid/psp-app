@@ -17,6 +17,7 @@ type data = {
   birthDate: string;
   address: string;
   notes?: string;
+  doctor?: string;
   program: ProgramEnum;
   isMajor: boolean;
   isConfDiag: boolean;
@@ -25,10 +26,6 @@ type data = {
   isIncomplete: boolean;
   isAbroad: boolean;
   isUnreachable: boolean;
-  docfirstName: string;
-  doclastName: string;
-  establishment: EstablishmentEnum;
-  service: string;
   inclDate: string;
   tel: string;
   mail: string;
@@ -60,6 +57,11 @@ export default async function addPatient(data: data) {
       address: data.address,
       birthDate: new Date(data.birthDate),
       notes: data.notes,
+      doctor: {
+        connect: {
+          id: data.doctor,
+        },
+      },
       diagnostic: data.diagnostic,
       isMajor: data.isMajor,
       isConfDiag: data.isConfDiag,

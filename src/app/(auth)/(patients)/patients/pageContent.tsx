@@ -28,7 +28,7 @@ const PageContent = ({
   const editing = { allowDeleting: true, allowEditing: true };
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
       <Header category="Patients" title="Liste des patients" />
       <GridComponent
         dataSource={data.map((e) => ({

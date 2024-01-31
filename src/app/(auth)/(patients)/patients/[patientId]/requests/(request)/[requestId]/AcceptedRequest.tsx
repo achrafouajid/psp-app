@@ -3,8 +3,6 @@ import React from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
 import Image from "next/image";
-import StepperFour from "./StepperFour";
-import StepperFive from "./StepperFive";
 
 export default function StatusRequest({
   data,

@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
+import { Select, SelectItem } from "@nextui-org/react";
 import { registerResponseEnum } from "../../../../../server/auth/types";
 import {
   EstablishmentEnum,
@@ -12,9 +13,16 @@ import {
   TitleEnum,
 } from "@prisma/client";
 import addDoctor from "../../../../../server/doctor/add_doctor";
+import getAllRegions from "../../../../../server/region/getAllRegions";
 
-export default function AddDoctor() {
+export default function AddDoctor({
+  regions,
+}: {
+  regions: NonNullable<Awaited<ReturnType<typeof getAllRegions>>>;
+}) {
   const { currentColor } = useStateContext();
+  const [region, setRegion] = useState(regions.at(0)?.id as string);
+
   const formik = useFormik({
     initialValues: {
       title: TitleEnum.Dr as TitleEnum,
@@ -22,27 +30,31 @@ export default function AddDoctor() {
       lastName: "",
       establishment: EstablishmentEnum.Hopital as EstablishmentEnum,
       service: "",
-      inclDate: "01/01/2024",
       tel: "",
       mail: "",
       secteur: SecteurEnum.Prive as SecteurEnum,
       region: "",
       city: "",
       priority: PriorityEnum.HVT as PriorityEnum,
+      attache: "",
     },
     onSubmit: async (values) => {
-      {
-        /*   const res = await addDoctor(values);
+      console.log(values);
+      const res = await addDoctor(values);
       if (res.status == registerResponseEnum.exist)
-        toast.error("Ce patient existe déjà  !");
+        toast.error("Ce médecin existe déjà  !");
       else {
-        toast.success("Dossier patient créé avec succès !");
+        toast.success("Médecin ajouté avec succès !");
         formik.resetForm();
-      }*/
       }
     },
   });
-
+  useEffect(() => {
+    formik.setFieldValue(
+      "city",
+      regions.find((r) => r.id == region)?.city.at(0)?.id
+    );
+  }, [region]);
   return (
     <div className="">
       <div className="w-full mx-4">
@@ -50,10 +62,6 @@ export default function AddDoctor() {
           className="w-full border border-[#396EA5] rounded-lg p-8"
           onSubmit={formik.handleSubmit}
         >
-          <h1 className="text-[#396EA5] text-l font-bold">
-            b- Renseignements Généraux
-          </h1>
-
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
@@ -88,14 +96,14 @@ export default function AddDoctor() {
             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="doclastName"
+                htmlFor="lastName"
               >
                 Nom Médecin traitant<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 onChange={formik.handleChange}
-                name="doclastName"
+                name="lastName"
                 value={formik.values.lastName}
                 disabled={formik.isSubmitting}
                 type="text"
@@ -108,14 +116,14 @@ export default function AddDoctor() {
             <div className="w-full md:w-1/3 px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                htmlFor="docfirstName"
+                htmlFor="firstName"
               >
                 Prénom Médecin traitant<span className="text-red-500">*</span>
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 onChange={formik.handleChange}
-                name="docfirstName"
+                name="firstName"
                 value={formik.values.firstName}
                 disabled={formik.isSubmitting}
                 type="text"
@@ -194,22 +202,29 @@ export default function AddDoctor() {
               </div>
             </div>
             <div className=" flex flex-row  w-full justify-between">
-              <div className=" md:w-1/3 px-3 items-center">
+              <div className="md:w-1/2 px-3 items-center">
                 <label
                   className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                   htmlFor="region"
                 >
                   Région
                 </label>
-                <input
-                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  onChange={formik.handleChange}
+                <Select
                   name="region"
-                  value={formik.values.service}
-                  disabled={formik.isSubmitting}
-                  type="text"
-                  placeholder="Région"
-                />
+                  value={region}
+                  selectedKeys={[region]}
+                  onChange={(e) => setRegion(e.target.value)}
+                  items={regions}
+                  label="Région"
+                  placeholder="Choisissez une région"
+                  className="max-w-s"
+                >
+                  {(region) => (
+                    <SelectItem value={region.id} key={region.id}>
+                      {region.name}
+                    </SelectItem>
+                  )}
+                </Select>
               </div>
               <div className="md:w-1/2 px-3 items-center">
                 <label
@@ -218,33 +233,22 @@ export default function AddDoctor() {
                 >
                   Ville
                 </label>
-                <input
-                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  onChange={formik.handleChange}
+                <Select
                   name="city"
-                  value={formik.values.service}
-                  disabled={formik.isSubmitting}
-                  type="text"
-                  placeholder="Ville"
-                />
-              </div>
-
-              <div className=" md:w-1/3 px-3 items-center">
-                <label
-                  className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                  htmlFor="attache"
-                >
-                  Attaché Hospitalier
-                </label>
-                <input
-                  className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  value={formik.values.city}
+                  selectedKeys={[formik.values.city]}
                   onChange={formik.handleChange}
-                  name="attache"
-                  value={formik.values.service}
-                  disabled={formik.isSubmitting}
-                  type="text"
-                  placeholder="Région 1"
-                />
+                  items={regions.find((item) => item.id == region)?.city ?? []}
+                  label="Ville"
+                  placeholder="Choisissez une Ville"
+                  className="max-w-s"
+                >
+                  {(city) => (
+                    <SelectItem value={city.id} key={city.id}>
+                      {city.name}
+                    </SelectItem>
+                  )}
+                </Select>
               </div>
             </div>
             <div className="flex flex-row  w-full justify-between">
@@ -281,7 +285,7 @@ export default function AddDoctor() {
               <div className="md:w-1/2 px-3 items-center">
                 <label
                   className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                  htmlFor="secteur"
+                  htmlFor="priority"
                 >
                   Priorité
                 </label>
@@ -289,9 +293,9 @@ export default function AddDoctor() {
                   <input
                     type="radio"
                     className="mr-2"
-                    name="secteur"
-                    value="Prive"
-                    checked={formik.values.secteur === SecteurEnum.Prive}
+                    name="priority"
+                    value="HVT"
+                    checked={formik.values.priority === PriorityEnum.HVT}
                     onChange={formik.handleChange}
                   />
                   <label htmlFor="Prive"> HVT </label>
@@ -300,9 +304,9 @@ export default function AddDoctor() {
                   <input
                     type="radio"
                     className="mr-2"
-                    name="secteur"
-                    value="Public"
-                    checked={formik.values.secteur == SecteurEnum.Public}
+                    name="priority"
+                    value="LVT"
+                    checked={formik.values.priority == PriorityEnum.LVT}
                     onChange={formik.handleChange}
                   />
                   <label htmlFor="Public"> LVT </label>

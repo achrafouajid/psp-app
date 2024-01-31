@@ -18,13 +18,14 @@ import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { recentTransactions, dropdownData } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
-import { FaFilePdf, FaUserInjured } from "react-icons/fa";
+import { FaFilePdf, FaMapMarkerAlt, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
 import getRequestCount from "../../../../server/patient/requests/getRequestCount";
 import { FiFileText } from "react-icons/fi";
 import { BsClipboard2Pulse } from "react-icons/bs";
 import { LuFolderArchive, LuFolderCheck, LuFolderClock } from "react-icons/lu";
 import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
+import getAllRegions from "../../../../server/region/getAllRegions";
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent
@@ -45,9 +46,11 @@ const Home = ({
   constitue,
   complete,
   attente,
+  regions,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
+  regions: Awaited<ReturnType<typeof getAllRegions>>;
   constitue: number;
   complete: number;
   attente: number;
@@ -70,10 +73,25 @@ const Home = ({
       { x: "Déc", y: 0 },
     ],
   ];
+  const stackedChartData2 = [
+    [
+      { x: "Pr Nahid ZAGHBA", y: data },
+      { x: "Pr Wiam EL KHATTABI", y: 0 },
+      { x: "Pr Khadij ECH-CHILLALI", y: 0 },
+      { x: "Dr Lamia HASSANI", y: 0 },
+      { x: "Dr Rachid  KHETTAR", y: 0 },
+      { x: "Dr Wasila GADDAR", y: 0 },
+      { x: "Dr Hind JANAH", y: 0 },
+      { x: "Pr Bouchra DAHER", y: 0 },
+      { x: "Pr Lamyae AMRO", y: 0 },
+      { x: "Pr Amine BENJELLOUNE", y: 0 },
+      { x: "Dr Azedine MOHAMMADI", y: 0 },
+    ],
+  ];
 
   const stackedCustomSeries = [
     {
-      dataSource: stackedChartData[0],
+      dataSource: stackedChartData2[0],
       xName: "x",
       yName: "y",
       name: "Patients",
@@ -151,12 +169,49 @@ const Home = ({
     { x: 2027, yval: 0 },
   ];
   const ecomPieChartData = [
-    { x: "Complets", y: complete, text: "33%" },
-    { x: "Constitués", y: constitue, text: "33%" },
+    { x: "Casa Sud", y: complete, text: "33%" },
+    { x: "Rabat Nord", y: constitue, text: "33%" },
     { x: "Q2", y: attente, text: "33%" },
-    { x: "En Attente", y: constitue, text: "25%" },
+    { x: "Fes Orienrtale", y: constitue, text: "25%" },
   ];
+  const PieChartData = [
+    { x: "Casa Sud", y: 33, text: "33%" },
+    { x: "Fes Orientale", y: 33, text: "33%" },
+    { x: "Rabat Nord", y: 33, text: "33%" },
+  ];
+
+  const region: { name: string; count: number }[] = regions.flatMap((r) => ({
+    name: r.name,
+    count: r.city
+      .flatMap((c) => c.doctors)
+      .flatMap((e) => e._count.Patient)
+      .reduce((a, b) => a + b, 0),
+  }));
+
   const Stacked = ({ width, height }: any) => {
+    const { currentMode } = useStateContext();
+
+    return (
+      <ChartComponent
+        id="charts"
+        primaryXAxis={stackedPrimaryXAxis as any}
+        primaryYAxis={stackedPrimaryYAxis}
+        width="675"
+        height={height}
+        chartArea={{ border: { width: 0 } }}
+        tooltip={{ enable: true }}
+        background={currentMode === "Dark" ? "#33373E" : "#fff"}
+      >
+        <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
+        <SeriesCollectionDirective>
+          {stackedCustomSeries.map((item, index) => (
+            <SeriesDirective key={index} {...item} />
+          ))}
+        </SeriesCollectionDirective>
+      </ChartComponent>
+    );
+  };
+  const Stacked2 = ({ width, height }: any) => {
     const { currentMode } = useStateContext();
 
     return (
@@ -297,15 +352,17 @@ const Home = ({
             className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10"
             style={{ borderColor: currentColor }}
           >
-            <div>
-              <p className="text-2xl font-semibold ">{data2}</p>
-              <p className="text-gray-400">Demandes ces 3 derniers mois</p>
-            </div>
+            <p
+              className="text-xl font-semibold"
+              style={{ color: currentColor }}
+            >
+              Distribution patients sur chaque région :
+            </p>
 
             <div className="w-40">
               <Pie
                 id="pie-chart"
-                data={ecomPieChartData}
+                data={PieChartData}
                 legendVisiblity={true}
                 height="160px"
               />
@@ -394,6 +451,130 @@ const Home = ({
                 bgColor={currentColor}
                 text="Télécharger Rapport"
                 borderRadius="10px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
+          style={{ borderColor: currentColor }}
+        >
+          <div className="flex justify-between items-center gap-2">
+            <p className="text-xl font-semibold">Patients par région</p>
+            <DropDown currentMode={currentMode} />
+          </div>
+          <div className="mt-10 w-72 md:w-400">
+            {region.map((item) => (
+              <div key={item.name} className="flex justify-between mt-4">
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    style={{
+                      color: currentColor,
+                    }}
+                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
+                  >
+                    <FaMapMarkerAlt />
+                  </button>
+                  <div>
+                    <p className="text-md font-semibold">{item.name}</p>
+                    <p className="text-sm text-gray-400"></p>
+                  </div>
+                </div>
+                <p className={``}>{item.count}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center mt-5 border-t-1 border-color">
+            <div className="mt-3">
+              <Button
+                onClick={() => {
+                  router.push("/regions");
+                }}
+                icon={<FiFileText />}
+                color="white"
+                bgColor={currentColor}
+                text="+ Région/Ville"
+                borderRadius="10px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-10 flex-wrap justify-center">
+        <div>
+          <div
+            className=" rounded-2xl md:w-400 p-4 m-3 border border-white"
+            style={{ backgroundColor: currentColor }}
+          >
+            <div className="flex justify-between items-center ">
+              <p className="font-semibold text-white text-2xl">
+                Patients annuels
+              </p>
+
+              <div>
+                <p className="text-2xl text-white font-semibold mt-8">{data}</p>
+                <p className="text-gray-200">cette année</p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <SparkLine
+                currentColor={currentColor}
+                id="column-sparkLine"
+                height="100px"
+                type="Column"
+                data={SparklineAreaData}
+                width="320"
+                color="rgb(242, 252, 253)"
+              />
+            </div>
+          </div>
+
+          <div
+            className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10"
+            style={{ borderColor: currentColor }}
+          >
+            <p
+              className="text-xl font-semibold"
+              style={{ color: currentColor }}
+            >
+              Distribution patients sur chaque région :
+            </p>
+
+            <div className="w-40">
+              <Pie
+                id="pie-chart"
+                data={ecomPieChartData}
+                legendVisiblity={true}
+                height="160px"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl border md:w-780  "
+          style={{ borderColor: currentColor }}
+        >
+          <div className="flex justify-between">
+            <p className="font-semibold text-xl">
+              Charge de travail de chaque médecin
+            </p>
+            <div className="flex items-center gap-4">
+              <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
+                <span>
+                  <GoDotFill />
+                </span>
+                <span>Patients suivis</span>
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 flex gap-10 flex-wrap justify-center">
+            <div className="">
+              <Stacked2
+                currentMode={currentMode}
+                width="320px"
+                height="360px"
               />
             </div>
           </div>

@@ -9,6 +9,9 @@
     "lint": "next lint",
     "node": "node server.js"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@gsebdev/react-simple-datepicker": "^1.0.21",
     "@nextui-org/react": "^2.2.9",

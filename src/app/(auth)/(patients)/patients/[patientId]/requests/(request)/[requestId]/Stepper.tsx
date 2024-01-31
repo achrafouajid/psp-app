@@ -24,25 +24,25 @@ export default function Stepper() {
           icon={<BsClipboard2Pulse size={20} />}
           title=" Etape 1"
           desc="Créer Demande"
-          active={currentStatus?.status === RequestStatusEnum.Cree}
+          active={currentStatus?.status === null}
         />
         <Step
           icon={<LuFolderCheck size={20} />}
           title=" Etape 2"
           desc="Constituer Dossier"
-          active={currentStatus?.status === RequestStatusEnum.Constitue}
+          active={currentStatus?.status === RequestStatusEnum.Cree}
         />
         <Step
           icon={<LuFolderArchive />}
           title=" Etape 3"
           desc="Compléter Dossier"
-          active={currentStatus?.status === RequestStatusEnum.Complete}
+          active={currentStatus?.status === RequestStatusEnum.Constitue}
         />
         <Step
           icon={<LuFolderClock />}
           title=" Etape 4"
           desc="Etat Dossier"
-          active={currentStatus?.status === RequestStatusEnum.Attente}
+          active={currentStatus?.status === RequestStatusEnum.Complete}
         />
 
         <Step

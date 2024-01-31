@@ -9,7 +9,7 @@ import {
 
 export default function StepperOne() {
   return (
-    <div className="w-full pl-7 py-4">
+    <div className="w-full px-16 py-4">
       <div className="relative flex items-center justify-between w-full">
         <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-300"></div>
         <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-900 transition-all duration-500"></div>

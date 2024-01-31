@@ -7,15 +7,18 @@ import {
   getConstitueRequestsCount,
   getPendingRequestsCount,
 } from "../../../../server/patient/requests/getRequestsCount";
+import getAllRegions from "../../../../server/region/getAllRegions";
 
 export default async function page() {
-  const [count, count2, constitue, complete, attente] = await Promise.all([
-    getPatientCount(),
-    getRequestCount(),
-    getConstitueRequestsCount(),
-    getCompletedRequestsCount(),
-    getPendingRequestsCount(),
-  ]);
+  const [count, count2, constitue, complete, attente, regions] =
+    await Promise.all([
+      getPatientCount(),
+      getRequestCount(),
+      getConstitueRequestsCount(),
+      getCompletedRequestsCount(),
+      getPendingRequestsCount(),
+      getAllRegions(),
+    ]);
   return (
     <div>
       <Home
@@ -24,6 +27,7 @@ export default async function page() {
         constitue={constitue}
         complete={complete}
         attente={attente}
+        regions={regions}
       />
     </div>
   );

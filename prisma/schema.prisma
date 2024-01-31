@@ -155,17 +155,17 @@ model Doctor{
   service String?
   secteur SecteurEnum?
   Patient Patient[]
-  region Region? @relation(fields:[regionId],references: [id],onDelete: Cascade)
-  regionId String?
   city City? @relation(fields:[cityId],references: [id],onDelete: Cascade)
   cityId String?
   priority PriorityEnum?
+  tel String?
+  mail String?
 
 }
 
 model City {
   id String @id @default(cuid()) @map("_id")
-  name String
+  name String @unique
   region Region @relation(fields:[regionId],references: [id],onDelete: Cascade)
   regionId String
   doctors Doctor[]
@@ -173,7 +173,6 @@ model City {
 model Region {
   id String @id @default(cuid()) @map("_id")
   name String @unique
-  doctors Doctor[]
   city City[]
   attache String?
 }

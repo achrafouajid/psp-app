@@ -1,49 +1,25 @@
 "use server";
 import {
-  DiagnosticEnum,
-  EducationEnum,
   EstablishmentEnum,
-  HabitatEnum,
-  ProgramEnum,
-  SocialEnum,
+  PriorityEnum,
+  SecteurEnum,
+  TitleEnum,
 } from "@prisma/client";
 import prisma from "../../prisma/client";
 import { registerResponseEnum } from "../auth/types";
 import { revalidatePath } from "next/cache";
 
 type data = {
+  title: TitleEnum;
   firstName: string;
   lastName: string;
-  birthDate: string;
-  address: string;
-  notes?: string;
-  program: ProgramEnum;
-  isMajor: boolean;
-  isConfDiag: boolean;
-  isSocial: boolean;
-  isConsent: boolean;
-  isIncomplete: boolean;
-  isAbroad: boolean;
-  isUnreachable: boolean;
-  docfirstName: string;
-  doclastName: string;
   establishment: EstablishmentEnum;
   service: string;
-  inclDate: string;
   tel: string;
   mail: string;
-  social: SocialEnum;
-  othersocial: string;
-  education: EducationEnum;
-  habitat: HabitatEnum;
-  iscaregiver: boolean;
-  caregiverfullName: string;
-  caregivertel: string;
-  diagnostic: DiagnosticEnum;
-  diagnosticDate: string;
-  prerequest: boolean;
-  statusrequest: boolean;
-  refDoc: boolean;
+  secteur: SecteurEnum;
+  city: string;
+  priority: PriorityEnum;
 };
 
 export default async function addDoctor(data: data) {
@@ -54,10 +30,16 @@ export default async function addDoctor(data: data) {
 
   await prisma.doctor.create({
     data: {
+      title: data.title,
+      firstName: data.firstName,
+      lastName: data.lastName,
       establishment: data.establishment,
       service: data.service,
-      firstName: data.docfirstName,
-      lastName: data.doclastName,
+      secteur: data.secteur,
+      cityId: data.city,
+      priority: data.priority,
+      tel: data.tel,
+      mail: data.mail,
     },
   });
 

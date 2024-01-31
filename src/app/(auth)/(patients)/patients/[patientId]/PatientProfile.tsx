@@ -13,6 +13,7 @@ import { FaFilePdf } from "react-icons/fa";
 import Link from "next/link";
 import { usePatient } from "@/Contexts/PatientContext";
 import deletePatient from "../../../../../../server/patient/delete_patient";
+import Header from "@/components/Header";
 
 const PatientProfile = () => {
   const data = usePatient();
@@ -68,12 +69,11 @@ const PatientProfile = () => {
     doc.save("patientInfo.pdf");
   }
   return (
-    <div>
-      <div className="flex flex-col items-center mt-5">
-        <h2 className="pl-6 text-2xl font-bold sm:text-xl">
-          Infos de {data.lastName} {data.firstName}
-        </h2>
-      </div>
+    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
+      <Header
+        category="Patients"
+        title={`Information patient : ${data.lastName + " " + data.firstName}`}
+      />
 
       <form onSubmit={formik.handleSubmit}>
         <div className="grid max-w-2xl mx-auto mt-8">
