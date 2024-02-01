@@ -144,7 +144,7 @@ export default function AddPatient({
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="birthDate"
             >
-              Date de naissance
+              Date de naissance <span className="text-red-500">*</span>
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -673,7 +673,7 @@ export default function AddPatient({
           <div className=" md:w-1/2 items-center">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="prerequest"
+              htmlFor="statusrequest"
             >
               Si Oui, état d'avancement de la demande
             </label>
@@ -707,7 +707,7 @@ export default function AddPatient({
           <div className=" md:w-1/2 items-center">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="prerequest"
+              htmlFor="refDoc"
             >
               Si Oui, possession du documennt de refus
             </label>
@@ -719,7 +719,7 @@ export default function AddPatient({
                   name="refDoc"
                   checked={formik.values.refDoc}
                   onChange={(e) =>
-                    formik.setFieldValue("statusrequest", e.target.checked)
+                    formik.setFieldValue("refDoc", e.target.checked)
                   }
                 />
                 <label htmlFor="refDoc"> Oui </label>
@@ -731,7 +731,7 @@ export default function AddPatient({
                   name="refDoc"
                   checked={!formik.values.refDoc}
                   onChange={(e) => {
-                    formik.setFieldValue("statusrequest", !e.target.checked);
+                    formik.setFieldValue("refDoc", !e.target.checked);
                   }}
                 />
                 <label htmlFor="refDoc"> Non </label>

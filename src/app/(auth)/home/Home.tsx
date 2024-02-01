@@ -1,5 +1,5 @@
 "use client";
-import React, { useId } from "react";
+import React, { useId, useRef } from "react";
 import { GoDotFill } from "react-icons/go";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
@@ -68,9 +68,11 @@ const Home = ({
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
+  const datajan = 10;
+  const ref = useRef<HTMLDivElement>(null);
   const stackedChartData = [
     [
-      { x: "Jan", y: 10 },
+      { x: "Jan", y: datajan },
       { x: "Feb", y: data },
       { x: "Mar", y: 0 },
       { x: "Apr", y: 0 },
@@ -147,38 +149,30 @@ const Home = ({
     {
       icon: <BsClipboard2Pulse />,
       amount: data2,
-      percentage: "0%",
       title: "Demandes Totales traitées",
       iconColor: "#03C9D7",
       iconBg: "#E5FAFB",
-      pcColor: "red-600",
     },
     {
       icon: <LuFolderCheck />,
-      amount: constitue,
-      percentage: "0%",
+      amount: cree,
       title: "Dossiers Constitués",
       iconColor: "rgb(255, 244, 229)",
       iconBg: "rgb(254, 201, 15)",
-      pcColor: "green-600",
     },
     {
       icon: <LuFolderArchive />,
-      amount: complete,
-      percentage: "0%",
+      amount: constitue,
       title: "Dossiers Complets",
       iconColor: "rgb(228, 106, 118)",
       iconBg: "rgb(255, 244, 229)",
-      pcColor: "green-600",
     },
     {
       icon: <LuFolderClock />,
-      amount: attente,
-      percentage: "0%",
+      amount: complete,
       title: "Dossiers en Attente",
       iconColor: "rgb(0, 194, 146)",
       iconBg: "rgb(235, 250, 242)",
-      pcColor: "red-600",
     },
   ];
   const SparklineAreaData = [
@@ -273,7 +267,7 @@ const Home = ({
     );
   };
   return (
-    <div className="" id="capture">
+    <div className="" ref={ref}>
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
         <div
           className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-44 rounded-xl border w-full lg:w-80 p-8 pt-9 m-3  bg-no-repeat bg-cover bg-center"
@@ -282,7 +276,7 @@ const Home = ({
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Total des patients</p>
-              <p className="text-2xl">{data}</p>
+              <p className="text-2xl">{data + datajan}</p>
             </div>
             <button
               onClick={() => {
@@ -323,9 +317,6 @@ const Home = ({
               </button>
               <p className="mt-3">
                 <span className="text-lg font-semibold">{item.amount}</span>
-                <span className={`text-sm text-${item.pcColor} ml-2`}>
-                  {item.percentage}
-                </span>
               </p>
               <p className="text-sm text-gray-400 dark:text-white font-semibold mt-1">
                 {item.title}
@@ -480,9 +471,7 @@ const Home = ({
             <div className="mt-10">
               <Button
                 onClick={() => {
-                  downloadElementAsImage(
-                    document.getElementById("capture")! as HTMLElement
-                  );
+                  downloadElementAsImage(ref.current!);
                 }}
                 color="white"
                 icon={<FaFilePdf />}

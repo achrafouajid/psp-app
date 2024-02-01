@@ -298,11 +298,18 @@ export default function ModifyRequest({
             {" "}
             <Button
               color="white"
-              onClick={() =>
+              onClick={async () => {
+                const motif = window.prompt("Motif de refus ?");
                 start(() =>
-                  newRequestStatus(data.id, RequestStatusEnum.Accepte)
-                )
-              }
+                  newRequestStatus(
+                    data.id,
+                    RequestStatusEnum.Refuse,
+                    motif ?? undefined
+                  ).then((re) => {
+                    toast.success("Dossier refusé");
+                  })
+                );
+              }}
               bgColor="red"
               text="Refuser Dossier"
               borderRadius="10px"
@@ -319,7 +326,11 @@ export default function ModifyRequest({
               icon={<FaCheck />}
               onClick={() =>
                 start(() =>
-                  newRequestStatus(data.id, RequestStatusEnum.Accepte)
+                  newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
+                    (re) => {
+                      toast.success("Dossier accepte");
+                    }
+                  )
                 )
               }
             />

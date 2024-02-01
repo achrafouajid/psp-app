@@ -200,6 +200,7 @@ model RequestStatus {
   id String @id @default(cuid()) @map("_id")
   createdAt DateTime
   current Boolean
+  note String?
   status RequestStatusEnum 
   requestId String 
   request Request @relation(fields: [requestId],references: [id],onDelete: Cascade)

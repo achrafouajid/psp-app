@@ -4072,6 +4072,14 @@ jsonwebtoken@^9.0.2:
     ms "^2.1.1"
     semver "^7.5.4"
 
+jspdf-html2canvas@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/jspdf-html2canvas/-/jspdf-html2canvas-1.5.1.tgz"
+  integrity sha512-nhRj3UKXfNXJmyU6DTTMfbPP5ARm0gagNirNX/b6AuHk2eubE10Vt5SmLQn7nq/f2wSwU3wn+SVga88bvnU+PQ==
+  dependencies:
+    html2canvas "^1.4.1"
+    jspdf "^2.5.1"
+
 jspdf@*, jspdf@^2.5.1:
   version "2.5.1"
   resolved "https://registry.npmjs.org/jspdf/-/jspdf-2.5.1.tgz"

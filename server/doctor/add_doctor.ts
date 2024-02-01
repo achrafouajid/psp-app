@@ -8,6 +8,7 @@ import {
 import prisma from "../../prisma/client";
 import { registerResponseEnum } from "../auth/types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 type data = {
   title: TitleEnum;
@@ -45,6 +46,7 @@ export default async function addDoctor(data: data) {
 
   response.status = registerResponseEnum.success;
   revalidatePath("/");
+  redirect("/doctors");
 
   return response;
 }

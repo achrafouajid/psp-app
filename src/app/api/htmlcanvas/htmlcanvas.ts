@@ -1,10 +1,18 @@
-import html2canvas from "html2canvas";
+import html2PDF from "jspdf-html2canvas";
 
-export function downloadElementAsImage(element: HTMLElement) {
-  html2canvas(element).then((canvas) => {
-    const link = document.createElement("a");
-    link.download = "image.png";
-    link.href = canvas.toDataURL();
-    link.click();
+export async function downloadElementAsImage(element: HTMLDivElement) {
+  const fileName = new Date().getTime();
+
+  const file = await html2PDF(element, {
+    jsPDF: {
+      format: "a4",
+    },
+    imageType: "image/jpeg",
+    output: `/${fileName}-generate.pdf`,
   });
+  const blob = file.canvas.pdf.output("bloburi");
+  const eleme = document.createElement("a");
+  eleme.href = blob.href;
+
+  eleme.download = `${fileName}-generate.pdf`;
 }
