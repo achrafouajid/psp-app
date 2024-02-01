@@ -13,6 +13,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.0",
     "@gsebdev/react-simple-datepicker": "^1.0.21",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.1",
@@ -21,7 +22,7 @@
     "@syncfusion/ej2-base": "^24.1.41",
     "@syncfusion/ej2-react-calendars": "^24.1.41",
     "@syncfusion/ej2-react-charts": "^24.1.41",
-    "@syncfusion/ej2-react-dropdowns": "^24.1.41",
+    "@syncfusion/ej2-react-dropdowns": "^24.2.3",
     "@syncfusion/ej2-react-grids": "^24.1.41",
     "@syncfusion/ej2-react-inputs": "^24.1.41",
     "@syncfusion/ej2-react-kanban": "^24.1.41",

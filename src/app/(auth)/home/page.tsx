@@ -1,48 +1,22 @@
 import React from "react";
 import Home from "./Home";
-import getPatientCount from "../../../../server/patient/getPatientCount";
-import getRequestCount from "../../../../server/patient/requests/getRequestCount";
-import {
-  getAcceptedRequestsCount,
-  getCompletedRequestsCount,
-  getConstitueRequestsCount,
-  getPendingRequestsCount,
-  getRefusedRequestsCount,
-} from "../../../../server/patient/requests/getRequestsCount";
-import getAllRegions from "../../../../server/region/getAllRegions";
+import jwtDecoded from "../../../../server/auth/jwtDecoded";
+import { UserRole } from "@prisma/client";
+import LaboDashboard from "./LaboDashboard";
+import PatientDashboard from "./PatientDashboard";
 
 export default async function page() {
-  const [
-    count,
-    count2,
-    constitue,
-    complete,
-    attente,
-    regions,
-    accepte,
-    refuse,
-  ] = await Promise.all([
-    getPatientCount(),
-    getRequestCount(),
-    getConstitueRequestsCount(),
-    getCompletedRequestsCount(),
-    getPendingRequestsCount(),
-    getAllRegions(),
-    getAcceptedRequestsCount(),
-    getRefusedRequestsCount(),
-  ]);
-  return (
-    <div>
-      <Home
-        data={count}
-        data2={count2}
-        constitue={constitue}
-        complete={complete}
-        attente={attente}
-        regions={regions}
-        accepte={accepte}
-        refuse={refuse}
-      />
-    </div>
-  );
+  const userRole = jwtDecoded().role;
+  if ([UserRole.Lab, UserRole.Admin].includes(userRole as any)) {
+    return <LaboDashboard />;
+  }
+  if ([UserRole.Nurse].includes(userRole as any)) {
+    return (
+      <div className="">
+        <h1>hey Nurse</h1>
+        <LaboDashboard />;
+      </div>
+    );
+  }
+  return <PatientDashboard />;
 }

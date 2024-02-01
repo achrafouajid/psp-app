@@ -14,20 +14,31 @@ import {
   Filter,
 } from "@syncfusion/ej2-react-grids";
 
-import Header from "@/components/Header";
 import getAllUsers from "../../../../server/auth/getAllUsers";
-import { gridProfile } from "@/data/patientsData";
 import { CiSettings } from "react-icons/ci";
 import Link from "next/link";
+import { useStateContext } from "@/Contexts/ThemeContext";
 const gridUserProfile = (props: any) => (
   <Link href={`/users/${props.id}`}>
-    <CiSettings />
+    <CiSettings size={25} style={{ color: "#396EA5" }} />
   </Link>
 );
+
+const gridProfile = (props: any) =>
+  props.avatar ? (
+    <img
+      className="rounded-full w-10 h-10"
+      src={`${props.avatar?.url}`}
+      alt="employee"
+    />
+  ) : (
+    <div className="rounded-full w-10 h-10">{props.avatar?.url}</div>
+  );
 const usersGrid = [
   { type: "checkbox", width: "50" },
   {
     headerText: "",
+    field: "Avatar",
     width: "40px",
     template: gridProfile,
     textAlign: "Center",
@@ -74,39 +85,36 @@ const UsersData = ({
   data: Awaited<ReturnType<typeof getAllUsers>>;
 }) => {
   const selectionsettings = { persistSelection: true };
-  const toolbarOptions = ["Delete", "Search"];
+  const toolbarOptions = ["Search"];
   const editing = { allowDeleting: true, allowEditing: true };
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Tableau de bord" title="Gestion Utilisateurs" />
-      <GridComponent
-        dataSource={data.map((e) => ({
-          email: e.email,
-          role: e.role,
-          name: e.lastName.concat(" ", e.firstName),
-          id: e.id,
-          status: e.status,
-          avatar: e.avatar,
-        }))}
-        enableHover={true}
-        allowPaging
-        pageSettings={{ pageSize: 5 }}
-        selectionSettings={selectionsettings}
-        toolbar={toolbarOptions}
-        editSettings={editing}
-        allowSorting
-      >
-        <ColumnsDirective>
-          {usersGrid.map((item, index) => (
-            <ColumnDirective key={index} {...item} />
-          ))}
-        </ColumnsDirective>
-        <Inject
-          services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
-        />
-      </GridComponent>
-    </div>
+    <GridComponent
+      dataSource={data.map((e) => ({
+        email: e.email,
+        role: e.role,
+        name: e.lastName.concat(" ", e.firstName),
+        id: e.id,
+        status: e.status,
+        avatar: e.avatar,
+      }))}
+      enableHover={true}
+      allowPaging
+      pageSettings={{ pageSize: 5 }}
+      selectionSettings={selectionsettings}
+      toolbar={toolbarOptions}
+      editSettings={editing}
+      allowSorting
+    >
+      <ColumnsDirective>
+        {usersGrid.map((item, index) => (
+          <ColumnDirective key={index} {...item} />
+        ))}
+      </ColumnsDirective>
+      <Inject
+        services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
+      />
+    </GridComponent>
   );
 };
 

@@ -1,17 +1,41 @@
+"use client";
 import React from "react";
 import getAllRegions from "../../../../server/region/getAllRegions";
 import AddCityPopUp from "./AddCityPopUp";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { GoDotFill } from "react-icons/go";
+import remove_city from "../../../../server/region/remove_city";
+import { TiDelete } from "react-icons/ti";
 
 export default function Region(
   region: NonNullable<Awaited<ReturnType<typeof getAllRegions>>>[number]
 ) {
   return (
-    <ul className="p-6" key={region.name}>
-      <AddCityPopUp regionId={region.id} />
-      {region.name}
-      {region.city.map((city) => (
-        <li>{city.name}</li>
-      ))}
+    <ul
+      className="border border-[#396EA5] rounded-3xl mt-5 p-4 max-w-sm"
+      key={region.name}
+    >
+      <div className="flex justify-between items-center">
+        <p className="text-xl font-medium text-[#396EA5] gap-1 flex items-center mx-2">
+          <FaMapMarkerAlt />
+          {region.name}
+        </p>
+        <AddCityPopUp regionId={region.id} />
+      </div>
+      <div className="flex h-full flex-col">
+        {region.city.map((city) => (
+          <li className="flex items-center">
+            <GoDotFill style={{ color: "#396EA5" }} />
+            {city.name}
+            <button
+              onClick={() => remove_city(city.id)}
+              className="text-red-500 hover:text-red-700"
+            >
+              <TiDelete />
+            </button>
+          </li>
+        ))}
+      </div>
     </ul>
   );
 }

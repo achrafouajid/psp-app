@@ -54,6 +54,7 @@ const Home = ({
   regions,
   accepte,
   refuse,
+  cree,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -63,13 +64,14 @@ const Home = ({
   attente: number;
   accepte: number;
   refuse: number;
+  cree: number;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
   const stackedChartData = [
     [
-      { x: "Jan", y: data },
-      { x: "Feb", y: 0 },
+      { x: "Jan", y: 10 },
+      { x: "Feb", y: data },
       { x: "Mar", y: 0 },
       { x: "Apr", y: 0 },
       { x: "May", y: 0 },
@@ -187,10 +189,10 @@ const Home = ({
     { x: 2027, yval: 0 },
   ];
   const ecomPieChartData = [
-    { x: "Casa Sud", y: complete, text: "33%" },
-    { x: "Rabat Nord", y: constitue, text: "33%" },
-    { x: "Q2", y: attente, text: "33%" },
-    { x: "Fes Orienrtale", y: constitue, text: "25%" },
+    { x: "Complets", y: complete, text: "33%" },
+    { x: "Constitués", y: constitue, text: "33%" },
+    { x: "Créé", y: cree, text: "33%" },
+    { x: "Attente", y: attente, text: "33%" },
   ];
   const PieChartData = [
     { x: "Casa Sud", y: 55, text: "33%" },
@@ -392,15 +394,15 @@ const Home = ({
               className="text-xl font-semibold"
               style={{ color: currentColor }}
             >
-              Distribution patients :
+              Distribution Dossiers :
             </p>
 
             <div className="w-40">
               <Pie
-                id="pie-chart"
-                data={PieChartData}
+                id="pie-chart2"
+                data={ecomPieChartData}
                 legendVisiblity={true}
-                height="200px"
+                height="160px"
               />
             </div>
           </div>
@@ -575,15 +577,15 @@ const Home = ({
               className="text-xl font-semibold"
               style={{ color: currentColor }}
             >
-              Distribution patients sur chaque région :
+              Distribution patients :
             </p>
 
             <div className="w-40">
               <Pie
-                id="pie-chart2"
-                data={ecomPieChartData}
+                id="pie-chart"
+                data={PieChartData}
                 legendVisiblity={true}
-                height="160px"
+                height="200px"
               />
             </div>
           </div>

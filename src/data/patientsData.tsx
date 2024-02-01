@@ -16,7 +16,7 @@ const gridView = (props: any) => (
     href={routes.patientRequest(props.patientId, props.requestId)}
     className="flex justify-center items-center"
   >
-    <FaRegEye />
+    <FaRegEye size={25} style={{ color: "#396EA5" }} />
   </Link>
 );
 const gridPatientProfile = (props: any) => (
@@ -24,7 +24,7 @@ const gridPatientProfile = (props: any) => (
     className="flex justify-center items-center"
     href={`/patients/${props.id}`}
   >
-    <CiSettings />
+    <CiSettings size={25} style={{ color: "#396EA5" }} />
   </Link>
 );
 const gridAddReq = (props: any) => (
@@ -32,7 +32,7 @@ const gridAddReq = (props: any) => (
     className="flex justify-center items-center"
     href={`/patients/${props.id}/requests/add-request`}
   >
-    <FiFilePlus />
+    <FiFilePlus size={25} style={{ color: "#396EA5" }} />
   </Link>
 );
 export const employeesGrid = [

@@ -5,6 +5,7 @@ import { Message, User } from "@prisma/client";
 import sendMessage from "../../../../server/chat/sendMessage";
 import { useSession } from "@/Contexts/UserContext";
 import ChatInput from "./ChatInput";
+import Image from "next/image";
 
 export default function ChatContainer({ currentUser }: { currentUser: User }) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -56,10 +57,12 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
       <div className="flex justify-between items-center p-8">
         <div className="flex items-center gap-4">
           <div className="avatar">
-            <img
-              src={`data:image/svg+xml;base64,${currentUser.id}`}
-              alt=""
-              className="h-12"
+            <Image
+              className="rounded-full h-12 w-12"
+              src={user.avatar?.url ? "/" + user.avatar?.url : "/noavatar.png"}
+              alt="user-avatar"
+              width={200}
+              height={200}
             />
           </div>
           <div className="username">
@@ -69,7 +72,7 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 overflow-auto p-8 bg-[#D1D9E6] border border-[#396EA5] rounded-l-3xl">
+      <div className="flex flex-col gap-4 overflow-auto p-8 bg-[#FAFBFB] border border-[#396EA5] rounded-l-3xl">
         {messages.map((message) => (
           <div
             ref={scrollRef}
@@ -79,10 +82,10 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
             }`}
           >
             <div
-              className={`max-w-[40%] min-w-fit shrink-0 lg:max-w-[70%] break-words p-4 text-lg rounded-lg text-[#d1d1d1] ${
+              className={`max-w-[40%] min-w-fit shrink-0 lg:max-w-[70%] break-words p-4 text-lg rounded-lg text-[#396EA5] ${
                 message.senderId == user.id
                   ? " bg-[#396EA5] text-white"
-                  : " bg-[#D1D9E6] text-[#396EA5]"
+                  : " bg-white text-[#396EA5] border border-[#396EA5]"
               } `}
             >
               {message.content}

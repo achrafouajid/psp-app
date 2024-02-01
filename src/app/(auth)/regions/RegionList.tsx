@@ -5,7 +5,7 @@ import Region from "./Region";
 export default async function RegionList() {
   const regions = await getAllRegions();
   return (
-    <div>
+    <div className="flex flex-wrap justify-center gap-3">
       {regions.map((region) => (
         <Region key={region.id} {...region} />
       ))}

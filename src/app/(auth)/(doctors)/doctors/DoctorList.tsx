@@ -71,7 +71,7 @@ const DoctorList = ({
     },
     {
       headerText: "Priority High/Low ( HVT / LTV )",
-      field: "prio",
+      field: "priority",
       width: "50",
       textAlign: "Center",
     },
@@ -94,6 +94,7 @@ const DoctorList = ({
           priority: e.priority,
           name: e.title.concat(e.lastName, " ", e.firstName),
           id: e.id,
+          attache: e.city?.region.attache,
         }))}
         width="auto"
         enableHover={true}

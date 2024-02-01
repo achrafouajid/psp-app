@@ -13,7 +13,6 @@ import {
   Resize,
   DragAndDrop,
 } from "@syncfusion/ej2-react-schedule";
-import { scheduleData } from "@/data/dummy";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 
 const PropertyPane = (props: { children?: React.ReactNode }) => (
@@ -22,6 +21,16 @@ const PropertyPane = (props: { children?: React.ReactNode }) => (
 
 const Scheduler = () => {
   const [scheduleObj, setScheduleObj] = useState(undefined);
+  const scheduleData = [
+    {
+      Id: 1,
+      Subject: "TEST",
+      Location: "Casablanca",
+      StartTime: "2021-01-10T04:00:00.000Z",
+      EndTime: "2021-01-10T05:30:00.000Z",
+      CategoryColor: "#396EA5",
+    },
+  ];
 
   const change = (args: { value: Date }) => {
     /* @ts-ignore */

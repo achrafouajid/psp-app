@@ -12,11 +12,13 @@ import {
   Edit,
   Filter,
 } from "@syncfusion/ej2-react-grids";
-
+import { LiaUserInjuredSolid } from "react-icons/lia";
 import { employeesGrid } from "@/data/patientsData";
-import Header from "@/components/Header";
 import getAllPatients from "../../../../../server/patient/getAllpatients";
 import { Selection } from "@syncfusion/ej2-react-charts";
+import Button from "@/components/Button";
+import { useRouter } from "next/navigation";
+import { useStateContext } from "@/Contexts/ThemeContext";
 
 const PageContent = ({
   data,
@@ -26,10 +28,11 @@ const PageContent = ({
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
+  const { currentColor, currentMode } = useStateContext();
+  const router = useRouter();
 
   return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Patients" title="Liste des patients" />
+    <>
       <GridComponent
         dataSource={data.map((e) => ({
           notes: e.notes,
@@ -59,7 +62,19 @@ const PageContent = ({
           services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
         />
       </GridComponent>
-    </div>
+      <div className="mt-5 flex justify-between">
+        <Button
+          onClick={() => {
+            router.push("/add-patient");
+          }}
+          color="white"
+          icon={<LiaUserInjuredSolid />}
+          bgColor={currentColor}
+          text="+ Patient"
+          borderRadius="10px"
+        />
+      </div>
+    </>
   );
 };
 export default PageContent;

@@ -2,7 +2,6 @@
 import {
   DiagnosticEnum,
   EducationEnum,
-  EstablishmentEnum,
   HabitatEnum,
   ProgramEnum,
   SocialEnum,

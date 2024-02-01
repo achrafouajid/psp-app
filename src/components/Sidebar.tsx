@@ -35,6 +35,7 @@ const Sidebar = () => {
                 width={255}
                 src={logo}
                 className="object-contain border rounded-xl"
+                style={{ borderColor: currentColor }}
               />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
@@ -55,7 +56,10 @@ const Sidebar = () => {
 
               return (
                 <div key={item.title}>
-                  <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                  <p
+                    className="m-3 mt-4 uppercase"
+                    style={{ color: currentColor }}
+                  >
                     {item.title}
                   </p>
                   {item.links.map((link) => (

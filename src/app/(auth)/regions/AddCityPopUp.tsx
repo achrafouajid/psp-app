@@ -34,7 +34,7 @@ export default function AddCityPopUp({ regionId }: { regionId: string }) {
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}
       >
-        Créer Ville
+        Ajouter Ville
       </Button>
       <Modal
         isOpen={isOpen}

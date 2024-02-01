@@ -69,3 +69,15 @@ export async function getRefusedRequestsCount() {
     },
   });
 }
+export async function getCreatedequestsCount() {
+  return await prisma.request.count({
+    where: {
+      statuses: {
+        some: {
+          status: RequestStatusEnum.Cree,
+          current: true,
+        },
+      },
+    },
+  });
+}
