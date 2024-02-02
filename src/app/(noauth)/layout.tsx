@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import logo from "public/rafiki.jpg";
+import logo from "/public/rafiki.jpg";
 import { useStateContext } from "@/Contexts/ThemeContext";
 
 export default function layout({ children }: any) {

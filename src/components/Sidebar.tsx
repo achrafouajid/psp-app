@@ -2,7 +2,7 @@ import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import Image from "next/image";
-import logo from "public/rafiki.jpg";
+import logo from "/public/rafiki.jpg";
 import { links } from "../data/navlinks";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Link from "next/link";
