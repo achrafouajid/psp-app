@@ -16,12 +16,14 @@ import {
 } from "@prisma/client";
 import { Select, SelectItem } from "@nextui-org/react";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
+import { useRouter } from "next/navigation";
 
 export default function AddPatient({
   doctors,
 }: {
   doctors: NonNullable<Awaited<ReturnType<typeof getAllDoctors>>>;
 }) {
+  const router = useRouter();
   const { currentColor } = useStateContext();
   const formik = useFormik({
     initialValues: {
@@ -65,6 +67,7 @@ export default function AddPatient({
         toast.error("Ce patient existe déjà  !");
       else {
         toast.success("Dossier patient créé avec succès !");
+        router.push("/patients");
         formik.resetForm();
       }
     },

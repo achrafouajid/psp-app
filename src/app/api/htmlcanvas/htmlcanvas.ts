@@ -1,6 +1,7 @@
-import html2PDF from "jspdf-html2canvas";
-
 export async function downloadElementAsImage(element: HTMLDivElement) {
+  if (typeof window == "undefined") return;
+
+  const html2PDF = (await import("jspdf-html2canvas")).default;
   const fileName = new Date().getTime();
 
   const file = await html2PDF(element, {

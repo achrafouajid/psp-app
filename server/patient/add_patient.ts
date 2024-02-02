@@ -9,7 +9,6 @@ import {
 import prisma from "../../prisma/client";
 import { registerResponseEnum } from "../auth/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 type data = {
   firstName: string;
@@ -89,7 +88,5 @@ export default async function addPatient(data: data) {
 
   response.status = registerResponseEnum.success;
   revalidatePath("/");
-  redirect("/patients");
-
   return response;
 }
