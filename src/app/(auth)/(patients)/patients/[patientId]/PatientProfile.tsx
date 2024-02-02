@@ -14,6 +14,7 @@ import Link from "next/link";
 import { usePatient } from "@/Contexts/PatientContext";
 import deletePatient from "../../../../../../server/patient/delete_patient";
 import Header from "@/components/Header";
+import { boolean } from "yup";
 
 const PatientProfile = () => {
   const data = usePatient();
@@ -38,6 +39,15 @@ const PatientProfile = () => {
       formadata.append("notes", values.notes ?? "");
       formadata.append("program", values.program ?? "");
       formadata.append("id", values.id ?? "");
+      formadata.append("doctor", values.doctorId ?? "");
+      formadata.append("id", values.id ?? "");
+      formadata.append("isMajor", values.isMajor ? "on" : "off");
+      formadata.append("isConfDiag", values.isConfDiag ? "on" : "off");
+      formadata.append("isSocial", values.isSocial ? "on" : "off");
+      formadata.append("isConsent", values.isConsent ? "on" : "off");
+      formadata.append("isIncomplete", values.isIncomplete ? "on" : "off");
+      formadata.append("isAbroad", values.isAbroad ? "on" : "off");
+      formadata.append("isUnreachable", values.isUnreachable ? "on" : "off");
       values.image && formadata.append("image", values.image);
 
       const res = await updatePatient(formadata);

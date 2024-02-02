@@ -5,7 +5,7 @@ import prisma from "../../../prisma/client";
 export default async function newRequestStatus(
   requestId: string,
   status: RequestStatusEnum,
-  motif?: string
+  remark?: string
 ) {
   await prisma.requestStatus.updateMany({
     where: {
@@ -21,7 +21,7 @@ export default async function newRequestStatus(
       current: true,
       status: status,
       requestId: requestId,
-      note: motif,
+      remark: remark,
     },
   });
 }

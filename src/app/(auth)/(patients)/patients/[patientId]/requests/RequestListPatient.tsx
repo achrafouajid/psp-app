@@ -41,7 +41,7 @@ const RequestListPatient = ({
           patientId: e.patientId,
           number: e.number.toString(),
           date: e.createdAt,
-          remark: e.remark,
+          remark: e.statuses.at(0)?.remark,
           documentCount: e._count.documents,
           status: e.statuses.find((e) => e.current)?.status,
         }))}

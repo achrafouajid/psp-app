@@ -12,8 +12,8 @@ export default function StepperOne() {
     <div className="w-full px-16 py-4">
       <div className="relative flex items-center justify-between w-full">
         <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-300"></div>
-        <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-900 transition-all duration-500"></div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-white transition-all duration-300 bg-gray-900 rounded-full place-items-center">
+        <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-[#396EA5] transition-all duration-500"></div>
+        <div className="relative z-10 grid w-10 h-10 font-bold text-white transition-all duration-300 bg-[#396EA5] rounded-full place-items-center">
           <BsClipboard2Pulse size={20} />
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
@@ -24,7 +24,7 @@ export default function StepperOne() {
             </p>
           </div>
         </div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-gray-900 transition-all duration-300 bg-gray-300 rounded-full place-items-center">
+        <div className="relative z-10 grid w-10 h-10 font-bold text-[#396EA5] transition-all duration-300 bg-gray-300 rounded-full place-items-center">
           <LuFolderCheck size={20} />
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
@@ -35,7 +35,7 @@ export default function StepperOne() {
             </p>
           </div>
         </div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-gray-900 transition-all duration-300 bg-gray-300 rounded-full place-items-center">
+        <div className="relative z-10 grid w-10 h-10 font-bold text-[#396EA5] transition-all duration-300 bg-gray-300 rounded-full place-items-center">
           <LuFolderArchive />
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
@@ -46,7 +46,7 @@ export default function StepperOne() {
             </p>
           </div>
         </div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-gray-900 transition-all duration-300 bg-gray-300 rounded-full place-items-center">
+        <div className="relative z-10 grid w-10 h-10 font-bold text-[#396EA5] transition-all duration-300 bg-gray-300 rounded-full place-items-center">
           <LuFolderClock size={20} />
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">
@@ -57,7 +57,7 @@ export default function StepperOne() {
             </p>
           </div>
         </div>
-        <div className="relative z-10 grid w-10 h-10 font-bold text-gray-900 transition-all duration-300 bg-gray-300 rounded-full place-items-center">
+        <div className="relative z-10 grid w-10 h-10 font-bold text-[#396EA5] transition-all duration-300 bg-gray-300 rounded-full place-items-center">
           <LuFolderSearch size={20} />
           <div className="absolute -bottom-[4.5rem] w-max text-center">
             <h6 className="block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700">

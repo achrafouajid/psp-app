@@ -34,6 +34,7 @@ export default function ModifyRequest({
       ...data,
       createdAt: new Date(data.createdAt).toISOString().slice(0, 16),
       remark: "",
+      statuses: "",
       documents: [] as File[],
     },
     onSubmit: async (values) => {
@@ -42,7 +43,7 @@ export default function ModifyRequest({
       formdata.append("id", data.id);
       formdata.append("patientId", data.patientId);
       formdata.append("createdAt", data.createdAt.toLocaleDateString() ?? "");
-      formdata.append("remark", data.remark ?? "");
+      formdata.append("remark", values.remark);
       values.documents.forEach((i) => formdata.append("documents", i));
 
       const res = await updateRequest(formdata);

@@ -8,6 +8,7 @@ export default async function getPatient(id: string) {
     },
     include: {
       image: true,
+      doctor: true,
     },
   });
 }

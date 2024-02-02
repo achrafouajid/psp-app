@@ -68,11 +68,10 @@ const Home = ({
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
-  const datajan = 10;
   const ref = useRef<HTMLDivElement>(null);
   const stackedChartData = [
     [
-      { x: "Jan", y: datajan },
+      { x: "Jan", y: 0 },
       { x: "Feb", y: data },
       { x: "Mar", y: 0 },
       { x: "Apr", y: 0 },
@@ -276,7 +275,7 @@ const Home = ({
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Total des patients</p>
-              <p className="text-2xl">{data + datajan}</p>
+              <p className="text-2xl">{data}</p>
             </div>
             <button
               onClick={() => {

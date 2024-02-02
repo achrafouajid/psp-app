@@ -181,13 +181,13 @@ model Request {
   id String @id @default(cuid()) @map("_id")
   number Int @default(autoincrement()) @unique
   createdAt DateTime
-  remark String?
   statuses RequestStatus[]
   patientId String
   Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
   documents RequestDocument[]
   
 }
+
 
 model RequestDocument {
   requestId String
@@ -200,7 +200,7 @@ model RequestStatus {
   id String @id @default(cuid()) @map("_id")
   createdAt DateTime
   current Boolean
-  note String?
+  remark String?
   status RequestStatusEnum 
   requestId String 
   request Request @relation(fields: [requestId],references: [id],onDelete: Cascade)

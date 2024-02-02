@@ -25,8 +25,6 @@ export default async function updateRequest(data: FormData) {
     },
     data: {
       patientId: patientId!,
-      createdAt: new Date(date!),
-      remark: remark,
       documents: {
         create: documents.map((i) => ({
           documentId: i,
@@ -34,7 +32,7 @@ export default async function updateRequest(data: FormData) {
       },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Attente);
+  await newRequestStatus(id!, RequestStatusEnum.Attente, remark);
   revalidatePath("/");
   redirect("./");
 }

@@ -66,15 +66,6 @@ export default function LoginForm() {
         {formik.isSubmitting ? "Connection..." : "Se connecter"}
       </button>
       <span className="text-[#0c545c] uppercase">
-        Vous n'avez pas un compte ?
-        <Link
-          href="/register"
-          className="text-[#396EA5] no-underline font-bold"
-        >
-          Inscrivez vous !
-        </Link>
-      </span>
-      <span className="text-[#0c545c] uppercase">
         mot de passe oublié ?{" "}
         <Link
           href="/forgot-password"

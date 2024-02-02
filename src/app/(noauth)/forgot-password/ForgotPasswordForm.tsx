@@ -1,15 +1,13 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import logo from "public/rafiki.jpg";
 import OtpForm from "./OtpForm";
 export default function ForgotPasswordForm() {
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
     },
     onSubmit: () => {
       toast.success("Email envoyé !");
@@ -22,10 +20,10 @@ export default function ForgotPasswordForm() {
       onSubmit={formik.handleSubmit}
     >
       <input
-        className="bg-transparent p-4 border border-[#0c545c] rounded-md text-[#0c545c] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+        className="bg-transparent p-4 border border-gray-400 rounded-md text-[#396EA5] w-full text-lg focus:border-[#3965a5] focus:outline-none"
         type="text"
-        placeholder="Nom d'utilisateur"
-        name="username"
+        placeholder="Adresse Mail"
+        name="email"
         readOnly={formik.isSubmitting}
         onChange={formik.handleChange}
         min="3"

@@ -22,6 +22,7 @@ export default async function updatePatient(data: FormData) {
   const birthDate = data.get("birthDate")?.toString();
   const address = data.get("address")?.toString();
   const notes = data.get("notes")?.toString();
+  const isMajor = data.get("isMajor")?.toString() === "on";
   const program = data.get("program")?.toString() as ProgramEnum;
   const id = data.get("id")?.toString();
   const image = data.get("image") as File;
@@ -42,6 +43,7 @@ export default async function updatePatient(data: FormData) {
       birthDate: new Date(birthDate!),
       notes: notes,
       avatarId: imageid,
+      isMajor: isMajor,
     },
   });
   revalidatePath("/");

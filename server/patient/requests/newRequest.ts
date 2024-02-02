@@ -16,12 +16,12 @@ export default async function newRequest(data: FormData) {
     data: {
       patientId: patientId!,
       createdAt: new Date(date!),
-      remark: remark,
       statuses: {
         create: {
           createdAt: new Date(),
           current: true,
           status: RequestStatusEnum.Cree,
+          remark: remark,
         },
       },
     },

@@ -25,8 +25,6 @@ export default async function ConstRequest(data: FormData) {
     },
     data: {
       patientId: patientId!,
-      createdAt: new Date(date!),
-      remark: remark,
       documents: {
         create: documents.map((i) => ({
           documentId: i,
@@ -34,7 +32,7 @@ export default async function ConstRequest(data: FormData) {
       },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Constitue);
+  await newRequestStatus(id!, RequestStatusEnum.Constitue, remark);
   revalidatePath("/");
   redirect("./");
 }

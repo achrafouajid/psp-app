@@ -26,7 +26,6 @@ export default async function CompRequest(data: FormData) {
     data: {
       patientId: patientId!,
       createdAt: new Date(date!),
-      remark: remark,
       documents: {
         create: documents.map((i) => ({
           documentId: i,
@@ -34,7 +33,7 @@ export default async function CompRequest(data: FormData) {
       },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Complete);
+  await newRequestStatus(id!, RequestStatusEnum.Complete, remark);
   revalidatePath("/");
   redirect("./");
 }

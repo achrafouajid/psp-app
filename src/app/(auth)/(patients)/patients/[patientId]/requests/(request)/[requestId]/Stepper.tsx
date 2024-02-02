@@ -18,7 +18,7 @@ export default function Stepper() {
     <div className="w-full pl-7 py-4">
       <div className="relative flex items-center justify-between w-full">
         <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-300"></div>
-        <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-gray-900 transition-all duration-500"></div>
+        <div className="absolute left-0 top-2/4 h-0.5 w-full -translate-y-2/4 bg-[#396EA5] transition-all duration-500"></div>
 
         <Step
           icon={<BsClipboard2Pulse size={20} />}
@@ -71,7 +71,7 @@ export function Step(props: props) {
   return (
     <div
       className={"relative z-10 grid w-10 h-10 font-bold  transition-all duration-300  rounded-full place-items-center ".concat(
-        props.active ? "bg-gray-900 text-white" : "bg-gray-300 text-gray-900"
+        props.active ? "bg-[#396EA5] text-white" : "bg-gray-300 text-[#396EA5]"
       )}
     >
       {props.icon}

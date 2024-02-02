@@ -41,7 +41,7 @@ const RequestList = ({
           number: e.number.toString(),
           name: e.Patient.lastName.concat(" ", e.Patient.firstName),
           date: e.createdAt,
-          remark: e.remark,
+          remark: e.statuses.at(0)?.remark,
           documentCount: e._count.documents,
           status: e.statuses.at(0)?.status.toString(),
         }))}
