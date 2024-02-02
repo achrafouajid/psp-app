@@ -306,7 +306,7 @@ export default function ModifyRequest({
                     RequestStatusEnum.Refuse,
                     motif ?? undefined
                   ).then((re) => {
-                    toast.success("Dossier refusé");
+                    toast.error("Dossier refusé");
                   })
                 );
               }}
