@@ -14,7 +14,6 @@ import { IoMdContacts } from "react-icons/io";
 import { RiStockLine } from "react-icons/ri";
 
 import { FiUserPlus } from "react-icons/fi";
-
 import { GiLouvrePyramid } from "react-icons/gi";
 
 import { GrUserSettings } from "react-icons/gr";
@@ -164,7 +163,7 @@ export const links: LinksGroup[] = [
           UserRole.Patient,
         ],
       },
-      {
+      /*  {
         title: "Whatsapp",
         href: "/whatsapp",
         icon: <IoChatbubblesOutline />,
@@ -175,7 +174,7 @@ export const links: LinksGroup[] = [
           UserRole.Nurse,
           UserRole.Patient,
         ],
-      },
+      },*/
       {
         title: "Rendez-vous",
         href: "/calendar",
