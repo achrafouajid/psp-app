@@ -46,7 +46,6 @@ export default async function addDoctor(data: data) {
 
   response.status = registerResponseEnum.success;
   revalidatePath("/");
-  redirect("/doctors");
 
   return response;
 }

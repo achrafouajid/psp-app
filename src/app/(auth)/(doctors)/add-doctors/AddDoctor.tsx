@@ -14,6 +14,7 @@ import {
 } from "@prisma/client";
 import addDoctor from "../../../../../server/doctor/add_doctor";
 import getAllRegions from "../../../../../server/region/getAllRegions";
+import { useRouter } from "next/navigation";
 
 export default function AddDoctor({
   regions,
@@ -22,7 +23,7 @@ export default function AddDoctor({
 }) {
   const { currentColor } = useStateContext();
   const [region, setRegion] = useState(regions.at(0)?.id as string);
-
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       title: TitleEnum.Dr as TitleEnum,
@@ -45,7 +46,7 @@ export default function AddDoctor({
         toast.error("Ce médecin existe déjà  !");
       else {
         toast.success("Médecin ajouté avec succès !");
-        formik.resetForm();
+        router.push("/doctors");
       }
     },
   });
