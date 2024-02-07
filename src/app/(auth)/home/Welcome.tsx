@@ -20,6 +20,7 @@ import { useSession } from "@/Contexts/UserContext";
 import Image from "next/image";
 import { FaFileDownload } from "react-icons/fa";
 import Notifications from "../users/[userId]/(user)/notifications/Notifications";
+import { FaClock, FaClockRotateLeft, FaRegClock } from "react-icons/fa6";
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent
@@ -70,24 +71,18 @@ export default function Welcome() {
           borderRadius="10px"
         />
       </div>
-
       <div
         className="bg-white dark:text-gray-200 xl:col-span-2 dark:bg-secondary-dark-bg p-6  rounded-2xl border"
         style={{ borderColor: currentColor }}
       >
-        <Image
-          className="h-24 w-24 rounded-full border "
-          style={{ borderColor: currentColor }}
-          src="/horloge.gif"
-          alt="pending"
-          width={2000}
-          height={2000}
-        />
-        <p>
+        <FaRegClock className=" w-24 h-24" style={{ color: currentColor }} />
+
+        <p className="text-xl font-semibold">
           Votre inscription sur la plateforme a bien été effectuée. Veuillez
           patienter pendant que l'administrateur système valide votre statut.
         </p>
       </div>
+      {/*
       <div
         className="bg-white col-span-1 dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
         style={{ borderColor: currentColor }}
@@ -132,7 +127,6 @@ export default function Welcome() {
           <p className="text-gray-400 text-sm"> 10 Demandes</p>
         </div>
       </div>
-
       <div
         className="bg-white dark:text-gray-200 xl:col-span-2 dark:bg-secondary-dark-bg p-6  rounded-2xl border"
         style={{ borderColor: currentColor }}
@@ -142,7 +136,8 @@ export default function Welcome() {
         </div>
         <Notifications />
       </div>
-
+*/}
+      {/**/}
       <div
         className=" bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
         style={{ borderColor: currentColor }}

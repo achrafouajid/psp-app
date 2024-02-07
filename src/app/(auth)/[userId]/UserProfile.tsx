@@ -7,8 +7,8 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import getUser from "../../../../../server/auth/get_user";
-import updateUserRole from "../../../../../server/auth/update_user";
+import updateUserRole from "../../../../server/auth/update_user";
+import getUser from "../../../../server/auth/get_user";
 
 const UserProfile = ({
   data,
@@ -157,7 +157,7 @@ const UserProfile = ({
                   </div>
                   <div className="mb-2 sm:mb-6">
                     <label
-                      htmlFor="profession"
+                      htmlFor="role"
                       className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
                     >
                       Rôle

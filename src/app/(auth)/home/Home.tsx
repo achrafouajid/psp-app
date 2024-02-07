@@ -175,7 +175,7 @@ const Home = ({
     },
   ];
   const SparklineAreaData = [
-    { x: 2023, yval: 10 },
+    { x: 2023, yval: 0 },
     { x: 2024, yval: data },
     { x: 2025, yval: 0 },
     { x: 2026, yval: 0 },

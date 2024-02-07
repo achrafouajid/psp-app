@@ -3,8 +3,8 @@ import React from "react";
 import PatientProfile from "./UserProfile";
 import { notFound } from "next/navigation";
 import UserProfile from "./UserProfile";
-import getUser from "../../../../../server/auth/get_user";
 import Header from "@/components/Header";
+import getUser from "../../../../server/auth/get_user";
 
 export default async function page({ params: { userId } }: any) {
   const user = await getUser(userId);

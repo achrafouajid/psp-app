@@ -19,7 +19,7 @@ import { CiSettings } from "react-icons/ci";
 import Link from "next/link";
 import { useStateContext } from "@/Contexts/ThemeContext";
 const gridUserProfile = (props: any) => (
-  <Link href={`/users/${props.id}`}>
+  <Link href={`/${props.id}`}>
     <CiSettings size={25} style={{ color: "#396EA5" }} />
   </Link>
 );

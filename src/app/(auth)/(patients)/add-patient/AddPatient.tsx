@@ -20,6 +20,7 @@ import {
   RadioGroup,
   Select,
   SelectItem,
+  Textarea,
 } from "@nextui-org/react";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 import { useRouter } from "next/navigation";
@@ -109,15 +110,14 @@ export default function AddPatient({
             >
               Nom <span className="text-red-500">*</span>
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            <Input
               required
               onChange={formik.handleChange}
               name="lastName"
               value={formik.values.lastName}
               disabled={formik.isSubmitting}
               type="text"
-              placeholder="Nom patient"
+              label="Nom patient"
             />
             <p className="text-red-500 text-xs italic">
               * Veuillez remplir ces champs.
@@ -130,15 +130,14 @@ export default function AddPatient({
             >
               Prénom <span className="text-red-500">*</span>
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Input
               required
               onChange={formik.handleChange}
               name="firstName"
               value={formik.values.firstName}
               disabled={formik.isSubmitting}
               type="text"
-              placeholder="Prénom Patient"
+              label="Prénom Patient"
             />
           </div>
         </div>
@@ -151,15 +150,14 @@ export default function AddPatient({
             >
               Date de naissance <span className="text-red-500">*</span>
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Input
               required
               onChange={formik.handleChange}
               name="birthDate"
               value={formik.values.birthDate}
               disabled={formik.isSubmitting}
               type="date"
-              placeholder="01/01/1920"
+              label="Date naissance"
             />
           </div>
         </div>
@@ -170,14 +168,13 @@ export default function AddPatient({
           >
             Adresse
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          <Input
             onChange={formik.handleChange}
             name="address"
             value={formik.values.address}
             disabled={formik.isSubmitting}
             type="text"
-            placeholder="123 Rue A 20220"
+            label="Addresse"
           />
         </div>
         <div className=" mb-6 ">
@@ -219,13 +216,13 @@ export default function AddPatient({
             Notes
           </label>
           <div className="relative">
-            <textarea
-              className=" rounded-md appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Textarea
               onChange={formik.handleChange}
               name="notes"
+              label="Notes"
               value={formik.values.notes}
               disabled={formik.isSubmitting}
-            ></textarea>
+            />
           </div>
         </div>
         <div className="mb-6">
@@ -263,7 +260,7 @@ export default function AddPatient({
               </p>
               {inclusionCriteria.map((criteria) => (
                 <div key={criteria.name} className="mb-2">
-                  <input
+                  <Checkbox
                     type="checkbox"
                     id={criteria.name}
                     name={criteria.name}
@@ -283,7 +280,7 @@ export default function AddPatient({
               </p>
               {exclusionCriteria.map((criteria) => (
                 <div key={criteria.name} className="mb-2">
-                  <input
+                  <Checkbox
                     type="checkbox"
                     id={criteria.name}
                     name={criteria.name}
@@ -305,12 +302,12 @@ export default function AddPatient({
             >
               Date d'inclusion
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Input
               onChange={formik.handleChange}
               name="inclDate"
               value={formik.values.inclDate}
               disabled={formik.isSubmitting}
+              label="Date d'inclusion"
               type="date"
               placeholder="01/01/1920"
             />
@@ -629,10 +626,10 @@ export default function AddPatient({
               type="text"
               placeholder="Préciser Nom Prénom Soignant(e)"
               disabled={
-                formik.values.iscaregiver !== false || formik.isSubmitting
+                formik.values.iscaregiver == false || formik.isSubmitting
               }
               className={` rounded-xl border border-[#396EA5] ${
-                formik.values.social !== SocialEnum.Other || formik.isSubmitting
+                formik.values.iscaregiver == false || formik.isSubmitting
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
@@ -644,15 +641,17 @@ export default function AddPatient({
             className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
             htmlFor="caregivertel"
           >
-            Contact Téléphonique Care Giver (Soignant(e))
+            Contact Téléphonique Care Giver
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+
+          <Input
+            type="text"
+            pattern="^\+(?:[0-9] ?){6,25}[0-9]$"
             onChange={formik.handleChange}
             name="caregivertel"
+            label="Numéro soignant(e)"
             value={formik.values.caregivertel}
             disabled={formik.isSubmitting}
-            type="tel"
             placeholder="+212 60000000"
           />
         </div>
@@ -666,26 +665,40 @@ export default function AddPatient({
             </label>
             <div className="flex flex-row">
               <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
+                <Checkbox
                   name="diagnostic"
                   value={DiagnosticEnum.Biopsie}
-                  checked={formik.values.diagnostic === DiagnosticEnum.Biopsie}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Biopsie"> Biopsie </label>
+                  isSelected={
+                    formik.values.diagnostic == DiagnosticEnum.Biopsie
+                  }
+                  onChange={(e) =>
+                    formik.setFieldValue(
+                      "diagnostic",
+
+                      !e.currentTarget.checked ? null : DiagnosticEnum.Biopsie
+                    )
+                  }
+                >
+                  {DiagnosticEnum.Biopsie}
+                </Checkbox>
               </div>
               <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
+                <Checkbox
                   name="diagnostic"
                   value={DiagnosticEnum.Scanner}
-                  checked={formik.values.diagnostic == DiagnosticEnum.Scanner}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Scanner"> Scanner</label>
+                  isSelected={
+                    formik.values.diagnostic == DiagnosticEnum.Scanner
+                  }
+                  onChange={(e) =>
+                    formik.setFieldValue(
+                      "diagnostic",
+
+                      !e.currentTarget.checked ? null : DiagnosticEnum.Scanner
+                    )
+                  }
+                >
+                  {DiagnosticEnum.Scanner}
+                </Checkbox>
               </div>
             </div>
           </div>
@@ -694,16 +707,16 @@ export default function AddPatient({
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="diagnosticDate"
             >
-              Date
+              Date Diagnostique
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Input
               onChange={formik.handleChange}
               name="diagnosticDate"
               value={formik.values.diagnosticDate}
               disabled={formik.isSubmitting}
               type="date"
               placeholder="01/01/1920"
+              label="Date diagnostique"
             />
           </div>
         </div>
@@ -715,100 +728,123 @@ export default function AddPatient({
             >
               Demande Préalable effectuée
             </label>
-            <div className="flex flex-row">
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="prerequest"
-                  checked={formik.values.prerequest}
-                  onChange={(e) =>
-                    formik.setFieldValue("prerequest", e.target.checked)
-                  }
-                />
-                <label htmlFor="prerequest"> Oui </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="prerequest"
-                  checked={!formik.values.prerequest}
-                  onChange={(e) => {
-                    formik.setFieldValue("prerequest", !e.target.checked);
-                  }}
-                />
-                <label htmlFor="prerequest"> Non </label>
-              </div>
-            </div>
+
+            <RadioGroup orientation="horizontal">
+              <Radio
+                value="true"
+                name="prerequest"
+                checked={formik.values.prerequest}
+                onChange={(e) =>
+                  formik.setFieldValue("prerequest", e.target.checked)
+                }
+              >
+                Oui
+              </Radio>
+              <Radio
+                value="false"
+                name="prerequest"
+                checked={!formik.values.prerequest}
+                onChange={(e) => {
+                  formik.setFieldValue("prerequest", !e.target.checked);
+                }}
+              >
+                Non
+              </Radio>
+            </RadioGroup>
           </div>
           <div className=" md:w-1/2 items-center">
             <label
-              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+              className={`block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2 ${
+                formik.values.prerequest == false || formik.isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
               htmlFor="statusrequest"
             >
               Si Oui, état d'avancement de la demande
             </label>
-            <div className="flex flex-row">
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="statusrequest"
-                  checked={formik.values.statusrequest}
-                  onChange={(e) =>
-                    formik.setFieldValue("statusrequest", e.target.checked)
-                  }
-                />
-                <label htmlFor="statusrequest"> Positive </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="statusrequest"
-                  checked={!formik.values.statusrequest}
-                  onChange={(e) => {
-                    formik.setFieldValue("statusrequest", !e.target.checked);
-                  }}
-                />
-                <label htmlFor="statusrequest"> Négative </label>
-              </div>
-            </div>
+
+            <RadioGroup
+              orientation="horizontal"
+              isDisabled={
+                formik.values.prerequest == false || formik.isSubmitting
+              }
+              className={` ${
+                formik.values.prerequest == false || formik.isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              <Radio
+                value="true"
+                name="statusrequest"
+                checked={formik.values.statusrequest}
+                onChange={(e) =>
+                  formik.setFieldValue("statusrequest", e.target.checked)
+                }
+              >
+                Positive
+              </Radio>
+              <Radio
+                value="false"
+                name="statusrequest"
+                checked={!formik.values.statusrequest}
+                onChange={(e) => {
+                  formik.setFieldValue("statusrequest", !e.target.checked);
+                }}
+              >
+                Négative
+              </Radio>
+            </RadioGroup>
           </div>
           <div className=" md:w-1/2 items-center">
             <label
-              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+              className={`block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2 ${
+                formik.values.prerequest == false || formik.isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
               htmlFor="refDoc"
             >
               Si Oui, possession du documennt de refus
             </label>
-            <div className="flex flex-row">
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="refDoc"
-                  checked={formik.values.refDoc}
-                  onChange={(e) =>
-                    formik.setFieldValue("refDoc", e.target.checked)
-                  }
-                />
-                <label htmlFor="refDoc"> Oui </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="refDoc"
-                  checked={!formik.values.refDoc}
-                  onChange={(e) => {
-                    formik.setFieldValue("refDoc", !e.target.checked);
-                  }}
-                />
-                <label htmlFor="refDoc"> Non </label>
-              </div>
-            </div>
+            <RadioGroup
+              orientation="horizontal"
+              isDisabled={
+                (formik.values.prerequest && !formik.values.statusrequest) ||
+                formik.isSubmitting
+                  ? true
+                  : false
+              }
+              className={` ${
+                (formik.values.prerequest == false &&
+                  formik.values.statusrequest == false) ||
+                formik.isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              <Radio
+                value="true"
+                name="refDoc"
+                checked={formik.values.refDoc}
+                onChange={(e) =>
+                  formik.setFieldValue("refDoc", e.target.checked)
+                }
+              >
+                Oui
+              </Radio>
+              <Radio
+                value="false"
+                name="refDoc"
+                checked={!formik.values.refDoc}
+                onChange={(e) => {
+                  formik.setFieldValue("refDoc", !e.target.checked);
+                }}
+              >
+                Non
+              </Radio>
+            </RadioGroup>
           </div>
         </div>
         <div className="flex flex-col items-center">
