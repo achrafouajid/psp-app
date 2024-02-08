@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 import { registerResponseEnum } from "../../../../../server/auth/types";
 import {
   EstablishmentEnum,
@@ -65,66 +65,60 @@ export default function AddDoctor({
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="title"
             >
-              Titre
+              Titre <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <select
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              <Select
+                label="Titre"
+                isRequired={true}
                 onChange={formik.handleChange}
                 name="title"
                 value={formik.values.title}
                 disabled={formik.isSubmitting}
               >
                 {Object.values(TitleEnum).map((e) => (
-                  <option value={e}>{e}</option>
+                  <SelectItem key={e} value={e}>
+                    {e}
+                  </SelectItem>
                 ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
+              </Select>
             </div>
+            <p className="text-red-500 text-xs italic">
+              * Champs obligatoires.
+            </p>
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="lastName"
             >
-              Nom Médecin traitant<span className="text-red-500">*</span>
+              Nom Médecin traitant <span className="text-red-500">*</span>
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            <Input
+              isRequired={true}
+              label="Nom Médecin"
               onChange={formik.handleChange}
               name="lastName"
               value={formik.values.lastName}
               disabled={formik.isSubmitting}
               type="text"
-              placeholder="Nom médecin"
             />
-            <p className="text-red-500 text-xs italic">
-              * Veuillez remplir ces champs.
-            </p>
           </div>
           <div className="w-full md:w-1/3 px-3">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="firstName"
             >
-              Prénom Médecin traitant<span className="text-red-500">*</span>
+              Prénom Médecin traitant <span className="text-red-500">*</span>
             </label>
-            <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            <Input
+              isRequired={true}
               onChange={formik.handleChange}
               name="firstName"
+              label="Prénom Médecin"
               value={formik.values.firstName}
               disabled={formik.isSubmitting}
               type="text"
-              placeholder="Prénom Médecin"
             />
           </div>
 
@@ -185,14 +179,13 @@ export default function AddDoctor({
               >
                 Service
               </label>
-              <input
-                className=" bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              <Input
+                label="Service"
                 onChange={formik.handleChange}
                 name="service"
                 value={formik.values.service}
                 disabled={formik.isSubmitting}
                 type="text"
-                placeholder="Service"
               />
             </div>
           </div>
@@ -318,14 +311,13 @@ export default function AddDoctor({
           >
             Contact Téléphonique
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          <Input
+            label="Contact Médecin"
             onChange={formik.handleChange}
             name="tel"
             value={formik.values.tel}
             disabled={formik.isSubmitting}
             type="tel"
-            placeholder="+212 60000000"
           />
         </div>
         <div className="mb-6">
@@ -335,14 +327,13 @@ export default function AddDoctor({
           >
             Contact Mail
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          <Input
+            label="Email Médecin"
             onChange={formik.handleChange}
             name="mail"
             value={formik.values.mail}
             disabled={formik.isSubmitting}
             type="mail"
-            placeholder="example@example.com"
           />
         </div>
         <div className="flex flex-col items-center">

@@ -873,17 +873,6 @@ const PatientProfileCopy = ({
               </RadioGroup>
             </div>
           </div>
-          <div className="flex flex-col items-center">
-            <Button
-              color="white"
-              bgColor={currentColor}
-              text="Soummettre"
-              borderRadius="10px"
-              width="50px"
-              disabled={formik.isSubmitting}
-              type="submit"
-            />
-          </div>
           <div className="flex mb-5 justify-between items-center">
             <Link href={`./${data.id}/requests`} className="text-[#396EA5]">
               Accéder aux demandes

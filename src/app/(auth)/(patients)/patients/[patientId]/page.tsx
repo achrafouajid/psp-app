@@ -11,7 +11,6 @@ export default async function page({ params: { patientId } }: any) {
   return (
     <div>
       <PatientProfileCopy doctors={doctors} />
-      <PatientProfile />
     </div>
   );
 }
