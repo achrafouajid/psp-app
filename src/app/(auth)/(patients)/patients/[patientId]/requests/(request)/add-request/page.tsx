@@ -12,7 +12,10 @@ export default function page() {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Patients" title="Créer Demande patient" />
+      <Header
+        category="Patients"
+        title={`Créer Demande de ${patient.lastName} ${patient.firstName}`}
+      />
       <CreateRequest data={patient} />
     </div>
   );

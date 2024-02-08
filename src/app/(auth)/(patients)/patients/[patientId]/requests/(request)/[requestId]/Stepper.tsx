@@ -54,7 +54,7 @@ export default function Stepper() {
               RequestStatusEnum.Refuse,
               RequestStatusEnum.Accepte,
             ] as RequestStatusEnum[]
-          ).includes(currentStatus!.status)}
+          ).includes(currentStatus?.status as RequestStatusEnum)}
         />
       </div>
     </div>

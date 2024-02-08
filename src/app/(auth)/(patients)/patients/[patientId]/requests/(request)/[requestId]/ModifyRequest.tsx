@@ -16,6 +16,7 @@ import Dropzone from "react-dropzone";
 import { CiEdit } from "react-icons/ci";
 import newRequestStatus from "../../../../../../../../../server/patient/requests/newRequestStatus";
 import { RequestStatusEnum } from "@prisma/client";
+import { Input } from "@nextui-org/react";
 
 export default function ModifyRequest({
   data,
@@ -95,7 +96,7 @@ export default function ModifyRequest({
                 Etat du Dossier :
               </label>
 
-              <p> {currentStatus?.current}</p>
+              <p> {currentStatus?.status}</p>
               <Button
                 type="submit"
                 color="white"
@@ -114,10 +115,9 @@ export default function ModifyRequest({
                 >
                   Prénom Patient
                 </label>
-                <input
+                <Input
                   readOnly={isDisabled}
                   type="text"
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Your first name"
                   onChange={formik.handleChange}
                   name="firstName"
@@ -133,12 +133,11 @@ export default function ModifyRequest({
                 >
                   Nom Patient
                 </label>
-                <input
+                <Input
                   readOnly={isDisabled}
                   type="text"
                   defaultValue={data.Patient.lastName}
                   id="last_name"
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Your last name"
                   onChange={formik.handleChange}
                   name="lastName"
@@ -148,110 +147,88 @@ export default function ModifyRequest({
               </div>
             </div>
             <div className="mb-2 sm:mb-6">
-              <div className="flex flex-row mb-2 sm:mb-6">
-                <label
-                  htmlFor="profession"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Création Dossier
-                </label>
-                <input
-                  readOnly={isDisabled}
-                  type="datetime-local"
-                  id="profession"
-                  defaultValue=""
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                  onChange={formik.handleChange}
-                  name="createdAt"
-                  value={formik.values.createdAt}
-                  disabled={formik.isSubmitting}
-                />
-              </div>
+              <label
+                htmlFor="profession"
+                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
+              >
+                Dates
+              </label>
+
+              <Input
+                readOnly={isDisabled}
+                type="datetime-local"
+                id="profession"
+                label="Création de dossier"
+                defaultValue=""
+                onChange={formik.handleChange}
+                name="createdAt"
+                value={formik.values.createdAt}
+                disabled={formik.isSubmitting}
+              />
+
+              <Input
+                readOnly={isDisabled}
+                type="date"
+                id="profession"
+                defaultValue=""
+                label="Constitution de dossier"
+                onChange={formik.handleChange}
+                name="constituedAt"
+                value={formik.values.createdAt}
+                disabled={formik.isSubmitting}
+              />
+              <Input
+                readOnly={isDisabled}
+                type="date"
+                id="profession"
+                defaultValue=""
+                label="Conmpletion de dossier"
+                onChange={formik.handleChange}
+                name="CompletedAt"
+                value={formik.values.createdAt}
+                disabled={formik.isSubmitting}
+              />
               <div className="w-full mb-2 sm:mb-6">
                 <label
                   htmlFor="first_name"
                   className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                 >
-                  Remarque :
+                  Remarques :
                 </label>
-                <input
+                <Input
                   readOnly={isDisabled}
                   type="text"
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                  label="Création dossier"
                   placeholder="Remarque"
                   onChange={formik.handleChange}
                   name="firstName"
                   value={formik.values.remark}
                   disabled={formik.isSubmitting}
                 />
-              </div>
-              <div className="flex flex-row mb-2 sm:mb-6">
-                <label
-                  htmlFor="profession"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Constitution Dossier
-                </label>
-                <input
+                <Input
                   readOnly={isDisabled}
-                  type="date"
-                  id="profession"
-                  defaultValue=""
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                  onChange={formik.handleChange}
-                  name="birthDate"
-                  value={formik.values.createdAt}
-                  disabled={formik.isSubmitting}
-                />
-              </div>
-              <div className="w-full mb-2 sm:mb-6">
-                <label
-                  htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Remarque :
-                </label>
-                <input
-                  readOnly={isDisabled}
+                  label="Constitution dossier"
                   type="text"
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Remarque"
                   onChange={formik.handleChange}
                   name="firstName"
                   value={formik.values.remark}
                   disabled={formik.isSubmitting}
                 />
-              </div>
-              <div className="flex flex-row mb-2 sm:mb-6">
-                <label
-                  htmlFor="profession"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Completion Dossier
-                </label>
-                <input
+                <Input
                   readOnly={isDisabled}
-                  type="date"
-                  id="profession"
-                  defaultValue=""
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                  label="Completion Dossier"
+                  type="text"
+                  placeholder="Remarque"
                   onChange={formik.handleChange}
-                  name="birthDate"
-                  value={formik.values.createdAt}
+                  name="firstName"
+                  value={formik.values.remark}
                   disabled={formik.isSubmitting}
                 />
-              </div>
-              <div className="w-full mb-2 sm:mb-6">
-                <label
-                  htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Remarque :
-                </label>
-                <input
+                <Input
                   readOnly={isDisabled}
+                  label="Refus Dossier"
                   type="text"
-                  className="bg-indigo-50 border border-indigo-300 text-[#396EA5] text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                   placeholder="Remarque"
                   onChange={formik.handleChange}
                   name="firstName"
@@ -311,6 +288,18 @@ export default function ModifyRequest({
                   })
                 );
               }}
+              /*onClick={async () => {
+                const motif = window.prompt("Motif de refus ?");
+                if (window.confirm("Motif de refus ?")) {
+                  newRequestStatus(
+                    data.id,
+                    RequestStatusEnum.Refuse,
+                    motif ?? undefined
+                  ).then((re) => {
+                    toast.error("Dossier refusé");
+                  });
+                }
+              }} */
               bgColor="red"
               text="Refuser Dossier"
               borderRadius="10px"

@@ -40,6 +40,7 @@ const RequestListPatient = ({
           requestId: e.id,
           patientId: e.patientId,
           number: e.number.toString(),
+          name: data.lastName + " " + data.firstName,
           date: e.createdAt,
           remark: e.statuses.at(0)?.remark,
           documentCount: e._count.documents,

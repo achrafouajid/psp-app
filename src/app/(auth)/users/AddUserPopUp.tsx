@@ -8,26 +8,33 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  RadioGroup,
-  Radio,
   Input,
 } from "@nextui-org/react";
 import { CategoryEnum } from "../../../../server/category/types";
 import toast from "react-hot-toast";
-import createRegion from "../../../../server/region/create_region";
 import { useFormik } from "formik";
+import createCity from "../../../../server/region/create_city";
 import { CiCirclePlus } from "react-icons/ci";
+import { UserRole } from "@prisma/client";
+import register from "../../../../server/auth/register";
+import { registerResponseEnum } from "../../../../server/auth/types";
 
-export default function PopUp() {
+export default function AddUserPopUp() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const formik = useFormik({
     initialValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: UserRole.Patient,
     },
-    onSubmit: async ({ name }: { name: string }) => {
-      const res = await createRegion(name);
-      if (res == CategoryEnum.Exist) toast.error("Cette région existe déjà !");
-      else toast.success("Région créée avec succès !");
+    onSubmit: async (values) => {
+      /*
+      const res = await register(values);
+      if (res == registerResponseEnum.exist) toast.error("Cette Ville existe déjà !");
+      else toast.success("Ville créée avec succès !");
+*/
     },
   });
 
@@ -37,7 +44,7 @@ export default function PopUp() {
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}
       >
-        <CiCirclePlus size={25} /> Créer Région
+        <CiCirclePlus size={25} /> Villes
       </Button>
       <Modal
         isOpen={isOpen}
@@ -49,22 +56,22 @@ export default function PopUp() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Nouvelle Région
+                Nouvelle Ville
               </ModalHeader>
               <form onSubmit={formik.handleSubmit} className="w-full max-w-sm">
                 <ModalBody>
                   <Input
                     isClearable
                     type="text"
-                    label="Region"
+                    label="Ville"
                     variant="bordered"
-                    placeholder="Entrez la région"
+                    placeholder="Entrez la Ville"
                     defaultValue="Casablanca"
                     fullWidth
                     required
                     onChange={formik.handleChange}
                     name="name"
-                    value={formik.values.name}
+                    value={formik.values.firstName}
                     disabled={formik.isSubmitting}
                   />
                 </ModalBody>
@@ -82,7 +89,7 @@ export default function PopUp() {
                     disabled={formik.isSubmitting}
                     type="submit"
                   >
-                    Ajouter la région
+                    Ajouter la Ville
                   </Button>
                 </ModalFooter>
               </form>

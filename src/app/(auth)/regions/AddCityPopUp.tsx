@@ -14,6 +14,7 @@ import { CategoryEnum } from "../../../../server/category/types";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
 import createCity from "../../../../server/region/create_city";
+import { CiCirclePlus } from "react-icons/ci";
 
 export default function AddCityPopUp({ regionId }: { regionId: string }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -34,7 +35,7 @@ export default function AddCityPopUp({ regionId }: { regionId: string }) {
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}
       >
-        Ajouter Ville
+        <CiCirclePlus size={25} /> Villes
       </Button>
       <Modal
         isOpen={isOpen}

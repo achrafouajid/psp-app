@@ -184,28 +184,17 @@ export default function AddPatient({
           >
             Programme
           </label>
-          <div className="relative">
-            <select
-              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              onChange={formik.handleChange}
-              name="program"
-              value={formik.values.program}
-              disabled={formik.isSubmitting}
-            >
-              {Object.values(ProgramEnum).map((e) => (
-                <option value={e}>{e}</option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
-          </div>
+
+          <Select
+            onChange={formik.handleChange}
+            name="program"
+            value={formik.values.program}
+            disabled={formik.isSubmitting}
+          >
+            {Object.values(ProgramEnum).map((e) => (
+              <SelectItem key={e}>{e}</SelectItem>
+            ))}
+          </Select>
         </div>
 
         <div className=" mb-6">
@@ -746,6 +735,10 @@ export default function AddPatient({
                 checked={!formik.values.prerequest}
                 onChange={(e) => {
                   formik.setFieldValue("prerequest", !e.target.checked);
+                  formik.setFieldValue("statusrequest", null);
+                  formik.setFieldValue("refDoc", null);
+                  formik.setFieldTouched("statusrequest");
+                  formik.setFieldTouched("refDoc");
                 }}
               >
                 Non
@@ -779,9 +772,7 @@ export default function AddPatient({
                 value="true"
                 name="statusrequest"
                 checked={formik.values.statusrequest}
-                onChange={(e) =>
-                  formik.setFieldValue("statusrequest", e.target.checked)
-                }
+                onChange={(e) => formik.setFieldValue("statusrequest", true)}
               >
                 Positive
               </Radio>
@@ -790,7 +781,7 @@ export default function AddPatient({
                 name="statusrequest"
                 checked={!formik.values.statusrequest}
                 onChange={(e) => {
-                  formik.setFieldValue("statusrequest", !e.target.checked);
+                  formik.setFieldValue("statusrequest", false);
                 }}
               >
                 Négative
@@ -808,13 +799,13 @@ export default function AddPatient({
             >
               Si Oui, possession du documennt de refus
             </label>
+
             <RadioGroup
               orientation="horizontal"
               isDisabled={
-                (formik.values.prerequest && !formik.values.statusrequest) ||
-                formik.isSubmitting
-                  ? true
-                  : false
+                formik.values.prerequest && formik.values.statusrequest
+                  ? false
+                  : true || formik.isSubmitting
               }
               className={` ${
                 (formik.values.prerequest == false &&
@@ -828,9 +819,7 @@ export default function AddPatient({
                 value="true"
                 name="refDoc"
                 checked={formik.values.refDoc}
-                onChange={(e) =>
-                  formik.setFieldValue("refDoc", e.target.checked)
-                }
+                onChange={(e) => formik.setFieldValue("refDoc", true)}
               >
                 Oui
               </Radio>
@@ -839,7 +828,7 @@ export default function AddPatient({
                 name="refDoc"
                 checked={!formik.values.refDoc}
                 onChange={(e) => {
-                  formik.setFieldValue("refDoc", !e.target.checked);
+                  formik.setFieldValue("refDoc", false);
                 }}
               >
                 Non

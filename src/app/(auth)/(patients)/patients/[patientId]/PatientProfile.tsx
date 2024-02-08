@@ -14,7 +14,6 @@ import Link from "next/link";
 import { usePatient } from "@/Contexts/PatientContext";
 import deletePatient from "../../../../../../server/patient/delete_patient";
 import Header from "@/components/Header";
-import { boolean } from "yup";
 
 const PatientProfile = () => {
   const data = usePatient();

@@ -16,10 +16,10 @@ import {
 import { reqGrid } from "@/data/patientsData";
 import { Selection } from "@syncfusion/ej2-react-charts";
 import getAllRequests from "../../../../../server/patient/requests/getAllRequests";
-import Button from "@/components/Button";
-import { FiFileText } from "react-icons/fi";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useRouter } from "next/navigation";
+import PatientListPopUp from "./PatientlistPopUp";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
 
 const RequestList = ({
   data,
@@ -64,18 +64,6 @@ const RequestList = ({
           services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
         />
       </GridComponent>
-      <div className="mt-5">
-        <Button
-          onClick={() => {
-            router.push("/patients");
-          }}
-          icon={<FiFileText />}
-          color="white"
-          bgColor={currentColor}
-          text="+ Demande"
-          borderRadius="10px"
-        />
-      </div>
     </div>
   );
 };

@@ -92,7 +92,7 @@ const DoctorList = ({
           region: e.city?.region.name,
           city: e.city?.name,
           priority: e.priority,
-          name: e.title.concat(e.lastName, " ", e.firstName),
+          name: e.title.concat(". ", e.lastName, " ", e.firstName),
           id: e.id,
           attache: e.city?.region.attache,
         }))}

@@ -19,7 +19,6 @@ import { GoDotFill } from "react-icons/go";
 import { useSession } from "@/Contexts/UserContext";
 import Image from "next/image";
 import { FaFileDownload } from "react-icons/fa";
-import Notifications from "../users/[userId]/(user)/notifications/Notifications";
 import { FaClock, FaClockRotateLeft, FaRegClock } from "react-icons/fa6";
 const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -63,13 +62,14 @@ export default function Welcome() {
             height={200}
           />
         </div>
+        {/*
         <Button
           color="white"
           bgColor={currentColor}
           icon={<FaFileDownload />}
           text="Fiche"
           borderRadius="10px"
-        />
+        />*/}
       </div>
       <div
         className="bg-white dark:text-gray-200 xl:col-span-2 dark:bg-secondary-dark-bg p-6  rounded-2xl border"
@@ -136,8 +136,6 @@ export default function Welcome() {
         </div>
         <Notifications />
       </div>
-*/}
-      {/**/}
       <div
         className=" bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl border"
         style={{ borderColor: currentColor }}
@@ -208,14 +206,6 @@ export default function Welcome() {
             ))}
           </div>
         </div>
-        <div className="mt-2">
-          <p className="text-md font-semibold mb-2">Leaders</p>
-          {/*    <div className="flex gap-4">
-              {medicalproBranding.leaders.map((item, index) => (
-                <img key={index} className="rounded-full w-8 h-8" src={item.image} alt="" />
-              ))}
-            </div> */}
-        </div>
         <div className="flex justify-between items-center mt-5 border-t-1 border-color">
           <p className="text-gray-400 text-sm">36 Recent Transactions</p>
         </div>
@@ -259,6 +249,7 @@ export default function Welcome() {
           </div>
         </div>
       </div>
+      */}
     </div>
   );
 }

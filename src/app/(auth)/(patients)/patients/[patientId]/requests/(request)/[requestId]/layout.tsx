@@ -16,7 +16,10 @@ export default async function layout({
   if (!data) notFound();
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Patients" title="Créer Demande patient" />
+      <Header
+        category="Patients"
+        title={`Demande de ${data.Patient.lastName} ${data.Patient.firstName}`}
+      />
       <RequestProvider request={data}>
         <div className="bg-white flex flex-col px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
           <aside className="hidden py-4 md:w-1/3 lg:w-1/4 md:block">

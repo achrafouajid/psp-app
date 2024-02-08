@@ -9,6 +9,9 @@ import { UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import updateUserRole from "../../../../server/auth/update_user";
 import getUser from "../../../../server/auth/get_user";
+import { Input, Select, SelectItem } from "@nextui-org/react";
+import { GrUserSettings } from "react-icons/gr";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const UserProfile = ({
   data,
@@ -31,7 +34,7 @@ const UserProfile = ({
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
-        toast.success("Informations mises à jour !");
+        toast.success("Informations utilisateur mises à jour !");
       }
     },
   });
@@ -67,6 +70,15 @@ const UserProfile = ({
                   />
                   <div className="flex flex-col space-y-5 sm:ml-8">
                     <Button
+                      onClick={() => setisDisabled(!isDisabled)}
+                      color="white"
+                      bgColor={currentColor}
+                      text="Modifier Infos"
+                      icon={<GrUserSettings />}
+                      borderRadius="10px"
+                    />
+                    <Button
+                      disabled={isDisabled}
                       onClick={(e) => ref.current?.click()}
                       color="white"
                       bgColor={currentColor}
@@ -76,20 +88,18 @@ const UserProfile = ({
                   </div>
                 </div>
 
-                <div className="items-center mt-8 sm:mt-14 text-[#202142]">
+                <div className="items-center mt-8 sm:mt-14 text-[#396EA5]">
                   <div className="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
                     <div className="w-full">
                       <label
                         htmlFor="first_name"
-                        className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                        className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                       >
                         Prénom
                       </label>
-                      <input
+                      <Input
                         readOnly={isDisabled}
                         type="text"
-                        className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                        placeholder="Your first name"
                         onChange={formik.handleChange}
                         name="firstName"
                         value={formik.values.firstName}
@@ -100,16 +110,15 @@ const UserProfile = ({
                     <div className="w-full">
                       <label
                         htmlFor="last_name"
-                        className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                        className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                       >
                         Nom
                       </label>
-                      <input
+                      <Input
                         readOnly={isDisabled}
                         type="text"
                         defaultValue={data.lastName}
                         id="last_name"
-                        className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                         placeholder="Your last name"
                         onChange={formik.handleChange}
                         name="lastName"
@@ -122,15 +131,14 @@ const UserProfile = ({
                   <div className="mb-2 sm:mb-6">
                     <label
                       htmlFor="profession"
-                      className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                     >
                       Email
                     </label>
-                    <input
+                    <Input
                       readOnly={isDisabled}
                       type="text"
                       id="profession"
-                      className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       onChange={formik.handleChange}
                       name="address"
                       value={formik.values.email ?? ""}
@@ -140,15 +148,14 @@ const UserProfile = ({
                   <div className="mb-2 sm:mb-6">
                     <label
                       htmlFor="profession"
-                      className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                     >
                       Status
                     </label>
-                    <input
+                    <Input
                       readOnly={isDisabled}
                       type="text"
                       id="profession"
-                      className="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       onChange={formik.handleChange}
                       name="address"
                       value={formik.values.status ?? ""}
@@ -157,34 +164,41 @@ const UserProfile = ({
                   </div>
                   <div className="mb-2 sm:mb-6">
                     <label
+                      htmlFor="password"
+                      className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
+                    >
+                      Mot de Passe
+                    </label>
+                    <Input
+                      readOnly={isDisabled}
+                      label="Mot de passe"
+                      placeholder="Enter your password"
+                      value="djklfshdsszdsq"
+                      endContent={
+                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      }
+                      type="password"
+                    />
+                  </div>
+                  <div className="mb-2 sm:mb-6">
+                    <label
                       htmlFor="role"
-                      className="block mb-2 text-sm font-medium text-indigo-900 dark:text-white"
+                      className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                     >
                       Rôle
                     </label>
-                    <div className="relative">
-                      <select
-                        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="grid-state"
-                        onChange={formik.handleChange}
-                        name="role"
-                        value={formik.values.role}
-                        disabled={formik.isSubmitting}
-                      >
-                        {Object.values(UserRole).map((e) => (
-                          <option value={e}>{e}</option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg
-                          className="fill-current h-4 w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      </div>
-                    </div>
+                    <Select
+                      onChange={formik.handleChange}
+                      name="role"
+                      value={formik.values.role}
+                      disabled={formik.isSubmitting}
+                    >
+                      {Object.values(UserRole).map((e) => (
+                        <SelectItem isReadOnly={isDisabled} key={e}>
+                          {e}
+                        </SelectItem>
+                      ))}
+                    </Select>
                   </div>
 
                   <div className="flex justify-end">

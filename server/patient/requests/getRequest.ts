@@ -10,9 +10,6 @@ export default async function getRequest(id: string, patientId: string) {
       statuses: {
         where: {
           current: true,
-          remark: {
-            not: null,
-          },
         },
       },
       Patient: {
