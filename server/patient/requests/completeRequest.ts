@@ -15,9 +15,7 @@ export default async function CompRequest(data: FormData) {
   const patient = await getPatient(patientId!);
   const document = data.getAll("documents") as File[];
   if (patient == null) return false;
-  var documents = await Promise.all(
-    document.map(async (i) => (await upload(i)).id)
-  );
+  var documents = await Promise.all(document.map(async (i) => await upload(i)));
 
   await prisma.request.update({
     where: {
@@ -26,14 +24,9 @@ export default async function CompRequest(data: FormData) {
     data: {
       patientId: patientId!,
       createdAt: new Date(date!),
-      documents: {
-        create: documents.map((i) => ({
-          documentId: i,
-        })),
-      },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Complete, remark);
+  await newRequestStatus(id!, RequestStatusEnum.Complete, remark, documents);
   revalidatePath("/");
   redirect("./");
 }

@@ -184,16 +184,15 @@ model Request {
   statuses RequestStatus[]
   patientId String
   Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
-  documents RequestDocument[]
   
 }
 
 
 model RequestDocument {
-  requestId String
+  requestStatusId String
   documentId String @unique
-  @@id([requestId,documentId])
-  request Request @relation(fields:[requestId],references:[id],onDelete: Cascade)
+  @@id([requestStatusId,documentId])
+  request RequestStatus @relation(fields:[requestStatusId],references:[id],onDelete: Cascade)
   document Document @relation(fields: [documentId],references: [id])
 }
 model RequestStatus {
@@ -204,6 +203,7 @@ model RequestStatus {
   status RequestStatusEnum 
   requestId String 
   request Request @relation(fields: [requestId],references: [id],onDelete: Cascade)
+  documents RequestDocument[]
   
 }
 model User {

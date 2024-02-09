@@ -55,6 +55,7 @@ const Home = ({
   accepte,
   refuse,
   cree,
+  doctors,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -65,6 +66,7 @@ const Home = ({
   accepte: number;
   refuse: number;
   cree: number;
+  doctors: number;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -177,6 +179,13 @@ const Home = ({
   const SparklineAreaData = [
     { x: 2023, yval: 0 },
     { x: 2024, yval: data },
+    { x: 2025, yval: 0 },
+    { x: 2026, yval: 0 },
+    { x: 2027, yval: 0 },
+  ];
+  const SparklineAreaData2 = [
+    { x: 2023, yval: 0 },
+    { x: 2024, yval: doctors },
     { x: 2025, yval: 0 },
     { x: 2026, yval: 0 },
     { x: 2027, yval: 0 },
@@ -535,11 +544,13 @@ const Home = ({
           >
             <div className="flex justify-between items-center ">
               <p className="font-semibold text-white text-2xl">
-                Patients annuels
+                Médecins sur la plateforme
               </p>
 
               <div>
-                <p className="text-2xl text-white font-semibold mt-8">{data}</p>
+                <p className="text-2xl text-white font-semibold mt-8">
+                  {doctors}
+                </p>
                 <p className="text-gray-200">cette année</p>
               </div>
             </div>
@@ -550,7 +561,7 @@ const Home = ({
                 id="column-sparkLine2"
                 height="100px"
                 type="Column"
-                data={SparklineAreaData}
+                data={SparklineAreaData2}
                 width="320"
                 color="rgb(242, 252, 253)"
               />
@@ -565,7 +576,7 @@ const Home = ({
               className="text-xl font-semibold"
               style={{ color: currentColor }}
             >
-              Distribution patients :
+              Distribution Patients par région:
             </p>
 
             <div className="w-40">

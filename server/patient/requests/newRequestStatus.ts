@@ -1,11 +1,12 @@
 "use server";
-import { RequestStatusEnum } from "@prisma/client";
+import { Document, RequestStatusEnum } from "@prisma/client";
 import prisma from "../../../prisma/client";
 
 export default async function newRequestStatus(
   requestId: string,
   status: RequestStatusEnum,
-  remark?: string
+  remark?: string,
+  documents?: Document[]
 ) {
   await prisma.requestStatus.updateMany({
     where: {
@@ -15,7 +16,7 @@ export default async function newRequestStatus(
       current: false,
     },
   });
-  await prisma.requestStatus.create({
+  const reqStatus = await prisma.requestStatus.create({
     data: {
       createdAt: new Date(),
       current: true,
@@ -24,4 +25,13 @@ export default async function newRequestStatus(
       remark: remark,
     },
   });
+
+  if (documents?.length) {
+    await prisma.requestDocument.createMany({
+      data: documents.map((i) => ({
+        documentId: i.id,
+        requestStatusId: reqStatus.id,
+      })),
+    });
+  }
 }

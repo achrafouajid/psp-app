@@ -8,18 +8,20 @@ export default async function getRequest(id: string, patientId: string) {
     },
     include: {
       statuses: {
-        where: {
-          current: true,
+        include: {
+          documents: {
+            include: {
+              document: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       },
       Patient: {
         include: {
           image: true,
-        },
-      },
-      _count: {
-        select: {
-          documents: true,
         },
       },
     },

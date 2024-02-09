@@ -5,17 +5,18 @@ export default async function getAllRequests() {
   const request = await prisma.request.findMany({
     include: {
       statuses: {
-        where: {
-          current: true,
+        include: {
+          _count: {
+            select: {
+              documents: true,
+            },
+          },
         },
       },
       Patient: true,
-      _count: {
-        select: {
-          documents: true,
-        },
-      },
     },
   });
+
+  console.log(request);
   return request;
 }

@@ -18,6 +18,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import { UserRole } from "@prisma/client";
 import register from "../../../../server/auth/register";
 import { registerResponseEnum } from "../../../../server/auth/types";
+import RegisterForm from "@/components/registerForm";
 
 export default function AddUserPopUp() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -44,7 +45,7 @@ export default function AddUserPopUp() {
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}
       >
-        <CiCirclePlus size={25} /> Villes
+        <CiCirclePlus size={25} /> Utilisateur
       </Button>
       <Modal
         isOpen={isOpen}
@@ -56,43 +57,28 @@ export default function AddUserPopUp() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Nouvelle Ville
+                Nouvel Utilisateur
               </ModalHeader>
-              <form onSubmit={formik.handleSubmit} className="w-full max-w-sm">
-                <ModalBody>
-                  <Input
-                    isClearable
-                    type="text"
-                    label="Ville"
-                    variant="bordered"
-                    placeholder="Entrez la Ville"
-                    defaultValue="Casablanca"
-                    fullWidth
-                    required
-                    onChange={formik.handleChange}
-                    name="name"
-                    value={formik.values.firstName}
-                    disabled={formik.isSubmitting}
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    style={{ color: "#396EA5" }}
-                    variant="light"
-                    onPress={onClose}
-                  >
-                    Fermer
-                  </Button>
-                  <Button
-                    style={{ backgroundColor: "#396EA5", color: "white" }}
-                    onPress={onClose}
-                    disabled={formik.isSubmitting}
-                    type="submit"
-                  >
-                    Ajouter la Ville
-                  </Button>
-                </ModalFooter>
-              </form>
+              <ModalBody>
+                <RegisterForm />
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  style={{ color: "#396EA5" }}
+                  variant="light"
+                  onPress={onClose}
+                >
+                  Fermer
+                </Button>
+                <Button
+                  style={{ backgroundColor: "#396EA5", color: "white" }}
+                  onPress={onClose}
+                  disabled={formik.isSubmitting}
+                  type="submit"
+                >
+                  Ajouter Utilisateur
+                </Button>
+              </ModalFooter>
             </>
           )}
         </ModalContent>

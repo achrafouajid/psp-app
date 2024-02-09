@@ -2,7 +2,6 @@
 import Button from "@/components/Button";
 import React, { useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
-import Image from "next/image";
 import { useFormik } from "formik";
 import updatePatient from "../../../../../../server/patient/update_patient";
 import toast from "react-hot-toast";
@@ -12,9 +11,9 @@ import {
   HabitatEnum,
   ProgramEnum,
   SocialEnum,
+  UserRole,
 } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { jsPDF } from "jspdf";
 import { usePatient } from "@/Contexts/PatientContext";
 import Header from "@/components/Header";
 import {
@@ -29,6 +28,8 @@ import {
 import getAllDoctors from "../../../../../../server/doctor/getAllDoctors";
 import Link from "next/link";
 import deletePatient from "../../../../../../server/patient/delete_patient";
+import { useSession } from "@/Contexts/UserContext";
+import { FiEdit, FiFile, FiSave } from "react-icons/fi";
 
 const PatientProfileCopy = ({
   doctors,
@@ -40,6 +41,7 @@ const PatientProfileCopy = ({
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
+  const user = useSession();
 
   const inclusionCriteria = [
     { label: "Patient over 18 years old", name: "isMajor" },
@@ -141,7 +143,7 @@ const PatientProfileCopy = ({
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="lastName"
               >
-                Nom <span className="text-red-500">*</span>
+                Nom
               </label>
               <Input
                 required
@@ -152,16 +154,13 @@ const PatientProfileCopy = ({
                 type="text"
                 label="Nom patient"
               />
-              <p className="text-red-500 text-xs italic">
-                * Veuillez remplir ces champs.
-              </p>
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="firstName"
               >
-                Prénom <span className="text-red-500">*</span>
+                Prénom
               </label>
               <Input
                 required
@@ -181,7 +180,7 @@ const PatientProfileCopy = ({
                 className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                 htmlFor="birthDate"
               >
-                Date de naissance <span className="text-red-500">*</span>
+                Date de naissance
               </label>
               <Input
                 required
@@ -874,30 +873,38 @@ const PatientProfileCopy = ({
             </div>
           </div>
           <div className="flex mb-5 justify-between items-center">
-            <Link href={`./${data.id}/requests`} className="text-[#396EA5]">
-              Accéder aux demandes
+            <Link
+              href={`./${data.id}/requests`}
+              className="text-[#396EA5] flex items -center"
+            >
+              <FiFile size={25} /> Accéder aux demandes
             </Link>
-            <Button
-              color="white"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Voulez-vous vraiment supprimer ce patient ? Toutes ses demandes seront supprimées..."
-                  )
-                ) {
-                  deletePatient(data.id);
-                }
-              }}
-              bgColor={isDisabled ? "gray" : "red"}
-              text={isDisabled ? "" : "Supprimer "}
-              borderRadius="10px"
-              disabled={formik.isSubmitting}
-            />
+            {user.role == UserRole.Admin && (
+              <>
+                <Button
+                  color="white"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Voulez-vous vraiment supprimer ce patient ? Toutes ses demandes seront supprimées..."
+                      )
+                    ) {
+                      deletePatient(data.id);
+                    }
+                  }}
+                  bgColor="red"
+                  text="Supprimer "
+                  borderRadius="10px"
+                  disabled={formik.isSubmitting}
+                />
+              </>
+            )}
             <Button
               type="submit"
               color="white"
               bgColor={currentColor}
               text={isDisabled ? "Modifier" : "Sauvegarder"}
+              icon={isDisabled ? <FiEdit /> : <FiSave />}
               borderRadius="10px"
               disabled={formik.isSubmitting}
             />

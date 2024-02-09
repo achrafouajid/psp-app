@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/Header";
 import BlogCard from "@/components/BlogCard";
 import get_blogs from "../../../../../server/blog/get_blogs";
+import CardBlog from "@/components/CardBlog";
 
 const Blogs = async () => {
   const data = await get_blogs();
@@ -17,7 +18,7 @@ const Blogs = async () => {
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 ss:grid-cols-1 gap-8 px-4 text-black">
               {data.map((e) => (
                 <div key={e.id}>
-                  <BlogCard {...e} />
+                  <CardBlog {...e} />
                 </div>
               ))}
             </div>

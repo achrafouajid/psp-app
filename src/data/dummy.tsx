@@ -36,22 +36,6 @@ import { ContextMenuItem } from "@syncfusion/ej2-react-grids";
 import { FaRegClipboard } from "react-icons/fa";
 import { TbClipboardCheck } from "react-icons/tb";
 
-export const gridOrderImage = (props: any) => (
-  <div>
-    <img className="rounded-xl h-20 md:ml-3" src="test.jpeg" alt="order-item" />
-  </div>
-);
-
-export const gridOrderStatus = (props: any) => (
-  <button
-    type="button"
-    style={{ background: props.StatusBg }}
-    className="text-white py-1 px-2 capitalize rounded-2xl text-md"
-  >
-    {props.Status}
-  </button>
-);
-
 export const EditorData = () => (
   <div>
     <h3>
@@ -233,85 +217,6 @@ export const themeColors = [
   {
     color: "#FB9678",
     name: "orange-theme",
-  },
-];
-
-export const ordersGrid = [
-  {
-    headerText: "Image",
-    template: gridOrderImage,
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderItems",
-    headerText: "Nom Article",
-    width: "150",
-    editType: "dropdownedit",
-    textAlign: "Center",
-  },
-  {
-    field: "CustomerName",
-    headerText: "Nom Auteur",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "TotalAmount",
-    headerText: "Catégories",
-    format: "C2",
-    textAlign: "Center",
-    editType: "numericedit",
-    width: "150",
-  },
-  {
-    headerText: "Status",
-    template: gridOrderStatus,
-    field: "OrderItems",
-    textAlign: "Center",
-    width: "120",
-  },
-  {
-    field: "OrderID",
-    headerText: "ID",
-    width: "120",
-    textAlign: "Center",
-  },
-
-  {
-    field: "Location",
-    headerText: "Notes",
-    width: "150",
-    textAlign: "Center",
-  },
-];
-export const ordersData = [
-  {
-    ID: 1,
-    CustomerName: "Admin test",
-    TotalAmount: "Oncologie",
-    OrderItems: "test blog",
-    Location: "USA",
-    Status: "Actif",
-    StatusBg: "#396EA5",
-  },
-  {
-    ID: 2,
-    CustomerName: "Admin test",
-    TotalAmount: "Oncologie",
-    OrderItems: "test blog",
-    Location: "USA",
-    Status: "Actif",
-    StatusBg: "#396EA5",
-  },
-  {
-    ID: 3,
-    CustomerName: "Admin test",
-    TotalAmount: "Oncologie",
-    OrderItems: "test blog",
-    Location: "USA",
-    Status: "Actif",
-    StatusBg: "#396EA5",
   },
 ];
 

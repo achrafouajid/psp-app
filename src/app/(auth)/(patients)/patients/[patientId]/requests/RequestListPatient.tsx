@@ -36,16 +36,22 @@ const RequestListPatient = ({
       />
 
       <GridComponent
-        dataSource={data.requests.map((e) => ({
-          requestId: e.id,
-          patientId: e.patientId,
-          number: e.number.toString(),
-          name: data.lastName + " " + data.firstName,
-          date: e.createdAt,
-          remark: e.statuses.at(0)?.remark,
-          documentCount: e._count.documents,
-          status: e.statuses.find((e) => e.current)?.status,
-        }))}
+        dataSource={data.requests.map((e) => {
+          const status = e.statuses.find((e) => e.current);
+          return {
+            requestId: e.id,
+            patientId: e.patientId,
+            number: e.number.toString(),
+            name: data.lastName + " " + data.firstName,
+            date: e.createdAt,
+            remark: status?.remark,
+            documentCount: e.statuses.reduce(
+              (a, b) => a + b._count.documents,
+              0
+            ),
+            status: status?.status,
+          };
+        })}
         width="auto"
         enableHover={true}
         allowPaging

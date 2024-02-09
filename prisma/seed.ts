@@ -118,7 +118,7 @@ async function main() {
       },
     },
   });
-  const fesoriantale = await prisma.region.upsert({
+  const fesorientale = await prisma.region.upsert({
     where: { name: "Fes Orientale" },
     update: {},
     create: {

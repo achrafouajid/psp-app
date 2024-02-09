@@ -12,6 +12,7 @@ import getUser from "../../../../server/auth/get_user";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { GrUserSettings } from "react-icons/gr";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useSession } from "@/Contexts/UserContext";
 
 const UserProfile = ({
   data,
@@ -22,6 +23,7 @@ const UserProfile = ({
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
+  const user = useSession();
 
   const formik = useFormik({
     initialValues: {
@@ -187,18 +189,24 @@ const UserProfile = ({
                     >
                       Rôle
                     </label>
-                    <Select
-                      onChange={formik.handleChange}
-                      name="role"
-                      value={formik.values.role}
-                      disabled={formik.isSubmitting}
-                    >
-                      {Object.values(UserRole).map((e) => (
-                        <SelectItem isReadOnly={isDisabled} key={e}>
-                          {e}
-                        </SelectItem>
-                      ))}
-                    </Select>
+                    {user.role === UserRole.Admin ? (
+                      <>
+                        <Select
+                          onChange={formik.handleChange}
+                          name="role"
+                          value={formik.values.role}
+                          disabled={formik.isSubmitting}
+                        >
+                          {Object.values(UserRole).map((role) => (
+                            <SelectItem isReadOnly={isDisabled} key={role}>
+                              {role}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      </>
+                    ) : (
+                      <p>{user.role}</p>
+                    )}
                   </div>
 
                   <div className="flex justify-end">

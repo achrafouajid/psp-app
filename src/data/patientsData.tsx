@@ -4,6 +4,7 @@ import React from "react";
 import { CiSettings } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
 import { FiFilePlus } from "react-icons/fi";
+import { LuFileEdit } from "react-icons/lu";
 
 export const gridProfile = (props: any) =>
   props.avatar ? (
@@ -11,29 +12,38 @@ export const gridProfile = (props: any) =>
   ) : (
     <div className="rounded-full w-10 h-10"></div>
   );
-const gridView = (props: any) => (
-  <Link
-    href={routes.patientRequest(props.patientId, props.requestId)}
-    className="flex justify-center items-center"
-  >
-    <FaRegEye size={25} style={{ color: "#396EA5" }} />
-  </Link>
+const ReqAction = (props: any) => (
+  <div className="flex gap-1 justify-end">
+    <Link
+      href={routes.patientRequest(props.patientId, props.requestId)}
+      className="flex justify-center items-center"
+    >
+      <FaRegEye size={25} style={{ color: "#396EA5" }} />
+    </Link>
+    {/*<Link
+      href={routes.patientRequests(props.patientId)}
+      className="flex justify-center items-center"
+    >
+      <LuFileEdit size={25} style={{ color: "#396EA5" }} />
+    </Link>*/}
+  </div>
 );
-const gridPatientProfile = (props: any) => (
-  <Link
-    className="flex justify-center items-center"
-    href={`/patients/${props.id}`}
-  >
-    <CiSettings size={25} style={{ color: "#396EA5" }} />
-  </Link>
-);
-const gridAddReq = (props: any) => (
-  <Link
-    className="flex justify-center items-center"
-    href={`/patients/${props.id}/requests/add-request`}
-  >
-    <FiFilePlus size={25} style={{ color: "#396EA5" }} />
-  </Link>
+
+const PatientAction = (props: any) => (
+  <div className="flex gap-1 justify-center">
+    <Link
+      className="flex justify-center items-center"
+      href={`/patients/${props.id}/requests/add-request`}
+    >
+      <FiFilePlus size={25} style={{ color: "#396EA5" }} />
+    </Link>
+    <Link
+      className="flex justify-center items-center"
+      href={`/patients/${props.id}`}
+    >
+      <CiSettings size={25} style={{ color: "#396EA5" }} />
+    </Link>
+  </div>
 );
 export const employeesGrid = [
   {
@@ -76,21 +86,21 @@ export const employeesGrid = [
     textAlign: "Center",
   },
   {
-    headerText: "Demande",
+    headerText: "Demandes",
     field: "requests",
     width: "100",
     textAlign: "Center",
   },
   {
-    headerText: "Créer Demande",
+    headerText: "Médecin",
+    field: "doctor",
     width: "100",
-    template: gridAddReq,
     textAlign: "Center",
   },
   {
-    headerText: "Paramètres",
-    width: "80",
-    template: gridPatientProfile,
+    headerText: "Actions",
+    width: "40",
+    template: PatientAction,
     textAlign: "Center",
   },
 ];
@@ -137,9 +147,9 @@ export const reqGrid = [
     textAlign: "Center",
   },
   {
-    headerText: "Visualiser",
+    headerText: "Actions",
     width: "40",
-    template: gridView,
+    template: ReqAction,
     textAlign: "Center",
   },
 ];

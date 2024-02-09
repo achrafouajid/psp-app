@@ -15,9 +15,7 @@ export default async function ConstRequest(data: FormData) {
   const patient = await getPatient(patientId!);
   const document = data.getAll("documents") as File[];
   if (patient == null) return false;
-  var documents = await Promise.all(
-    document.map(async (i) => (await upload(i)).id)
-  );
+  var documents = await Promise.all(document.map(async (i) => await upload(i)));
 
   await prisma.request.update({
     where: {
@@ -25,14 +23,9 @@ export default async function ConstRequest(data: FormData) {
     },
     data: {
       patientId: patientId!,
-      documents: {
-        create: documents.map((i) => ({
-          documentId: i,
-        })),
-      },
     },
   });
-  await newRequestStatus(id!, RequestStatusEnum.Constitue, remark);
+  await newRequestStatus(id!, RequestStatusEnum.Constitue, remark, documents);
   revalidatePath("/");
   redirect("./");
 }

@@ -9,26 +9,38 @@ import updateRequest, {
   acceptRequest,
   refuseRequest,
 } from "../../../../../../../../../server/patient/requests/updateRequest";
-import Button from "@/components/Button";
-import { FaCheck } from "react-icons/fa";
-import { FaXmark } from "react-icons/fa6";
+import MyButton from "@/components/Button";
+import { FaCheck, FaEdit, FaHistory } from "react-icons/fa";
+import { FaDownload, FaXmark } from "react-icons/fa6";
 import Dropzone from "react-dropzone";
 import { CiEdit } from "react-icons/ci";
 import newRequestStatus from "../../../../../../../../../server/patient/requests/newRequestStatus";
 import { RequestStatusEnum } from "@prisma/client";
-import { Input } from "@nextui-org/react";
+import {
+  Accordion,
+  AccordionItem,
+  Modal,
+  ModalBody,
+  ModalContent,
+  Button,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { useRequest } from "@/Contexts/RequestContext";
+import ViewRequest from "./ViewRequest";
+import { IoFileTrayFullOutline } from "react-icons/io5";
 
-export default function ModifyRequest({
-  data,
-}: {
-  data: NonNullable<Awaited<ReturnType<typeof getRequest>>>;
-}) {
+export default function ModifyRequest() {
+  const { data } = useRequest();
+
   const router = useRouter();
   const [loading, start] = useTransition();
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
   const [imgPrvs, setimgPrvs] = useState<string[]>([]);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const formik = useFormik({
     initialValues: {
@@ -80,171 +92,87 @@ export default function ModifyRequest({
   const currentStatus = data.statuses.find((e) => e.current);
 
   return (
-    <div className="flex flex-col items-center mt-20">
-      <h2 className="pl-6 text-2xl font-bold sm:text-xl text-[#396EA5]">
-        Dossier de {data.Patient.lastName} {data.Patient.firstName}
-      </h2>
+    <form onSubmit={formik.handleSubmit} className="mt-20">
+      <div className="grid max-w-2xl mx-auto">
+        <div className="w-full mb-2 sm:mb-6 flex flex-row justify-between">
+          <label className="text-[#396EA5] items-center text-xl font-semibold flex gap-1">
+            Etat du Dossier :
+          </label>
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className="grid max-w-2xl mx-auto">
-          <div className="items-center mt-8 sm:mt-14 text-[#202142]">
-            <div className="w-full mb-2 sm:mb-6 flex flex-row justify-between">
-              <label
-                htmlFor="first_name"
-                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-              >
-                Etat du Dossier :
-              </label>
+          <p> {currentStatus?.status}</p>
+          <Button
+            style={{ backgroundColor: "#396EA5", color: "white" }}
+            onPress={onOpen}
+          >
+            Poursuivre Demande
+          </Button>
+        </div>
 
-              <p> {currentStatus?.status}</p>
-              <Button
-                type="submit"
-                color="white"
-                bgColor={currentColor}
-                text={isDisabled ? "Modifier" : "Sauvegarder"}
-                borderRadius="10px"
-                icon={<CiEdit />}
-                disabled={formik.isSubmitting}
-              />
-            </div>
-            <div className="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
-              <div className="w-full">
-                <label
-                  htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Prénom Patient
-                </label>
-                <Input
-                  readOnly={isDisabled}
-                  type="text"
-                  placeholder="Your first name"
-                  onChange={formik.handleChange}
-                  name="firstName"
-                  value={formik.values.Patient.firstName}
-                  disabled={formik.isSubmitting}
-                />
-              </div>
+        <div className="flex gap-3">
+          <label className="text-xl mb-2">Patient :</label>
+          {data.Patient.firstName + " " + data.Patient.lastName}
+        </div>
 
-              <div className="w-full">
-                <label
-                  htmlFor="last_name"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Nom Patient
-                </label>
-                <Input
-                  readOnly={isDisabled}
-                  type="text"
-                  defaultValue={data.Patient.lastName}
-                  id="last_name"
-                  placeholder="Your last name"
-                  onChange={formik.handleChange}
-                  name="lastName"
-                  value={formik.values.Patient.lastName}
-                  disabled={formik.isSubmitting}
-                />
-              </div>
-            </div>
-            <div className="mb-2 sm:mb-6">
-              <label
-                htmlFor="profession"
-                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-              >
-                Dates
-              </label>
+        <label className="text-[#396EA5] items-center text-xl font-semibold flex gap-1">
+          <FaHistory />
+          Historique
+        </label>
+        <Accordion>
+          {data.statuses.map((status) => (
+            <AccordionItem
+              aria-label={status.status}
+              subtitle={status.createdAt.toLocaleString("fr")}
+              title={status.status}
+              key={status.id}
+            >
+              <p className="text-[#396EA5] items-center text-sm font-semibold flex gap-1">
+                {" "}
+                <FaEdit size={20} />
+                Remarque :
+              </p>
+              {status.remark}
+              <p className="text-[#396EA5] items-center text-sm font-semibold flex gap-1">
+                {" "}
+                <IoFileTrayFullOutline size={20} />
+                Documents
+              </p>
+              {status.documents.map((doc) => (
+                <a href={`/${doc.document.url}`}>
+                  <FaDownload />
+                  {doc.document.id}
+                </a>
+              ))}
+            </AccordionItem>
+          ))}
+        </Accordion>
+        <Modal
+          isOpen={isOpen}
+          placement="auto"
+          onOpenChange={onOpenChange}
+          className=""
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1"></ModalHeader>
 
-              <Input
-                readOnly={isDisabled}
-                type="datetime-local"
-                id="profession"
-                label="Création de dossier"
-                defaultValue=""
-                onChange={formik.handleChange}
-                name="createdAt"
-                value={formik.values.createdAt}
-                disabled={formik.isSubmitting}
-              />
-
-              <Input
-                readOnly={isDisabled}
-                type="date"
-                id="profession"
-                defaultValue=""
-                label="Constitution de dossier"
-                onChange={formik.handleChange}
-                name="constituedAt"
-                value={formik.values.createdAt}
-                disabled={formik.isSubmitting}
-              />
-              <Input
-                readOnly={isDisabled}
-                type="date"
-                id="profession"
-                defaultValue=""
-                label="Conmpletion de dossier"
-                onChange={formik.handleChange}
-                name="CompletedAt"
-                value={formik.values.createdAt}
-                disabled={formik.isSubmitting}
-              />
-              <div className="w-full mb-2 sm:mb-6">
-                <label
-                  htmlFor="first_name"
-                  className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-                >
-                  Remarques :
-                </label>
-                <Input
-                  readOnly={isDisabled}
-                  type="text"
-                  label="Création dossier"
-                  placeholder="Remarque"
-                  onChange={formik.handleChange}
-                  name="firstName"
-                  value={formik.values.remark}
-                  disabled={formik.isSubmitting}
-                />
-                <Input
-                  readOnly={isDisabled}
-                  label="Constitution dossier"
-                  type="text"
-                  placeholder="Remarque"
-                  onChange={formik.handleChange}
-                  name="firstName"
-                  value={formik.values.remark}
-                  disabled={formik.isSubmitting}
-                />
-                <Input
-                  readOnly={isDisabled}
-                  label="Completion Dossier"
-                  type="text"
-                  placeholder="Remarque"
-                  onChange={formik.handleChange}
-                  name="firstName"
-                  value={formik.values.remark}
-                  disabled={formik.isSubmitting}
-                />
-                <Input
-                  readOnly={isDisabled}
-                  label="Refus Dossier"
-                  type="text"
-                  placeholder="Remarque"
-                  onChange={formik.handleChange}
-                  name="firstName"
-                  value={formik.values.remark}
-                  disabled={formik.isSubmitting}
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label
-                htmlFor="message"
-                className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
-              >
-                Tous les Documents Fournis:
-              </label>
+                <ModalBody>
+                  <ViewRequest />
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    style={{ color: "#396EA5" }}
+                    variant="light"
+                    onPress={onClose}
+                  >
+                    Fermer
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+        {/* <div className="mb-6">
               <Dropzone
                 onDrop={(acceptedFiles) =>
                   formik.setFieldValue("documents", acceptedFiles)
@@ -269,26 +197,26 @@ export default function ModifyRequest({
                   </section>
                 )}
               </Dropzone>
-            </div>
-          </div>
+            </div>*/}
+      </div>
 
-          <div className="flex mb-5 justify-between items-center">
-            {" "}
-            <Button
-              color="white"
-              onClick={async () => {
-                const motif = window.prompt("Motif de refus ?");
-                start(() =>
-                  newRequestStatus(
-                    data.id,
-                    RequestStatusEnum.Refuse,
-                    motif ?? undefined
-                  ).then((re) => {
-                    toast.error("Dossier refusé");
-                  })
-                );
-              }}
-              /*onClick={async () => {
+      <div className="flex mb-5 justify-between items-center">
+        {/*
+        <MyButton
+          color="white"
+          onClick={async () => {
+            const motif = window.prompt("Motif de refus ?");
+            start(() =>
+              newRequestStatus(
+                data.id,
+                RequestStatusEnum.Refuse,
+                motif ?? undefined
+              ).then((re) => {
+                toast.error("Dossier refusé");
+              })
+            );
+          }}
+         onClick={async () => {
                 const motif = window.prompt("Motif de refus ?");
                 if (window.confirm("Motif de refus ?")) {
                   newRequestStatus(
@@ -299,34 +227,33 @@ export default function ModifyRequest({
                     toast.error("Dossier refusé");
                   });
                 }
-              }} */
-              bgColor="red"
-              text="Refuser Dossier"
-              borderRadius="10px"
-              disabled={loading}
-              icon={<FaXmark />}
-            />
-            <Button
-              type="submit"
-              color="white"
-              bgColor={currentColor}
-              borderRadius="10px"
-              text="Accepter Dossier"
-              disabled={loading}
-              icon={<FaCheck />}
-              onClick={() =>
-                start(() =>
-                  newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
-                    (re) => {
-                      toast.success("Dossier accepte");
-                    }
-                  )
-                )
-              }
-            />
-          </div>
-        </div>
-      </form>
-    </div>
+              }} 
+          bgColor="red"
+          text="Refuser Dossier"
+          borderRadius="10px"
+          disabled={loading}
+          icon={<FaXmark />}
+        />
+        <MyButton
+          type="submit"
+          color="white"
+          bgColor={currentColor}
+          borderRadius="10px"
+          text="Accepter Dossier"
+          disabled={loading}
+          icon={<FaCheck />}
+          onClick={() =>
+            start(() =>
+              newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
+                (re) => {
+                  toast.success("Dossier accepte");
+                }
+              )
+            )
+          }
+        />
+        */}
+      </div>
+    </form>
   );
 }

@@ -75,7 +75,7 @@ const UserProfile = () => {
                   backgroundColor: "white",
                 }}
                 className=" text-xl rounded-lg p-3 hover:bg-light-gray"
-                href={`${user.id}`}
+                href={`/${user.id}`}
               >
                 <FaUser />
               </Link>
@@ -94,7 +94,7 @@ const UserProfile = () => {
                   backgroundColor: "white",
                 }}
                 className=" text-xl rounded-lg p-3 hover:bg-light-gray"
-                href={`${user.id}/notifications`}
+                href={`/${user.id}/notifications`}
               >
                 <IoMailUnreadSharp />
               </Link>

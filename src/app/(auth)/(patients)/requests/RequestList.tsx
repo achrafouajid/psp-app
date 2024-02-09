@@ -16,10 +16,6 @@ import {
 import { reqGrid } from "@/data/patientsData";
 import { Selection } from "@syncfusion/ej2-react-charts";
 import getAllRequests from "../../../../../server/patient/requests/getAllRequests";
-import { useStateContext } from "@/Contexts/ThemeContext";
-import { useRouter } from "next/navigation";
-import PatientListPopUp from "./PatientlistPopUp";
-import getAllPatients from "../../../../../server/patient/getAllpatients";
 
 const RequestList = ({
   data,
@@ -29,22 +25,26 @@ const RequestList = ({
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
-  const { currentColor } = useStateContext();
-  const router = useRouter();
 
   return (
     <div>
       <GridComponent
-        dataSource={data.map((e) => ({
-          requestId: e.id,
-          patientId: e.patientId,
-          number: e.number.toString(),
-          name: e.Patient.lastName.concat(" ", e.Patient.firstName),
-          date: e.createdAt,
-          remark: e.statuses.at(0)?.remark,
-          documentCount: e._count.documents,
-          status: e.statuses.at(0)?.status.toString(),
-        }))}
+        dataSource={data.map((e) => {
+          const currentStatus = e.statuses.find((e) => e.current);
+          return {
+            requestId: e.id,
+            patientId: e.patientId,
+            number: e.number.toString(),
+            name: e.Patient.lastName.concat(" ", e.Patient.firstName),
+            date: e.createdAt,
+            remark: currentStatus?.remark,
+            documentCount: e.statuses.reduce(
+              (acc, cur) => acc + cur._count.documents,
+              0
+            ),
+            status: currentStatus?.status.toString(),
+          };
+        })}
         width="auto"
         enableHover={true}
         allowPaging

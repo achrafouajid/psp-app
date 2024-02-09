@@ -13,7 +13,11 @@ export default async function get_blogs() {
         },
       },
       image: true,
-      categories: true,
+      categories: {
+        include: {
+          category: true,
+        },
+      },
     },
   });
 }

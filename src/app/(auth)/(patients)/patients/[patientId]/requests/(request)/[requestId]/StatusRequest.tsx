@@ -36,7 +36,7 @@ export default function StatusRequest({
                   className=""
                 />
               </div>
-              <div className="flex justify-center my-5">
+              {/*     <div className="flex justify-center my-5">
                 <Button
                   onClick={() => setShowRequest(true)}
                   color="white"
@@ -46,11 +46,12 @@ export default function StatusRequest({
                   borderRadius="10px"
                 />
               </div>
+              */}
             </div>
           </div>
         </div>
       )}
-      {showRequest && <ModifyRequest data={data} />}
+      {showRequest && <ModifyRequest />}
     </>
   );
 }

@@ -42,6 +42,8 @@ const PageContent = ({
           address: e.address ?? "-",
           name: e.lastName.concat(" ", e.firstName),
           id: e.id,
+          requests: e.requests.length,
+          doctor: e.doctor?.firstName.concat(" ", e.doctor?.lastName),
         }))}
         width="auto"
         enableHover={true}
