@@ -13,12 +13,6 @@ const userSchema = object({
   firstName: string().required("First Name is required"),
   lastName: string().required("Last Name is required"),
   email: string().email("Email is invalid").required("Email is required"),
-  password: string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
-  confirmPassword: string()
-    .oneOf([ref("password"), ""], "Passwords must match")
-    .required("Confirm Password is required"),
 });
 
 export default function RegisterForm() {
@@ -28,8 +22,6 @@ export default function RegisterForm() {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
-      confirmPassword: "",
       termsAndConditions: false,
     },
     onSubmit: async (values) => {
@@ -37,7 +29,6 @@ export default function RegisterForm() {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
-        password: values.password,
         termsAndConditions: values.termsAndConditions,
       });
       if (res.status == registerResponseEnum.exist)
@@ -82,30 +73,7 @@ export default function RegisterForm() {
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
       />
-      <Input
-        isRequired
-        type="password"
-        label="Mot de passe"
-        name="password"
-        readOnly={formik.isSubmitting}
-        onBlur={formik.handleBlur}
-        onChange={formik.handleChange}
-      />
-      <Input
-        isRequired
-        type="password"
-        label="Confirmer mot de passe"
-        name="confirmPassword"
-        readOnly={formik.isSubmitting}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      <div className="text-red-600 text-xs">
-        <p>
-          {formik.touched.confirmPassword && formik.errors.confirmPassword}{" "}
-        </p>
-        <p>{formik.touched.password && formik.errors.password} </p>
-      </div>
+
       <div>
         <input
           required

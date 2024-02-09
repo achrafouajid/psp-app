@@ -29,6 +29,7 @@
     "@syncfusion/ej2-react-popups": "^24.1.41",
     "@syncfusion/ej2-react-richtexteditor": "^24.1.41",
     "@syncfusion/ej2-react-schedule": "^24.1.41",
+    "@types/nodemailer": "^6.4.14",
     "@types/socket.io": "^3.0.2",
     "awesome-react-stepper": "^1.1.1",
     "axios": "^1.6.3",

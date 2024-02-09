@@ -1,32 +1,30 @@
-{
-  /*"use strict";
-const nodemailer = require("nodemailer");
-export default async function handler(req, res) {
+import nodemailer from "nodemailer";
+export default async function sendMail(props: {
+  to: string;
+  subject: string;
+  text: string;
+}) {
   const transporter = nodemailer.createTransport({
-    host: "smtp.forwardemail.net",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
+    host: process.env.SMTP_HOST,
     auth: {
-      user: process.env.EMAIL_USERNAME, // Store your credentials in environment variables
-      pass: process.env.EMAIL_PASSWORD,
+      user: process.env.SMTP_EMAIL,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
 
-  try {
-    const info = await transporter.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>',
-      to: "bar@example.com, baz@example.com",
-      subject: "Hello  ✔",
-      text: "Hello world?",
-      html: "<b>Hello world?</b>",
-    });
+  // Setup email data
 
-    res
-      .status(200)
-      .json({ message: "Email sent successfully", messageId: info.messageId });
-  } catch (error) {
-    res.status(500).json({ error: "Error sending email" });
-  }
-}
-*/
+  await transporter
+    .sendMail({
+      from: process.env.SMTP_EMAIL,
+      ...props,
+    })
+    .then(() => {
+      console.log("Email sent successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
