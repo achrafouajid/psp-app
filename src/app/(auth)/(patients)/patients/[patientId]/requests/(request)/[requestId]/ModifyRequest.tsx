@@ -9,7 +9,6 @@ import updateRequest, {
   acceptRequest,
   refuseRequest,
 } from "../../../../../../../../../server/patient/requests/updateRequest";
-import MyButton from "@/components/Button";
 import { FaCheck, FaEdit, FaHistory } from "react-icons/fa";
 import { FaDownload, FaXmark } from "react-icons/fa6";
 import Dropzone from "react-dropzone";
@@ -35,7 +34,6 @@ export default function ModifyRequest() {
   const { data } = useRequest();
 
   const router = useRouter();
-  const [loading, start] = useTransition();
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
@@ -198,61 +196,6 @@ export default function ModifyRequest() {
                 )}
               </Dropzone>
             </div>*/}
-      </div>
-
-      <div className="flex mb-5 justify-between items-center">
-        {/*
-        <MyButton
-          color="white"
-          onClick={async () => {
-            const motif = window.prompt("Motif de refus ?");
-            start(() =>
-              newRequestStatus(
-                data.id,
-                RequestStatusEnum.Refuse,
-                motif ?? undefined
-              ).then((re) => {
-                toast.error("Dossier refusé");
-              })
-            );
-          }}
-         onClick={async () => {
-                const motif = window.prompt("Motif de refus ?");
-                if (window.confirm("Motif de refus ?")) {
-                  newRequestStatus(
-                    data.id,
-                    RequestStatusEnum.Refuse,
-                    motif ?? undefined
-                  ).then((re) => {
-                    toast.error("Dossier refusé");
-                  });
-                }
-              }} 
-          bgColor="red"
-          text="Refuser Dossier"
-          borderRadius="10px"
-          disabled={loading}
-          icon={<FaXmark />}
-        />
-        <MyButton
-          type="submit"
-          color="white"
-          bgColor={currentColor}
-          borderRadius="10px"
-          text="Accepter Dossier"
-          disabled={loading}
-          icon={<FaCheck />}
-          onClick={() =>
-            start(() =>
-              newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
-                (re) => {
-                  toast.success("Dossier accepte");
-                }
-              )
-            )
-          }
-        />
-        */}
       </div>
     </form>
   );

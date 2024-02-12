@@ -18,6 +18,7 @@ import Header from "@/components/Header";
 import { Selection } from "@syncfusion/ej2-react-charts";
 import getPatientRequests from "../../../../../../../server/patient/requests/get_patient_requests";
 import Link from "next/link";
+import AddReqPopUp from "./AddReqPopUp";
 
 const RequestListPatient = ({
   data,
@@ -75,6 +76,7 @@ const RequestListPatient = ({
       <Link href={`./requests/add-request`} className="text-[#396EA5] mt-5">
         Créer une nouvelle demande
       </Link>
+      <AddReqPopUp />
     </div>
   );
 };

@@ -222,6 +222,7 @@ const PatientProfileCopy = ({
                 name="program"
                 value={formik.values.program ?? ProgramEnum.PSP}
                 disabled={formik.isSubmitting}
+                selectedKeys={[formik.values.program ?? ProgramEnum.PSP]}
               >
                 {Object.values(ProgramEnum).map((e) => (
                   <SelectItem key={e}>{e}</SelectItem>
@@ -258,6 +259,7 @@ const PatientProfileCopy = ({
               name="doctor"
               value={formik.values.doctor?.id}
               onChange={formik.handleChange}
+              selectedKeys={[formik.values.doctor?.id ?? ""]}
               items={doctors}
               label="Médecin"
               placeholder="Choisissez un médecin"

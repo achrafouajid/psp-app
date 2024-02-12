@@ -216,7 +216,8 @@ model User {
   passwordHash String 
   emailVerified DateTime?
   birthDate DateTime?
-  status UserStatus @default(Active)
+  status UserStatus @default(NeedInitialization)
+  otp String?
   emailVerificationCode String?
   avatarId String? @unique
   avatar Document?  @relation(fields: [avatarId],references: [id])

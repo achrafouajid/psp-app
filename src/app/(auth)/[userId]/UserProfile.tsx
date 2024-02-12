@@ -195,6 +195,7 @@ const UserProfile = ({
                           onChange={formik.handleChange}
                           name="role"
                           value={formik.values.role}
+                          selectedKeys={[formik.values.role]}
                           disabled={formik.isSubmitting}
                         >
                           {Object.values(UserRole).map((role) => (

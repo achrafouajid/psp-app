@@ -3,8 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { CiSettings } from "react-icons/ci";
 import { FaRegEye } from "react-icons/fa";
-import { FiFilePlus } from "react-icons/fi";
-import { LuFileEdit } from "react-icons/lu";
+import { PiFiles } from "react-icons/pi";
 
 export const gridProfile = (props: any) =>
   props.avatar ? (
@@ -33,9 +32,9 @@ const PatientAction = (props: any) => (
   <div className="flex gap-1 justify-center">
     <Link
       className="flex justify-center items-center"
-      href={`/patients/${props.id}/requests/add-request`}
+      href={`/patients/${props.id}/requests`}
     >
-      <FiFilePlus size={25} style={{ color: "#396EA5" }} />
+      <PiFiles size={25} style={{ color: "#396EA5" }} />
     </Link>
     <Link
       className="flex justify-center items-center"

@@ -1,6 +1,25 @@
+import { useFormik } from "formik";
 import React from "react";
+import toast from "react-hot-toast";
 
 export default function OtpForm() {
+  const formik = useFormik({
+    initialValues: {
+      otp: "",
+    },
+    async onSubmit() {
+      {
+        /*     try {
+        await checkOTP(formik.values.otp);
+        toast.success(
+          "Votre code de récupération à été envoyé à votre adresse mail!"
+        );
+        setStep(2);
+      } catch (error) {}
+    */
+      }
+    },
+  });
   return (
     <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
       <div className="flex flex-col items-center justify-center text-center space-y-2">
