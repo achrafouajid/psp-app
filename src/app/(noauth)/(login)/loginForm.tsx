@@ -74,6 +74,9 @@ export default function LoginForm() {
           Récupérer !
         </Link>
       </span>
+      <Link href="/register" className="text-[#396EA5] no-underline font-bold">
+        Inscrivez-vous !
+      </Link>
     </form>
   );
 }

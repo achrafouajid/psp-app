@@ -4,7 +4,13 @@ import verifyToken from "../server/auth/verifyToken";
 import { links } from "./data/navlinks";
 import jwtDecoded from "../server/auth/jwtDecoded";
 
-const nonAuthRoutes = ["/", "/forgot-password", "/change-password", "/consent"];
+const nonAuthRoutes = [
+  "/",
+  "/forgot-password",
+  "/change-password",
+  "/consent",
+  "/register",
+];
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   if (pathname.startsWith("/_next/static")) {
