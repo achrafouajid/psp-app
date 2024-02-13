@@ -2,12 +2,17 @@
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import login from "../../../../server/auth/login";
+import { IoIosMail } from "react-icons/io";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Button, Input } from "@nextui-org/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 export default function LoginForm() {
   const [loading, setloading] = useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -41,40 +46,68 @@ export default function LoginForm() {
       className="flex flex-col gap-8 bg-[#ffffff] rounded-2xl p-4 lg:p-8 w-full max-w-[calc(100vw-2rem)] lg:max-w-[calc(100vw-10rem)]"
       onSubmit={formik.handleSubmit}
     >
-      <input
-        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#116272] w-full text-lg focus:border-[#f17c34] focus:outline-none"
+      <Input
         type="text"
-        placeholder="Nom d'utilisateur"
+        label="Addresse Email"
+        className="border border-[#396EA5] rounded-md text-[#116272]"
         name="username"
         readOnly={formik.isSubmitting}
         onChange={formik.handleChange}
         min="3"
+        endContent={
+          <IoIosMail
+            size={30}
+            className="text-2xl text-[#396EA5] pointer-events-none flex-shrink-0 "
+          />
+        }
       />
-      <input
-        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#116272] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        type="password"
+      <Input
+        className="border border-[#396EA5] rounded-md text-[#116272]"
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+          >
+            {isVisible ? (
+              <FaEyeSlash
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            ) : (
+              <FaEye
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            )}
+          </button>
+        }
+        type={isVisible ? "text" : "password"}
         readOnly={formik.isSubmitting}
-        placeholder="Mot de passe"
+        label="Mot de passe"
         name="password"
         onChange={formik.handleChange}
       />
-      <button
+      <Button
         type="submit"
         disabled={formik.isSubmitting}
         className="bg-[#396EA5] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]"
       >
         {formik.isSubmitting ? "Connection..." : "Se connecter"}
-      </button>
-      <span className="text-[#0c545c] uppercase">
-        mot de passe oublié ?{" "}
+      </Button>
+      <span>
+        Mot de passe oublié ?{" "}
         <Link
           href="/forgot-password"
-          className="text-[#396EA5] no-underline font-bold"
+          className="text-[#396EA5] no-underline font-bold uppercase"
         >
           Récupérer !
         </Link>
       </span>
-      <Link href="/register" className="text-[#396EA5] no-underline font-bold">
+      <Link
+        href="/register"
+        className="text-[#396EA5] no-underline font-bold uppercase"
+      >
         Inscrivez-vous !
       </Link>
     </form>

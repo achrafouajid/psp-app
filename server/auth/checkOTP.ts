@@ -1,25 +1,16 @@
+"use server";
 import prisma from "../../prisma/client";
 
-export async function checkOTP(userId: string, otp: string): Promise<boolean> {
+export async function checkOTP(email: string, otp: string): Promise<boolean> {
   try {
     // Query the user from the database
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        id: userId,
+        email: email,
+        otp: otp,
       },
     });
-
-    // If the user exists and the OTP matches
-    if (user && user.otp === otp) {
-      // Clear the OTP after successful verification
-      await prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          otp: null, // Clear the OTP field
-        },
-      });
+    if (user) {
       return true; // OTP is correct
     } else {
       return false; // OTP is incorrect

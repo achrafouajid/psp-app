@@ -6,8 +6,14 @@ import toast from "react-hot-toast";
 import { Button, Input } from "@nextui-org/react";
 import forgotPassword from "../../../../server/auth/forgotPassword";
 import OtpForm from "./OtpForm";
+import ChangePassword from "./ChangePassword";
+import { IoIosMail } from "react-icons/io";
 export default function ForgotPasswordForm() {
   const [step, setStep] = useState(1);
+  const [data, setData] = useState({
+    email: "",
+    otp: "",
+  });
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,6 +21,7 @@ export default function ForgotPasswordForm() {
     async onSubmit() {
       try {
         await forgotPassword(formik.values.email);
+        setData({ ...data, email: formik.values.email });
         toast.success(
           "Votre code de récupération à été envoyé à votre adresse mail!"
         );
@@ -22,20 +29,6 @@ export default function ForgotPasswordForm() {
       } catch (error) {}
     },
   });
-  {
-    /*async function handleOtpVerification(otp) {
-    try {
-      await checkOTP(otp);
-      toast.success(
-        "Votre code de récupération a été vérifié avec succès!"
-      );
-      setStep(3); // Move to the next step upon successful OTP verification
-    } catch (error) {
-      // Handle errors if needed
-    }
-  } */
-  }
-
   return (
     <>
       {step === 1 ? (
@@ -47,9 +40,16 @@ export default function ForgotPasswordForm() {
             type="text"
             label="Adresse Mail"
             name="email"
+            className="border border-[#396EA5] rounded-md text-[#116272]"
             readOnly={formik.isSubmitting}
             onChange={formik.handleChange}
             min="3"
+            endContent={
+              <IoIosMail
+                size={30}
+                className="text-2xl text-[#396EA5] pointer-events-none flex-shrink-0 "
+              />
+            }
           />
 
           <Button
@@ -59,7 +59,7 @@ export default function ForgotPasswordForm() {
           >
             {formik.isSubmitting ? "Envoi..." : "Vérifier"}
           </Button>
-          <span className="text-[#0c545c] uppercase">
+          <span className="uppercase">
             Vous n'avez rien reçu ?
             <Link
               href="/register"
@@ -71,13 +71,16 @@ export default function ForgotPasswordForm() {
         </form>
       ) : step === 2 ? (
         // Render the OTP form if step is 2
-        <OtpForm />
+        <OtpForm
+          email={data.email}
+          onAccept={(str) => {
+            setData({ ...data, otp: str });
+            setStep(3);
+          }}
+        />
       ) : (
         // Render the success message or any other component for step 3
-        <div>
-          {/* You can render a success message or any other component */}
-          <p>Step 3: OTP Verification Successful!</p>
-        </div>
+        <ChangePassword email={data.email} otp={data.otp} />
       )}
     </>
   );

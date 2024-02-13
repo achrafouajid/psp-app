@@ -23,7 +23,7 @@ export async function getCompletedRequestsCount() {
     where: {
       statuses: {
         some: {
-          status: RequestStatusEnum.Complete,
+          status: { in: [RequestStatusEnum.Accepte, RequestStatusEnum.Refuse] },
           current: true,
         },
       },
@@ -36,7 +36,7 @@ export async function getPendingRequestsCount() {
     where: {
       statuses: {
         some: {
-          status: RequestStatusEnum.Attente,
+          status: RequestStatusEnum.Complete,
           current: true,
         },
       },
