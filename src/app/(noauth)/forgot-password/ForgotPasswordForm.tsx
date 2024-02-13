@@ -40,7 +40,7 @@ export default function ForgotPasswordForm() {
             type="text"
             label="Adresse Mail"
             name="email"
-            className="border border-[#396EA5] rounded-md text-[#116272]"
+            className="border border-[#396EA5] rounded-xl text-[#116272]"
             readOnly={formik.isSubmitting}
             onChange={formik.handleChange}
             min="3"

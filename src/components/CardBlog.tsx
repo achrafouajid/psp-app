@@ -3,6 +3,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Chip,
   Divider,
 } from "@nextui-org/react";
 import React from "react";
@@ -39,12 +40,12 @@ export default function CardBlog(
       {props.categories.map((category, index) => (
         <span key={index} className="ml-3 flex items-center gap-1">
           <FaTag style={{ color: "#396EA5" }} />
-          <div
-            style={{ backgroundColor: `${category.category.color}` }}
-            className="flex px-2 py-1 rounded-full text-white justify-between"
+          <Chip
+            size="sm"
+            style={{ backgroundColor: category.category.color, color: "white" }}
           >
-            {category.category.label}{" "}
-          </div>
+            {category.category.label}
+          </Chip>
         </span>
       ))}
       <h3 className="font-bold text-2xl my-1 mx-3">{props.title}</h3>

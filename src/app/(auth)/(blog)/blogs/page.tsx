@@ -13,7 +13,7 @@ const Blogs = async () => {
         title="Module d'éducation des patients"
       />
       <div className="flex">
-        <div className="w-3/4 bg-[#f9f9f9] py-[50px]">
+        <div className="w-3/4 py-[50px]">
           <div className="max-w-[1240px] mx-auto">
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 ss:grid-cols-1 gap-8 px-4 text-black">
               {data.map((e) => (
