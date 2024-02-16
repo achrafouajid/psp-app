@@ -1,5 +1,5 @@
 import React, { MouseEvent, useEffect, useId } from "react";
-import { MdOutlineCancel } from "react-icons/md";
+import { MdLogout, MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Button from "./Button";
 import logout from "../../server/auth/logout";
@@ -133,6 +133,7 @@ const UserProfile = () => {
               onClick={(e) => logout()}
               color="white"
               bgColor={currentColor}
+              icon={<MdLogout size={20} />}
               text="Déconnexion"
               borderRadius="10px"
               width="full"

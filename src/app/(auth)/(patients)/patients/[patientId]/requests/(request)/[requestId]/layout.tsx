@@ -25,18 +25,18 @@ export default async function layout({
           <aside className="hidden py-4 md:w-1/3 lg:w-1/4 md:block">
             <div className="sticky flex flex-col gap-2 p-4 text-sm border-r border-indigo-100 top-12">
               <p className="flex items-center px-3 py-2.5 font-semibold border rounded-full hover:text-[#396EA5] ">
-                <BsClipboard2Pulse size={20} className="mr-3" /> Poursuivre
-                Demande
+                <BsClipboard2Pulse size={20} className="mr-3" />
+                Etat du Dossier
               </p>
               <Link
-                href={`/patients/${patientId}/requests/${requestId}/status`}
+                href={`/patients/${patientId}/requests`}
                 className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
               >
                 <LuFolderSearch size={20} className="mr-3" />
-                Etat du Dossier
+                Demandes du patient
               </Link>
               <Link
-                href="/requests"
+                href={`/patients/${patientId}/requests/${requestId}/status`}
                 className="flex items-center px-3 py-2.5 font-semibold hover:text-[#396EA5] hover:border hover:rounded-full"
               >
                 <LuFolderClock size={20} className="mr-3" />

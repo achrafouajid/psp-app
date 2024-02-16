@@ -1,4 +1,3 @@
-"use server";
 import React from "react";
 import Header from "@/components/Header";
 import AddDoctor from "./AddDoctor";

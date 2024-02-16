@@ -1,26 +1,17 @@
+"use client";
 import React from "react";
-import {
-  AiOutlineCalendar,
-  AiOutlineAreaChart,
-  AiOutlineBarChart,
-  AiOutlineStock,
-} from "react-icons/ai";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { MdCategory } from "react-icons/md";
+import { MdCategory, MdOutlineCastForEducation } from "react-icons/md";
 import { FiShoppingBag, FiEdit, FiPieChart, FiFileText } from "react-icons/fi";
 import { BsKanban, BsBarChart } from "react-icons/bs";
-import { BiColorFill } from "react-icons/bi";
-import { IoMdContacts } from "react-icons/io";
-import { RiStockLine } from "react-icons/ri";
-
 import { FiUserPlus } from "react-icons/fi";
-import { GiLouvrePyramid } from "react-icons/gi";
-
 import { GrUserSettings } from "react-icons/gr";
 import { UserRole } from "@prisma/client";
 import { NavLinkProps } from "@/components/NavLink";
 import { FaUserDoctor } from "react-icons/fa6";
-import { TbSitemap } from "react-icons/tb";
+import { TbHeartRateMonitor, TbSitemap } from "react-icons/tb";
+import { useStateContext } from "@/Contexts/ThemeContext";
 type LinksGroup = {
   title: string;
   links: NavLinkProps[];
@@ -33,7 +24,7 @@ export const links: LinksGroup[] = [
       {
         title: "Tableau de Bord",
         href: "/home",
-        icon: <FiShoppingBag />,
+        icon: <TbHeartRateMonitor size={20} className="" />,
         activatedFor: [
           UserRole.Admin,
           UserRole.Lab,
@@ -51,14 +42,14 @@ export const links: LinksGroup[] = [
       {
         title: "Gestion Utilisateurs",
         href: "/users",
-        icon: <GrUserSettings />,
+        icon: <GrUserSettings size={20} className="" />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin],
       },
       {
         title: "Gestion Régions",
         href: "/regions",
-        icon: <TbSitemap />,
+        icon: <TbSitemap size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
@@ -71,21 +62,21 @@ export const links: LinksGroup[] = [
       {
         title: "Gestion Patients",
         href: "/patients",
-        icon: <GrUserSettings />,
+        icon: <GrUserSettings size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Créer Dossier Patient",
         href: "/add-patient",
-        icon: <FiUserPlus />,
+        icon: <FiUserPlus size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Demandes",
         href: "/requests",
-        icon: <FiFileText />,
+        icon: <FiFileText size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
@@ -97,14 +88,14 @@ export const links: LinksGroup[] = [
       {
         title: "Classification Médecins",
         href: "/doctors",
-        icon: <FaUserDoctor />,
+        icon: <FaUserDoctor size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Ajouter Médecin",
         href: "/add-doctors",
-        icon: <FaUserDoctor />,
+        icon: <FaUserDoctor size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
@@ -116,28 +107,28 @@ export const links: LinksGroup[] = [
       {
         title: "Module d'Éducation des Patients",
         href: "/blogs",
-        icon: <AiOutlineCalendar />,
+        icon: <MdOutlineCastForEducation size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Gestion",
         href: "/list-blogs",
-        icon: <BsKanban />,
+        icon: <BsKanban size={20} className="" />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin, UserRole.Lab],
       },
       {
         title: "Rédaction",
         href: "/add-blog",
-        icon: <FiEdit />,
+        icon: <FiEdit size={20} className="" />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin, UserRole.Lab],
       },
       {
         title: "Catégories",
         href: "/category",
-        icon: <MdCategory />,
+        icon: <MdCategory size={20} className="" />,
         activatedFor: [UserRole.Admin],
         visibleFor: [UserRole.Admin, UserRole.Lab],
       },
@@ -149,7 +140,7 @@ export const links: LinksGroup[] = [
       {
         title: "Messagerie",
         href: "/chat",
-        icon: <IoChatbubblesOutline />,
+        icon: <IoChatbubblesOutline size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
@@ -167,14 +158,14 @@ export const links: LinksGroup[] = [
       {
         title: "Rendez-vous",
         href: "/calendar",
-        icon: <AiOutlineCalendar />,
+        icon: <AiOutlineCalendar size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Notes",
         href: "/notes",
-        icon: <BsKanban />,
+        icon: <BsKanban size={20} className="" />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },

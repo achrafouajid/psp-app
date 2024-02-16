@@ -73,9 +73,9 @@ const RequestListPatient = ({
         />
       </GridComponent>
 
-      <Link href={`./requests/add-request`} className="text-[#396EA5] mt-5">
+      {/*<Link href={`./requests/add-request`} className="text-[#396EA5] mt-5">
         Créer une nouvelle demande
-      </Link>
+      </Link>*/}
       <AddReqPopUp />
     </div>
   );

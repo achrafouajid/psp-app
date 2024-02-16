@@ -79,6 +79,13 @@ enum PriorityEnum {
   HVT
   LVT
 }
+
+enum BlogStatusEnum {
+  Attente
+  Publie
+  Refuse
+  Modifications
+}
 model Patient {
   id String @id @default(cuid()) @map("_id") 
   firstName String 
@@ -264,8 +271,12 @@ model Blog{
   imageId String  @unique
   image Document @relation(fields: [imageId], references: [id])
   author User @relation(fields:[authorId],references: [id])
+  status BlogStatusEnum @default(Attente)
+  viewCount Int @default(0)
+  notes String?
 
 }
+
 
 model Message {
   id String @id @default(cuid()) @map("_id")

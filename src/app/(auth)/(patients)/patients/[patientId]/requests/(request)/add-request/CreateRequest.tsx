@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import newRequest from "../../../../../../../../../server/patient/requests/newRequest";
 import getPatient from "../../../../../../../../../server/patient/get_patient";
 import StepperOne from "./StepperOne";
+import { useRouter } from "next/navigation";
 
 export default function CreateRequest({
   data,
@@ -14,6 +15,7 @@ export default function CreateRequest({
   data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
 }) {
   const { currentColor } = useStateContext();
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       createdAt: new Date().toISOString().split("T")[0],
@@ -26,6 +28,7 @@ export default function CreateRequest({
       formdata.append("remark", values.remark);
       const res = await newRequest(formdata);
       toast.success("Demande de  patient créé avec succès !");
+      router.push(`/patients/${data.id}/requests`);
     },
   });
   return (

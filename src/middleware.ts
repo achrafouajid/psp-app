@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import verifyToken from "../server/auth/verifyToken";
 import { links } from "./data/navlinks";
 import jwtDecoded from "../server/auth/jwtDecoded";
+import currentUser from "../server/auth/currentUser";
 
 const nonAuthRoutes = [
   "/",
@@ -13,6 +14,7 @@ const nonAuthRoutes = [
 ];
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
   if (pathname.startsWith("/_next/static")) {
     return NextResponse.next();
   }
@@ -29,6 +31,23 @@ export async function middleware(request: NextRequest) {
   if (!jwtoken && nonAuthRoutes.includes(pathname)) return NextResponse.next();
 
   var isValid = await verifyToken();
+
+  if (pathname.startsWith("/refresh")) {
+    const jwt = request.nextUrl.searchParams.get("jwt") as string;
+    var isValid = await verifyToken(jwt);
+    if (isValid) {
+      var response = NextResponse.redirect("/");
+      var decoded = jwtDecoded(jwt);
+      response.cookies.set({
+        name: "authToken",
+        value: jwt,
+        expires: decoded.exp,
+        httpOnly: true,
+        secure: true,
+      });
+      return response;
+    }
+  }
 
   if (isValid) {
     if (pathname.startsWith("/uploads")) return NextResponse.next();

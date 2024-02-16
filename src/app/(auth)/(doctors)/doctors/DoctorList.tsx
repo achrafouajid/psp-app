@@ -15,6 +15,8 @@ import {
 import Header from "@/components/Header";
 import { Selection } from "@syncfusion/ej2-react-charts";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
+import Link from "next/link";
+import { CiSettings } from "react-icons/ci";
 
 const DoctorList = ({
   data,
@@ -24,6 +26,16 @@ const DoctorList = ({
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Search"];
   const editing = { allowDeleting: true, allowEditing: true };
+  const DocAction = (props: any) => (
+    <div className="flex gap-1 justify-end">
+      <Link
+        href={`/doctors/${props.id}`}
+        className="flex justify-center items-center"
+      >
+        <CiSettings size={25} style={{ color: "#396EA5" }} />
+      </Link>
+    </div>
+  );
   const doctorGrid = [
     {
       headerText: "Médecin",
@@ -73,6 +85,12 @@ const DoctorList = ({
       headerText: "Priority High/Low ( HVT / LTV )",
       field: "priority",
       width: "50",
+      textAlign: "Center",
+    },
+    {
+      headerText: "Actions",
+      width: "40",
+      template: DocAction,
       textAlign: "Center",
     },
   ];

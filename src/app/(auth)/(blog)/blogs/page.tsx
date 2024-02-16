@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import BlogCard from "@/components/BlogCard";
 import get_blogs from "../../../../../server/blog/get_blogs";
 import CardBlog from "@/components/CardBlog";
+import { Chip } from "@nextui-org/react";
+import FeaturedPosts from "@/components/FeaturedPosts";
 
 const Blogs = async () => {
   const data = await get_blogs();
@@ -12,7 +14,8 @@ const Blogs = async () => {
         category="Module Education Patients"
         title="Module d'éducation des patients"
       />
-      <div className="flex">
+      <div className="flex container mx-auto px-10 mb-8">
+        <FeaturedPosts />
         <div className="w-3/4 py-[50px]">
           <div className="max-w-[1240px] mx-auto">
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 ss:grid-cols-1 gap-8 px-4 text-black">
@@ -32,16 +35,16 @@ const Blogs = async () => {
               </h3>
               <div>
                 <h5 className="text-sm font-semibold leading-6 mb-3">Tags</h5>
-                {/*{tagColorMap.map((item, index) => (
-                <div className="p-1" key={index}>
-                  <button
-                    className={`tag-label ${item.color} rounded-full px-3 py-1 transition duration-300 ease-in-out hover:bg-opacity-70`}
-                    type="button"
-                  >
-                    {item.tag}
-                  </button>
-                </div>
-              ))}*/}
+                {/*  {data.categories.map(() => (
+        <span key={e.id} className="ml-3 flex items-center gap-1">
+          <Chip
+            size="sm"
+            style={{ backgroundColor: e.categories, color: "white" }}
+          >
+            {e.categories.}
+          </Chip>
+        </span>
+      ))}*/}
               </div>
             </div>
 
@@ -52,7 +55,7 @@ const Blogs = async () => {
               {data.map((e) => (
                 <div className=" mb-3 flex" key={e.id}>
                   <div className="w-1/2">
-                    {/*<img src="" className="rounded-xl" alt="watch" />*/}
+                    <img src={e.image.url} className="rounded-xl" alt="watch" />
                   </div>
                   <div className="w-1/2">
                     <h5 className="font-bold text-xs my-1">{e.title}</h5>

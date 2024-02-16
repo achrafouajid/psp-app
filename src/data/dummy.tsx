@@ -279,7 +279,8 @@ export const lineChartData = [
     { x: new Date(2011, 0, 1), y: 100 },
   ],
 ];
-export const dropdownData = [
+{
+  /*export const dropdownData = [
   {
     Id: "1",
     Time: "Janvier 2024",
@@ -292,7 +293,8 @@ export const dropdownData = [
     Id: "3",
     Time: "Mars 2024",
   },
-];
+];*/
+}
 export const lineCustomSeries = [
   {
     dataSource: lineChartData[0],

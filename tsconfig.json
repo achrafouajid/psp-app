@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/(auth)/chat/ChatInput.tsx",
-    "src/app/(auth)/chat/Logout.jsx"
+    "src/app/(auth)/chat/Logout.jsx",
+    "server.js"
   ],
   "exclude": ["node_modules"]
 }

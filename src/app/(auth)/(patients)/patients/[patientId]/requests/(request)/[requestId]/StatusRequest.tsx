@@ -82,11 +82,11 @@ export default function StatusRequest({
                   text="Accepter Dossier"
                   disabled={loading}
                   icon={<FaCheck />}
-                  onClick={() =>
+                  onClick={async () =>
                     start(() =>
                       newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
                         (re) => {
-                          toast.success("Dossier accepte");
+                          toast.success("Dossier accepté");
                         }
                       )
                     )

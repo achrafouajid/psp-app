@@ -27,5 +27,4 @@ export default async function newRequest(data: FormData) {
     },
   });
   revalidatePath("/");
-  redirect("./");
 }

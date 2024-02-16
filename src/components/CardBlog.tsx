@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardBody,
@@ -17,6 +18,9 @@ import { FaUserPen } from "react-icons/fa6";
 export default function CardBlog(
   props: Awaited<ReturnType<typeof get_blogs>>[number]
 ) {
+  const html = document.createElement("div");
+  html.innerHTML = props.content;
+
   return (
     <Card className="max-w-[400px]">
       <CardHeader className="flex gap-3">
@@ -51,10 +55,7 @@ export default function CardBlog(
       <h3 className="font-bold text-2xl my-1 mx-3">{props.title}</h3>
       <Divider />
       <CardBody>
-        <p
-          dangerouslySetInnerHTML={{ __html: props.content }}
-          className="line-clamp-3 text-gray-600 text-xl"
-        />{" "}
+        <p className="line-clamp-3 font-light text-sm ">{html.textContent}</p>
       </CardBody>
       <Divider />
       <CardFooter>

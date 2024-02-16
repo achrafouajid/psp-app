@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { object, string, ref, InferType } from "yup";
 import register from "../../server/auth/register";
 import { registerResponseEnum } from "../../server/auth/types";
-import { Input } from "@nextui-org/react";
+import { Checkbox, Input } from "@nextui-org/react";
 
 const userSchema = object({
   firstName: string().required("First Name is required"),
@@ -75,18 +75,14 @@ export default function RegisterForm() {
       />
 
       <div>
-        <input
-          required
+        <Checkbox
+          isRequired
           type="checkbox"
           id="termsAndConditions"
           name="termsAndConditions"
           checked={formik.values.termsAndConditions}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
-        />
-        <label
-          htmlFor="termsAndConditions"
-          className="relative justify-start ml-2"
         >
           J'ai lu le{" "}
           <Link target="_blank" href="/consent" className="text-[#396EA5]">
@@ -94,7 +90,7 @@ export default function RegisterForm() {
           </Link>{" "}
           et j'accepte les termes <br /> et conditions d'utilisation de Rafiki
           Fi Ilaji
-        </label>
+        </Checkbox>
         <p>{formik.errors.termsAndConditions}</p>
       </div>
 

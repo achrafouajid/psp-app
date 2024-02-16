@@ -48,20 +48,20 @@ export default function ManageBlogs(props: {
       width: "120",
     },
     {
-      field: "OrderItems",
+      field: "title",
       headerText: "Nom Article",
       width: "150",
       editType: "dropdownedit",
       textAlign: "Center",
     },
     {
-      field: "CustomerName",
+      field: "author",
       headerText: "Nom Auteur",
       width: "150",
       textAlign: "Center",
     },
     {
-      field: "TotalAmount",
+      field: "categories",
       headerText: "Catégories",
       format: "C2",
       textAlign: "Center",
@@ -71,20 +71,20 @@ export default function ManageBlogs(props: {
     {
       headerText: "Status",
       template: gridOrderStatus,
-      field: "OrderItems",
+      field: "status",
       textAlign: "Center",
       width: "120",
-    },
-    {
-      field: "OrderID",
-      headerText: "ID",
-      width: "120",
-      textAlign: "Center",
     },
 
     {
-      field: "Location",
+      field: "content",
       headerText: "Notes",
+      width: "150",
+      textAlign: "Center",
+    },
+    {
+      field: "date",
+      headerText: "Date de publciation",
       width: "150",
       textAlign: "Center",
     },
@@ -121,7 +121,17 @@ export default function ManageBlogs(props: {
   return (
     <GridComponent
       id="gridcomp"
-      dataSource={ordersData}
+      dataSource={props.data.map((e) => {
+        return {
+          blogId: e.id,
+          image: e.image,
+          title: e.title,
+          number: e.categories.map((e) => e.category).join(", "),
+          author: e.author.firstName + " " + e.author.lastName,
+          date: e.publishedAt,
+          content: { dangerouslySetInnerHTML: { __html: e.content } },
+        };
+      })}
       allowPaging
       allowSorting
       allowExcelExport
@@ -135,8 +145,6 @@ export default function ManageBlogs(props: {
           <ColumnDirective key={index} {...item} />
         ))}
       </ColumnsDirective>
-      {/*props.data.map((item, index) =>
-      )*/}
       <Inject
         services={[
           Resize,

@@ -1,7 +1,6 @@
 "use client";
 import React, { useId, useRef } from "react";
 import { GoDotFill } from "react-icons/go";
-import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import {
   ChartComponent,
   SeriesCollectionDirective,
@@ -16,7 +15,6 @@ import {
 import { Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import { dropdownData } from "@/data/dummy";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { FaFilePdf, FaMapMarkerAlt, FaUserInjured } from "react-icons/fa";
 import getPatientCount from "../../../../server/patient/getPatientCount";
@@ -31,7 +29,8 @@ import {
 } from "react-icons/lu";
 import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
 import getAllRegions from "../../../../server/region/getAllRegions";
-const DropDown = ({ currentMode }: any) => (
+{
+  /*const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
     <DropDownListComponent
       id="time"
@@ -43,7 +42,8 @@ const DropDown = ({ currentMode }: any) => (
       popupWidth="120px"
     />
   </div>
-);
+);*/
+}
 
 const Home = ({
   data,
@@ -163,7 +163,7 @@ const Home = ({
     },
     {
       icon: <LuFolderArchive />,
-      amount: complete,
+      amount: attente,
       title: "Dossiers Complets",
       iconColor: "rgb(228, 106, 118)",
       iconBg: "rgb(255, 244, 229)",
@@ -415,7 +415,7 @@ const Home = ({
         >
           <div className="flex justify-between items-center gap-2">
             <p className="text-xl font-semibold">Dossiers</p>
-            <DropDown currentMode={currentMode} />
+            {/*<DropDown currentMode={currentMode} />*/}
           </div>
           <div className="mt-10 w-72 md:w-400">
             {recentTransactions.map((item) => (
@@ -496,7 +496,7 @@ const Home = ({
         >
           <div className="flex justify-between items-center gap-2">
             <p className="text-xl font-semibold">Patients par région</p>
-            <DropDown currentMode={currentMode} />
+            {/*<DropDown currentMode={currentMode} />*/}
           </div>
           <div className="mt-10 w-72 md:w-400">
             {region.map((item) => (

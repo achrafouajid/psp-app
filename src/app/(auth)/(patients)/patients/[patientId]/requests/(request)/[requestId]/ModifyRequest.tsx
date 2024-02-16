@@ -29,6 +29,8 @@ import {
 import { useRequest } from "@/Contexts/RequestContext";
 import ViewRequest from "./ViewRequest";
 import { IoFileTrayFullOutline } from "react-icons/io5";
+import { LuFileX } from "react-icons/lu";
+import deleteRequest from "../../../../../../../../../server/patient/requests/deleteRequest";
 
 export default function ModifyRequest() {
   const { data } = useRequest();
@@ -196,6 +198,21 @@ export default function ModifyRequest() {
                 )}
               </Dropzone>
             </div>*/}
+      </div>
+      <div className=" flex mt-5 justify-end">
+        <Button
+          style={{ backgroundColor: "#396EA5", color: "white" }}
+          startContent={<LuFileX size={20} color="red" />}
+          onClick={() => {
+            if (
+              window.confirm("Voulez-vous vraiment supprimer cette demande ?")
+            ) {
+              deleteRequest(data.id);
+            }
+          }}
+        >
+          Supprimer la Demande
+        </Button>
       </div>
     </form>
   );

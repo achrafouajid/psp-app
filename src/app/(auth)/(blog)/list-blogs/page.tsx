@@ -1,4 +1,3 @@
-"use server";
 import Header from "@/components/Header";
 import React from "react";
 import ManageBlogs from "./ManageBlogs";

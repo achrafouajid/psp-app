@@ -70,14 +70,6 @@ export default function AddUserPopUp() {
                 >
                   Fermer
                 </Button>
-                <Button
-                  style={{ backgroundColor: "#396EA5", color: "white" }}
-                  onPress={onClose}
-                  disabled={formik.isSubmitting}
-                  type="submit"
-                >
-                  Ajouter Utilisateur
-                </Button>
               </ModalFooter>
             </>
           )}

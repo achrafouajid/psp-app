@@ -10,7 +10,9 @@ import StepperOne from "./(request)/add-request/StepperOne";
 
 export default function CreateRequest({
   data,
+  onClose,
 }: {
+  onClose?: () => void;
   data: NonNullable<Awaited<ReturnType<typeof getPatient>>>;
 }) {
   const { currentColor } = useStateContext();
@@ -25,6 +27,7 @@ export default function CreateRequest({
       formdata.append("createdAt", values.createdAt);
       formdata.append("remark", values.remark);
       const res = await newRequest(formdata);
+      onClose?.();
       toast.success("Demande de  patient créé avec succès !");
     },
   });
