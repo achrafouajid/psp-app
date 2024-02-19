@@ -1,4 +1,5 @@
-import type { Server as HTTPServer } from "http";
+{
+  /*import type { Server as HTTPServer } from "http";
 import type { Socket as NetSocket } from "net";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Server as IOServer } from "socket.io";
@@ -56,3 +57,5 @@ function GET(req: Response, res: NextApiResponseWithSocket) {
   });
 }
 export default GET;
+*/
+}

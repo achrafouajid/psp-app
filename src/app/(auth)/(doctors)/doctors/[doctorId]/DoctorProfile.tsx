@@ -15,15 +15,15 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import getAllRegions from "../../../../../../server/region/getAllRegions";
 import { registerResponseEnum } from "../../../../../../server/auth/types";
-import getDoctor from "../../../../../../server/doctor/get_doctor";
 import deleteDoctor from "../../../../../../server/doctor/delete_doctor";
+import getDoctor from "../../../../../../server/doctor/get_doctor";
 
 export default function DoctorProfile({
   regions,
   data,
 }: {
   regions: NonNullable<Awaited<ReturnType<typeof getAllRegions>>>;
-  data: any;
+  data: NonNullable<Awaited<ReturnType<typeof getDoctor>>>;
 }) {
   const { currentColor } = useStateContext();
   const ref = useRef<HTMLInputElement>(null);
@@ -32,6 +32,7 @@ export default function DoctorProfile({
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      ...data,
       title: TitleEnum.Dr as TitleEnum,
       firstName: "",
       lastName: "",
