@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Checkbox, Input, Select, SelectItem } from "@nextui-org/react";
 import {
   EstablishmentEnum,
   PriorityEnum,
@@ -17,6 +17,8 @@ import getAllRegions from "../../../../../../server/region/getAllRegions";
 import { registerResponseEnum } from "../../../../../../server/auth/types";
 import deleteDoctor from "../../../../../../server/doctor/delete_doctor";
 import getDoctor from "../../../../../../server/doctor/get_doctor";
+import updateDoctor from "../../../../../../server/doctor/update_doctor";
+import { CiSettings } from "react-icons/ci";
 
 export default function DoctorProfile({
   regions,
@@ -33,43 +35,23 @@ export default function DoctorProfile({
   const formik = useFormik({
     initialValues: {
       ...data,
-      title: TitleEnum.Dr as TitleEnum,
-      firstName: "",
-      lastName: "",
-      establishment: EstablishmentEnum.Hopital as EstablishmentEnum,
-      service: "",
-      tel: "",
-      mail: "",
-      secteur: SecteurEnum.Prive as SecteurEnum,
-      region: "",
-      city: "",
-      priority: PriorityEnum.HVT as PriorityEnum,
-      attache: "",
+      establishment: data.establishment as EstablishmentEnum,
+      service: data.service as string,
+      tel: data.tel as string,
+      mail: data.mail as string,
+      secteur: data.secteur as SecteurEnum,
+      city: data.cityId as string,
+      region: region as string,
+      priority: data.priority as PriorityEnum,
     },
     onSubmit: async (values) => {
       if (isDisabled) return setisDisabled(false);
-      const formadata = new FormData();
-      formadata.append("title", values.title);
-      formadata.append("firstName", values.firstName);
-      formadata.append("lastName", values.lastName);
-      formadata.append("establishment", values.establishment ?? "");
-      formadata.append("service", values.service ?? "");
-      formadata.append("tel", values.tel ?? "");
-      formadata.append("mail", values.mail ?? "");
-      formadata.append("secteur", values.secteur ?? "");
-      formadata.append("region", values.region ?? "");
-      formadata.append("city", values.city ?? "");
-      formadata.append("priority", values.priority ?? "");
-      formadata.append("attache", values.attache ?? "");
-      {
-        /*    const res = await updateDoctor(formadata);
-      if (res.status == registerResponseEnum.exist)
-        toast.error("Ce médecin existe déjà  !");
-      else {
-        toast.success("Médecin ajouté avec succès !");
+
+      const res = await updateDoctor(values);
+      if (res) {
+        toast.success("Informations mises à jour avec succès !");
         router.push("/doctors");
-      } */
-      }
+      } else toast.error("Erreur  !");
     },
   });
   useEffect(() => {
@@ -93,36 +75,35 @@ export default function DoctorProfile({
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="title"
             >
-              Titre <span className="text-red-500">*</span>
+              Titre
             </label>
             <div className="relative">
               <Select
                 label="Titre"
                 isRequired={true}
                 onChange={formik.handleChange}
+                selectedKeys={[formik.values.title]}
                 name="title"
                 value={formik.values.title}
                 disabled={formik.isSubmitting}
               >
                 {Object.values(TitleEnum).map((e) => (
-                  <SelectItem key={e} value={e}>
+                  <SelectItem isReadOnly={isDisabled} key={e} value={e}>
                     {e}
                   </SelectItem>
                 ))}
               </Select>
             </div>
-            <p className="text-red-500 text-xs italic">
-              * Champs obligatoires.
-            </p>
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="lastName"
             >
-              Nom Médecin traitant <span className="text-red-500">*</span>
+              Nom Médecin traitant
             </label>
             <Input
+              readOnly={isDisabled}
               isRequired={true}
               label="Nom Médecin"
               onChange={formik.handleChange}
@@ -137,9 +118,10 @@ export default function DoctorProfile({
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="firstName"
             >
-              Prénom Médecin traitant <span className="text-red-500">*</span>
+              Prénom Médecin traitant
             </label>
             <Input
+              readOnly={isDisabled}
               isRequired={true}
               onChange={formik.handleChange}
               name="firstName"
@@ -160,43 +142,65 @@ export default function DoctorProfile({
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
+                    isReadOnly={isDisabled}
                     name="establishment"
-                    value="Hopital"
-                    checked={
-                      formik.values.establishment === EstablishmentEnum.Hopital
+                    value={EstablishmentEnum.Hopital}
+                    isSelected={
+                      formik.values.establishment == EstablishmentEnum.Hopital
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Hopital"> Hôpital </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Hopital
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Hopital}
+                  </Checkbox>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
+                    isReadOnly={isDisabled}
                     name="establishment"
-                    value="Clinique"
-                    checked={
+                    value={EstablishmentEnum.Clinique}
+                    isSelected={
                       formik.values.establishment == EstablishmentEnum.Clinique
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Clinique"> Clinique </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Clinique
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Clinique}
+                  </Checkbox>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
+                    isReadOnly={isDisabled}
                     name="establishment"
-                    value="Cabinet"
-                    checked={
+                    value={EstablishmentEnum.Cabinet}
+                    isSelected={
                       formik.values.establishment == EstablishmentEnum.Cabinet
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Cabinet"> Cabinet </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Cabinet
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Cabinet}
+                  </Checkbox>
                 </div>
               </div>
             </div>
@@ -208,6 +212,7 @@ export default function DoctorProfile({
                 Service
               </label>
               <Input
+                readOnly={isDisabled}
                 label="Service"
                 onChange={formik.handleChange}
                 name="service"
@@ -236,7 +241,11 @@ export default function DoctorProfile({
                 className="max-w-s"
               >
                 {(region) => (
-                  <SelectItem value={region.id} key={region.id}>
+                  <SelectItem
+                    isReadOnly={isDisabled}
+                    value={region.id}
+                    key={region.id}
+                  >
                     {region.name}
                   </SelectItem>
                 )}
@@ -260,7 +269,11 @@ export default function DoctorProfile({
                 className="max-w-s"
               >
                 {(city) => (
-                  <SelectItem value={city.id} key={city.id}>
+                  <SelectItem
+                    isReadOnly={isDisabled}
+                    value={city.id}
+                    key={city.id}
+                  >
                     {city.name}
                   </SelectItem>
                 )}
@@ -275,27 +288,40 @@ export default function DoctorProfile({
               >
                 Secteur
               </label>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="secteur"
-                  value="Prive"
-                  checked={formik.values.secteur === SecteurEnum.Prive}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Prive"> Prive </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="secteur"
-                  value="Public"
-                  checked={formik.values.secteur == SecteurEnum.Public}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Public"> Public </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    isReadOnly={isDisabled}
+                    name="secteur"
+                    value={SecteurEnum.Public}
+                    isSelected={formik.values.secteur == SecteurEnum.Public}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "secteur",
+
+                        !e.currentTarget.checked ? null : SecteurEnum.Public
+                      )
+                    }
+                  >
+                    {SecteurEnum.Public}
+                  </Checkbox>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    isReadOnly={isDisabled}
+                    name="secteur"
+                    value={SecteurEnum.Prive}
+                    isSelected={formik.values.secteur == SecteurEnum.Prive}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "secteur",
+                        !e.currentTarget.checked ? null : SecteurEnum.Prive
+                      )
+                    }
+                  >
+                    {SecteurEnum.Prive}
+                  </Checkbox>
+                </div>
               </div>
             </div>
             <div className="md:w-1/2 px-3 items-center">
@@ -305,30 +331,42 @@ export default function DoctorProfile({
               >
                 Priorité
               </label>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="priority"
-                  value="HVT"
-                  checked={formik.values.priority === PriorityEnum.HVT}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Prive"> HVT </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="priority"
-                  value="LVT"
-                  checked={formik.values.priority == PriorityEnum.LVT}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Public"> LVT </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    isReadOnly={isDisabled}
+                    name="priority"
+                    value={PriorityEnum.HVT}
+                    isSelected={formik.values.priority == PriorityEnum.HVT}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "priority",
+
+                        !e.currentTarget.checked ? null : PriorityEnum.HVT
+                      )
+                    }
+                  >
+                    {PriorityEnum.HVT}
+                  </Checkbox>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    isReadOnly={isDisabled}
+                    name="priority"
+                    value={PriorityEnum.LVT}
+                    isSelected={formik.values.priority == PriorityEnum.LVT}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "priority",
+                        !e.currentTarget.checked ? null : PriorityEnum.LVT
+                      )
+                    }
+                  >
+                    {PriorityEnum.LVT}
+                  </Checkbox>
+                </div>
               </div>
             </div>
-            <div className="flex flex-row"></div>
           </div>
         </div>
         <div className="flex flex-wrap -mx-3 mb-6"></div>
@@ -340,6 +378,7 @@ export default function DoctorProfile({
             Contact Téléphonique
           </label>
           <Input
+            readOnly={isDisabled}
             label="Contact Médecin"
             onChange={formik.handleChange}
             name="tel"
@@ -356,6 +395,7 @@ export default function DoctorProfile({
             Contact Mail
           </label>
           <Input
+            readOnly={isDisabled}
             label="Email Médecin"
             onChange={formik.handleChange}
             name="mail"
@@ -369,9 +409,7 @@ export default function DoctorProfile({
             color="white"
             onClick={() => {
               if (
-                window.confirm(
-                  "Voulez-vous vraiment supprimer ce patient ? Toutes ses demandes seront supprimées..."
-                )
+                window.confirm("Voulez-vous vraiment supprimer ce médecin ?")
               ) {
                 deleteDoctor(data.id);
               }
@@ -385,6 +423,7 @@ export default function DoctorProfile({
             type="submit"
             color="white"
             bgColor={currentColor}
+            icon={isDisabled ? <CiSettings size={20} className="mr-2" /> : null}
             text={isDisabled ? "Modifier" : "Sauvegarder"}
             borderRadius="10px"
             disabled={formik.isSubmitting}
@@ -393,20 +432,4 @@ export default function DoctorProfile({
       </form>
     </div>
   );
-}
-function updateDoctor(values: {
-  title: import(".prisma/client").$Enums.TitleEnum;
-  firstName: string;
-  lastName: string;
-  establishment: import(".prisma/client").$Enums.EstablishmentEnum;
-  service: string;
-  tel: string;
-  mail: string;
-  secteur: import(".prisma/client").$Enums.SecteurEnum;
-  region: string;
-  city: string;
-  priority: import(".prisma/client").$Enums.PriorityEnum;
-  attache: string;
-}) {
-  throw new Error("Function not implemented.");
 }

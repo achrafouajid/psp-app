@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Checkbox, Input, Select, SelectItem } from "@nextui-org/react";
 import { registerResponseEnum } from "../../../../../server/auth/types";
 import {
   EstablishmentEnum,
@@ -29,14 +29,14 @@ export default function AddDoctor({
       title: TitleEnum.Dr as TitleEnum,
       firstName: "",
       lastName: "",
-      establishment: EstablishmentEnum.Hopital as EstablishmentEnum,
+      establishment: null as never as EstablishmentEnum,
       service: "",
       tel: "",
       mail: "",
-      secteur: SecteurEnum.Prive as SecteurEnum,
+      secteur: null as never as SecteurEnum,
       region: "",
       city: "",
-      priority: PriorityEnum.HVT as PriorityEnum,
+      priority: null as never as PriorityEnum,
       attache: "",
     },
     onSubmit: async (values) => {
@@ -132,43 +132,62 @@ export default function AddDoctor({
               </label>
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
                     name="establishment"
-                    value="Hopital"
-                    checked={
-                      formik.values.establishment === EstablishmentEnum.Hopital
+                    value={EstablishmentEnum.Hopital}
+                    isSelected={
+                      formik.values.establishment == EstablishmentEnum.Hopital
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Hopital"> Hôpital </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Hopital
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Hopital}
+                  </Checkbox>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
                     name="establishment"
-                    value="Clinique"
-                    checked={
+                    value={EstablishmentEnum.Clinique}
+                    isSelected={
                       formik.values.establishment == EstablishmentEnum.Clinique
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Clinique"> Clinique </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Clinique
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Clinique}
+                  </Checkbox>
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
-                  <input
-                    type="radio"
-                    className="mr-2"
+                  <Checkbox
                     name="establishment"
-                    value="Cabinet"
-                    checked={
+                    value={EstablishmentEnum.Cabinet}
+                    isSelected={
                       formik.values.establishment == EstablishmentEnum.Cabinet
                     }
-                    onChange={formik.handleChange}
-                  />
-                  <label htmlFor="Cabinet"> Cabinet </label>
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "establishment",
+                        !e.currentTarget.checked
+                          ? null
+                          : EstablishmentEnum.Cabinet
+                      )
+                    }
+                  >
+                    {EstablishmentEnum.Cabinet}
+                  </Checkbox>
                 </div>
               </div>
             </div>
@@ -247,27 +266,38 @@ export default function AddDoctor({
               >
                 Secteur
               </label>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="secteur"
-                  value="Prive"
-                  checked={formik.values.secteur === SecteurEnum.Prive}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Prive"> Prive </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="secteur"
-                  value="Public"
-                  checked={formik.values.secteur == SecteurEnum.Public}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Public"> Public </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    name="secteur"
+                    value={SecteurEnum.Public}
+                    isSelected={formik.values.secteur == SecteurEnum.Public}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "secteur",
+
+                        !e.currentTarget.checked ? null : SecteurEnum.Public
+                      )
+                    }
+                  >
+                    {SecteurEnum.Public}
+                  </Checkbox>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    name="secteur"
+                    value={SecteurEnum.Prive}
+                    isSelected={formik.values.secteur == SecteurEnum.Prive}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "secteur",
+                        !e.currentTarget.checked ? null : SecteurEnum.Prive
+                      )
+                    }
+                  >
+                    {SecteurEnum.Prive}
+                  </Checkbox>
+                </div>
               </div>
             </div>
             <div className="md:w-1/2 px-3 items-center">
@@ -277,27 +307,38 @@ export default function AddDoctor({
               >
                 Priorité
               </label>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="priority"
-                  value="HVT"
-                  checked={formik.values.priority === PriorityEnum.HVT}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Prive"> HVT </label>
-              </div>
-              <div className="flex items-center mb-2 gap-1 ml-2">
-                <input
-                  type="radio"
-                  className="mr-2"
-                  name="priority"
-                  value="LVT"
-                  checked={formik.values.priority == PriorityEnum.LVT}
-                  onChange={formik.handleChange}
-                />
-                <label htmlFor="Public"> LVT </label>
+              <div className="flex flex-row">
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    name="priority"
+                    value={PriorityEnum.HVT}
+                    isSelected={formik.values.priority == PriorityEnum.HVT}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "priority",
+
+                        !e.currentTarget.checked ? null : PriorityEnum.HVT
+                      )
+                    }
+                  >
+                    {PriorityEnum.HVT}
+                  </Checkbox>
+                </div>
+                <div className="flex items-center mb-2 gap-1 ml-2">
+                  <Checkbox
+                    name="priority"
+                    value={PriorityEnum.LVT}
+                    isSelected={formik.values.priority == PriorityEnum.LVT}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "priority",
+                        !e.currentTarget.checked ? null : PriorityEnum.LVT
+                      )
+                    }
+                  >
+                    {PriorityEnum.LVT}
+                  </Checkbox>
+                </div>
               </div>
             </div>
             <div className="flex flex-row"></div>

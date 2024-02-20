@@ -1,5 +1,4 @@
-{
-  /*import type { Server as HTTPServer } from "http";
+import type { Server as HTTPServer } from "http";
 import type { Socket as NetSocket } from "net";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Server as IOServer } from "socket.io";
@@ -22,23 +21,25 @@ interface SocketWithIO extends NetSocket {
 interface NextApiResponseWithSocket extends NextApiResponse {
   socket: SocketWithIO;
 }
-function GET(req: Response, res: NextApiResponseWithSocket) {
-  const PORT = parseInt(process.env.SOCKET_HOST || "3001", 10);
+export default function SocketHandler(
+  _req: NextApiRequest,
+  res: NextApiResponseWithSocket
+) {
   if (res.socket.server.io) {
     res.status(200).json({
       success: true,
       message: "Socket is already running",
-      socket: `:${PORT + 1}`,
+      socket: `:${3000 + 1}`,
     });
     return;
   }
 
-  console.log("Starting Socket.IO server on port:", PORT + 1);
+  console.log("Starting Socket.IO server on port:", 3000 + 1);
   const io = new Server({
     path: "/api/socket",
     addTrailingSlash: false,
     cors: { origin: "*" },
-  }).listen(PORT + 1);
+  }).listen(3000 + 1);
 
   io.on("connect", (socket) => {
     const _socket = socket;
@@ -53,9 +54,6 @@ function GET(req: Response, res: NextApiResponseWithSocket) {
   res.status(201).json({
     success: true,
     message: "Socket is started",
-    socket: `:${PORT + 1}`,
+    socket: `:${3000 + 1}`,
   });
-}
-export default GET;
-*/
 }

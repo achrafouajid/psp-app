@@ -31,7 +31,10 @@ export default function NavLink(props: NavLinkProps) {
         }}
         className={active ? "activeLink" : "normalLink"}
       >
-        {props.icon}
+        <span className={active ? "text-lg" : "text-lg text-[#396EA5]"}>
+          {props.icon}
+        </span>
+
         <span className="">{props.title}</span>
       </Link>
     );
@@ -40,7 +43,9 @@ export default function NavLink(props: NavLinkProps) {
       style={{
         backgroundColor: active ? currentColor : "",
       }}
-      className={"!text-gray-500 ".concat(active ? "activeLink" : "normalLink")}
+      className={"!text-gray-500 ".concat(
+        active ? "text-lg activeLink" : "text-lg normalLink"
+      )}
     >
       {props.icon}
       <span className="">{props.title}</span>

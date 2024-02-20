@@ -5,7 +5,6 @@ import getPatient from "./get_patient";
 import { revalidatePath } from "next/cache";
 import upload from "../upload/upload";
 type data = {
-  email: string;
   firstName: string;
   lastName: string;
   birthDate: string;
@@ -16,7 +15,6 @@ type data = {
   image: File;
 };
 export default async function updatePatient(data: FormData) {
-  const email = data.get("email")?.toString();
   const firstName = data.get("firstName")?.toString();
   const lastName = data.get("lastName")?.toString();
   const birthDate = data.get("birthDate")?.toString();

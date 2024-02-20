@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import verifyToken from "../server/auth/verifyToken";
-import { links } from "./data/navlinks";
 import jwtDecoded from "../server/auth/jwtDecoded";
 import currentUser from "../server/auth/currentUser";
+import { links } from "./utils/routes";
 
 const nonAuthRoutes = [
   "/",
@@ -54,16 +54,12 @@ export async function middleware(request: NextRequest) {
     if (nonAuthRoutes.includes(pathname))
       return NextResponse.redirect(new URL("/home", request.url));
     var decoded = jwtDecoded();
-    var existInPaths = links
-      .flatMap((e) => e.links)
-      .find((e) => pathname.startsWith(e.href));
+    var existInPaths = links.find((e) => pathname.startsWith(e.href));
     if (!existInPaths) return NextResponse.next();
-    const isAuthorized = links
-      .flatMap((e) => e.links)
-      .find(
-        (e) =>
-          e.activatedFor.includes(decoded.role) && pathname.startsWith(e.href)
-      );
+    const isAuthorized = links.find(
+      (e) =>
+        e.activatedFor.includes(decoded.role) && pathname.startsWith(e.href)
+    );
     if (isAuthorized) return NextResponse.next();
     return NextResponse.rewrite(new URL("/notAuthorized", request.url));
   }
