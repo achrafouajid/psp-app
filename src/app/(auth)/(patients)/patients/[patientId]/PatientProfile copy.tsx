@@ -81,8 +81,8 @@ const PatientProfileCopy = ({
       formadata.append("firstName", values.firstName);
       formadata.append("lastName", values.lastName);
       formadata.append("birthDate", values.birthDate?.toString() ?? "");
-      formadata.append("tel", values.tel);
-      formadata.append("patientno", values.patientno);
+      formadata.append("tel", values.tel ?? "");
+      formadata.append("patientno", values.patientno ?? "");
       formadata.append("address", values.address ?? "");
       formadata.append("program", values.program ?? "");
       formadata.append("notes", values.notes ?? "");
@@ -190,7 +190,7 @@ const PatientProfileCopy = ({
               isReadOnly={isDisabled}
               onChange={formik.handleChange}
               name="patientno"
-              value={formik.values.patientno}
+              value={formik.values.patientno ?? ""}
               disabled={formik.isSubmitting}
               isInvalid={
                 formik.touched.patientno && formik.errors.patientno
@@ -237,7 +237,7 @@ const PatientProfileCopy = ({
               isReadOnly={isDisabled}
               onChange={formik.handleChange}
               name="tel"
-              value={formik.values.tel}
+              value={formik.values.tel ?? ""}
               disabled={formik.isSubmitting}
               isInvalid={formik.touched.tel && formik.errors.tel ? true : false}
               type="text"
