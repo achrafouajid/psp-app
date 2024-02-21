@@ -72,6 +72,8 @@ const PatientProfileCopy = ({
       inclDate: data.inclDate?.toISOString().slice(0, 10),
       doctor: data.doctor,
       diagnosticDate: data.diagnosticDate?.toISOString().slice(0, 10),
+      tel: data.tel,
+      patientno: data.patientno,
     },
     onSubmit: async (values) => {
       if (isDisabled) return setisDisabled(false);
@@ -79,6 +81,8 @@ const PatientProfileCopy = ({
       formadata.append("firstName", values.firstName);
       formadata.append("lastName", values.lastName);
       formadata.append("birthDate", values.birthDate?.toString() ?? "");
+      formadata.append("tel", values.tel);
+      formadata.append("patientno", values.patientno);
       formadata.append("address", values.address ?? "");
       formadata.append("program", values.program ?? "");
       formadata.append("notes", values.notes ?? "");
@@ -146,6 +150,7 @@ const PatientProfileCopy = ({
                 Nom
               </label>
               <Input
+                isReadOnly={isDisabled}
                 required
                 onChange={formik.handleChange}
                 name="lastName"
@@ -163,6 +168,7 @@ const PatientProfileCopy = ({
                 Prénom
               </label>
               <Input
+                isReadOnly={isDisabled}
                 required
                 onChange={formik.handleChange}
                 name="firstName"
@@ -173,7 +179,33 @@ const PatientProfileCopy = ({
               />
             </div>
           </div>
-
+          <div className="mb-6">
+            <label
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+              htmlFor="patientno"
+            >
+              Identifiant Patient ID<span className="text-red-500">*</span>
+            </label>
+            <Input
+              isReadOnly={isDisabled}
+              onChange={formik.handleChange}
+              name="patientno"
+              value={formik.values.patientno}
+              disabled={formik.isSubmitting}
+              isInvalid={
+                formik.touched.patientno && formik.errors.patientno
+                  ? true
+                  : false
+              }
+              type="text"
+              label="Identifiant Patient"
+            />
+            {formik.touched.patientno && formik.errors.patientno ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.patientno}
+              </div>
+            ) : null}
+          </div>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full px-3">
               <label
@@ -183,6 +215,7 @@ const PatientProfileCopy = ({
                 Date de naissance
               </label>
               <Input
+                isReadOnly={isDisabled}
                 required
                 onChange={formik.handleChange}
                 name="birthDate"
@@ -196,11 +229,36 @@ const PatientProfileCopy = ({
           <div className="mb-6">
             <label
               className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+              htmlFor="tel"
+            >
+              Numero de Telephone <span className="text-red-500">*</span>
+            </label>
+            <Input
+              isReadOnly={isDisabled}
+              onChange={formik.handleChange}
+              name="tel"
+              value={formik.values.tel}
+              disabled={formik.isSubmitting}
+              isInvalid={formik.touched.tel && formik.errors.tel ? true : false}
+              type="text"
+              label="Téléphone patient"
+              placeholder="0600110011"
+            />
+            {formik.touched.tel && formik.errors.tel ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.tel}
+              </div>
+            ) : null}
+          </div>
+          <div className="mb-6">
+            <label
+              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
               htmlFor="address"
             >
               Adresse
             </label>
             <Input
+              isReadOnly={isDisabled}
               onChange={formik.handleChange}
               name="address"
               value={formik.values.address ?? ""}
@@ -225,7 +283,9 @@ const PatientProfileCopy = ({
                 selectedKeys={[formik.values.program ?? ProgramEnum.PSP]}
               >
                 {Object.values(ProgramEnum).map((e) => (
-                  <SelectItem key={e}>{e}</SelectItem>
+                  <SelectItem isReadOnly={isDisabled} key={e}>
+                    {e}
+                  </SelectItem>
                 ))}
               </Select>
             </div>
@@ -240,6 +300,7 @@ const PatientProfileCopy = ({
             </label>
             <div className="relative">
               <Textarea
+                isReadOnly={isDisabled}
                 onChange={formik.handleChange}
                 name="notes"
                 label="Notes"
@@ -265,7 +326,11 @@ const PatientProfileCopy = ({
               placeholder="Choisissez un médecin"
             >
               {(doctor) => (
-                <SelectItem value={doctor.id} key={doctor.id}>
+                <SelectItem
+                  isReadOnly={isDisabled}
+                  value={doctor.id}
+                  key={doctor.id}
+                >
                   {doctor.lastName.concat(" ", doctor.firstName)}
                 </SelectItem>
               )}
@@ -284,6 +349,7 @@ const PatientProfileCopy = ({
                 {inclusionCriteria.map((criteria) => (
                   <div key={criteria.name} className="mb-2">
                     <Checkbox
+                      isReadOnly={isDisabled}
                       type="checkbox"
                       id={criteria.name}
                       name={criteria.name}
@@ -304,6 +370,7 @@ const PatientProfileCopy = ({
                 {exclusionCriteria.map((criteria) => (
                   <div key={criteria.name} className="mb-2">
                     <Checkbox
+                      isReadOnly={isDisabled}
                       type="checkbox"
                       id={criteria.name}
                       name={criteria.name}
@@ -326,6 +393,7 @@ const PatientProfileCopy = ({
                 Date d'inclusion
               </label>
               <Input
+                isReadOnly={isDisabled}
                 onChange={formik.handleChange}
                 name="inclDate"
                 value={formik.values.inclDate ?? ""}
@@ -350,6 +418,7 @@ const PatientProfileCopy = ({
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="social"
                     value={SocialEnum.CNOPS}
                     isSelected={formik.values.social == SocialEnum.CNOPS}
@@ -366,6 +435,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="social"
                     value={SocialEnum.CNSS}
                     isSelected={formik.values.social == SocialEnum.CNSS}
@@ -381,6 +451,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="social"
                     value={SocialEnum.FAR}
                     isSelected={formik.values.social == SocialEnum.FAR}
@@ -396,6 +467,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="social"
                     value={SocialEnum.Prive}
                     isSelected={formik.values.social == SocialEnum.Prive}
@@ -411,6 +483,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="social"
                     value={SocialEnum.Other}
                     isSelected={formik.values.social == SocialEnum.Other}
@@ -424,6 +497,7 @@ const PatientProfileCopy = ({
                     Autre
                   </Checkbox>
                   <Input
+                    isReadOnly={isDisabled}
                     onChange={formik.handleChange}
                     name="othersocial"
                     type="text"
@@ -455,6 +529,7 @@ const PatientProfileCopy = ({
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="education"
                     value={EducationEnum.Analphabete}
                     isSelected={
@@ -475,6 +550,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="education"
                     value={EducationEnum.Primaire}
                     isSelected={
@@ -493,6 +569,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="education"
                     value={EducationEnum.College}
                     isSelected={
@@ -511,6 +588,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="education"
                     value={EducationEnum.Lycee}
                     isSelected={formik.values.education == EducationEnum.Lycee}
@@ -527,6 +605,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="education"
                     value={EducationEnum.Universitaire}
                     isSelected={
@@ -559,6 +638,7 @@ const PatientProfileCopy = ({
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="habitat"
                     value={HabitatEnum.Urbain}
                     isSelected={formik.values.habitat == HabitatEnum.Urbain}
@@ -575,6 +655,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="habitat"
                     value={HabitatEnum.SubUrbain}
                     isSelected={formik.values.habitat == HabitatEnum.SubUrbain}
@@ -591,6 +672,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="habitat"
                     value={HabitatEnum.Rural}
                     isSelected={formik.values.habitat == HabitatEnum.Rural}
@@ -616,7 +698,11 @@ const PatientProfileCopy = ({
               >
                 Care Giver
               </label>
-              <RadioGroup label="Soignant(e)" orientation="horizontal">
+              <RadioGroup
+                isReadOnly={isDisabled}
+                label="Soignant(e)"
+                orientation="horizontal"
+              >
                 <Radio
                   value="true"
                   name="iscaregiver"
@@ -647,6 +733,7 @@ const PatientProfileCopy = ({
                 Si Oui
               </label>
               <Input
+                isReadOnly={isDisabled}
                 onChange={formik.handleChange}
                 name="caregiverfullName"
                 value={formik.values.caregiver?.fullName ?? ""}
@@ -672,6 +759,7 @@ const PatientProfileCopy = ({
             </label>
 
             <Input
+              isReadOnly={isDisabled}
               type="text"
               pattern="^\+(?:[0-9] ?){6,25}[0-9]$"
               onChange={formik.handleChange}
@@ -693,6 +781,7 @@ const PatientProfileCopy = ({
               <div className="flex flex-row">
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="diagnostic"
                     value={DiagnosticEnum.Biopsie}
                     isSelected={
@@ -711,6 +800,7 @@ const PatientProfileCopy = ({
                 </div>
                 <div className="flex items-center mb-2 gap-1 ml-2">
                   <Checkbox
+                    isReadOnly={isDisabled}
                     name="diagnostic"
                     value={DiagnosticEnum.Scanner}
                     isSelected={
@@ -737,6 +827,7 @@ const PatientProfileCopy = ({
                 Date Diagnostique
               </label>
               <Input
+                isReadOnly={isDisabled}
                 onChange={formik.handleChange}
                 name="diagnosticDate"
                 value={formik.values.diagnosticDate ?? ""}
@@ -756,7 +847,7 @@ const PatientProfileCopy = ({
                 Demande Préalable effectuée
               </label>
 
-              <RadioGroup orientation="horizontal">
+              <RadioGroup isReadOnly={isDisabled} orientation="horizontal">
                 <Radio
                   value="true"
                   name="prerequest"
@@ -792,6 +883,7 @@ const PatientProfileCopy = ({
               </label>
 
               <RadioGroup
+                isReadOnly={isDisabled}
                 orientation="horizontal"
                 isDisabled={
                   formik.values.prerequest == false || formik.isSubmitting
@@ -836,6 +928,7 @@ const PatientProfileCopy = ({
                 Si Oui, possession du documennt de refus
               </label>
               <RadioGroup
+                isReadOnly={isDisabled}
                 orientation="horizontal"
                 isDisabled={
                   (formik.values.prerequest && !formik.values.statusRequest) ||

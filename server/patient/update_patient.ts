@@ -10,6 +10,7 @@ type data = {
   birthDate: string;
   address: string;
   notes?: string;
+  tel: string;
   program: ProgramEnum;
   id: string;
   image: File;
@@ -20,6 +21,7 @@ export default async function updatePatient(data: FormData) {
   const birthDate = data.get("birthDate")?.toString();
   const address = data.get("address")?.toString();
   const notes = data.get("notes")?.toString();
+  const tel = data.get("tel")?.toString();
   const isMajor = data.get("isMajor")?.toString() === "on";
   const program = data.get("program")?.toString() as ProgramEnum;
   const id = data.get("id")?.toString();
@@ -37,6 +39,7 @@ export default async function updatePatient(data: FormData) {
       firstName: firstName,
       lastName: lastName,
       program: program,
+      tel: tel,
       address: address,
       birthDate: new Date(birthDate!),
       notes: notes,

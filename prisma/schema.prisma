@@ -96,9 +96,10 @@ enum RepeatEnum {
 }
 model Patient {
   id String @id @default(cuid()) @map("_id") 
-  firstName String 
+  firstName String
+  patientno String @unique
   lastName String 
-  address String? 
+  address String?
   birthDate DateTime?
   avatarId String? @unique
   notes String?
@@ -118,12 +119,12 @@ model Patient {
   isIncomplete Boolean
   isAbroad Boolean
   isUnreachable Boolean
-  tel String?
+  tel String
   mail String?
   social SocialEnum?
   othersocial String?
   education EducationEnum?
-  habitat HabitatEnum
+  habitat HabitatEnum?
   iscaregiver Boolean
   caregiver CareGiver? 
   diagnostic DiagnosticEnum?

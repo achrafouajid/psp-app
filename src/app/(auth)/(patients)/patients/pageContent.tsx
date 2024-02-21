@@ -35,6 +35,8 @@ const PageContent = ({
     <>
       <GridComponent
         dataSource={data.map((e) => ({
+          tel: e.tel,
+          patientno: e.patientno,
           notes: e.notes,
           program: e.program,
           birthDate: e.birthDate,

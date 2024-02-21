@@ -24,6 +24,7 @@ import {
 } from "@nextui-org/react";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 export default function AddPatient({
   doctors,
@@ -32,11 +33,22 @@ export default function AddPatient({
 }) {
   const router = useRouter();
   const { currentColor } = useStateContext();
+  const phoneRegExp = /^[0-9]{10}$/;
+  const validationSchema = Yup.object({
+    tel: Yup.string()
+      .matches(phoneRegExp, "Numéro de téléphone non valide ")
+      .required("Veuillez entrer un numéro de téléphone valide"),
+    firstName: Yup.string().required("Veuillez remplir ce champ"),
+    lastName: Yup.string().required("Veuillez remplir ce champ"),
+    patientno: Yup.string().required("Veuillez remplir ce champ"),
+    doctor: Yup.string().required("Veuillez remplir ce champ"),
+  });
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
-      birthDate: "01/01/1950",
+      patientno: "",
+      birthDate: "",
       address: "",
       program: ProgramEnum.PSP,
       notes: "",
@@ -48,7 +60,7 @@ export default function AddPatient({
       isIncomplete: false,
       isAbroad: false,
       isUnreachable: false,
-      inclDate: "01/01/2024",
+      inclDate: "",
       tel: "",
       mail: "",
       social: null as never as SocialEnum,
@@ -59,11 +71,12 @@ export default function AddPatient({
       caregiverfullName: "",
       caregivertel: "",
       diagnostic: null as never as DiagnosticEnum,
-      diagnosticDate: "01/01/2024",
+      diagnosticDate: "",
       prerequest: false,
       statusrequest: false,
       refDoc: false,
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       const res = await addPatient(values);
       if (res.status == registerResponseEnum.exist)
@@ -111,17 +124,22 @@ export default function AddPatient({
               Nom <span className="text-red-500">*</span>
             </label>
             <Input
-              required
+              isRequired
               onChange={formik.handleChange}
               name="lastName"
               value={formik.values.lastName}
+              isInvalid={
+                formik.touched.lastName && formik.errors.lastName ? true : false
+              }
               disabled={formik.isSubmitting}
               type="text"
               label="Nom patient"
             />
-            <p className="text-red-500 text-xs italic">
-              * Veuillez remplir ces champs.
-            </p>
+            {formik.touched.lastName && formik.errors.lastName ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.lastName}
+              </div>
+            ) : null}
           </div>
           <div className="w-full md:w-1/2 px-3">
             <label
@@ -131,35 +149,90 @@ export default function AddPatient({
               Prénom <span className="text-red-500">*</span>
             </label>
             <Input
-              required
+              isRequired
               onChange={formik.handleChange}
               name="firstName"
+              isInvalid={
+                formik.touched.firstName && formik.errors.firstName
+                  ? true
+                  : false
+              }
               value={formik.values.firstName}
               disabled={formik.isSubmitting}
               type="text"
               label="Prénom Patient"
             />
+            {formik.touched.firstName && formik.errors.firstName ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.firstName}
+              </div>
+            ) : null}
           </div>
         </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label
-              className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-              htmlFor="birthDate"
-            >
-              Date de naissance <span className="text-red-500">*</span>
-            </label>
-            <Input
-              required
-              onChange={formik.handleChange}
-              name="birthDate"
-              value={formik.values.birthDate}
-              disabled={formik.isSubmitting}
-              type="date"
-              label="Date naissance"
-            />
-          </div>
+        <div className="mb-6">
+          <label
+            className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+            htmlFor="patientno"
+          >
+            Identifiant Patient ID<span className="text-red-500">*</span>
+          </label>
+          <Input
+            isRequired
+            onChange={formik.handleChange}
+            name="patientno"
+            value={formik.values.patientno}
+            disabled={formik.isSubmitting}
+            isInvalid={
+              formik.touched.patientno && formik.errors.patientno ? true : false
+            }
+            type="text"
+            label="Identifiant Patient"
+          />
+          {formik.touched.patientno && formik.errors.patientno ? (
+            <div className="text-red-500 text-xs italic">
+              {formik.errors.patientno}
+            </div>
+          ) : null}
+        </div>
+        <div className="mb-6">
+          <label
+            className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+            htmlFor="birthDate"
+          >
+            Date de naissance
+          </label>
+          <Input
+            onChange={formik.handleChange}
+            name="birthDate"
+            value={formik.values.birthDate || ""}
+            disabled={formik.isSubmitting}
+            type="date"
+            label="Date naissance"
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+            htmlFor="tel"
+          >
+            Numero de Telephone <span className="text-red-500">*</span>
+          </label>
+          <Input
+            isRequired
+            onChange={formik.handleChange}
+            name="tel"
+            value={formik.values.tel}
+            disabled={formik.isSubmitting}
+            isInvalid={formik.touched.tel && formik.errors.tel ? true : false}
+            type="text"
+            label="Téléphone patient"
+            placeholder="0600110011"
+          />
+          {formik.touched.tel && formik.errors.tel ? (
+            <div className="text-red-500 text-xs italic">
+              {formik.errors.tel}
+            </div>
+          ) : null}
         </div>
         <div className="mb-6">
           <label
@@ -188,6 +261,7 @@ export default function AddPatient({
           <Select
             onChange={formik.handleChange}
             name="program"
+            label="Programme"
             value={formik.values.program}
             disabled={formik.isSubmitting}
           >
@@ -219,9 +293,10 @@ export default function AddPatient({
             className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
             htmlFor="doctor"
           >
-            Médecin
+            Médecin <span className="text-red-500">*</span>
           </label>
           <Select
+            isRequired
             name="doctor"
             value={formik.values.doctor}
             selectedKeys={[formik.values.doctor]}
@@ -236,6 +311,11 @@ export default function AddPatient({
               </SelectItem>
             )}
           </Select>
+          {formik.touched.doctor && formik.errors.doctor ? (
+            <div className="text-red-500 text-xs italic">
+              {formik.errors.doctor}
+            </div>
+          ) : null}
         </div>
         <h1 className="text-[#396EA5] text-xl font-extrabold mb-3">
           2- Informations Supplémentaires

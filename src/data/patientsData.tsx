@@ -46,10 +46,10 @@ const PatientAction = (props: any) => (
 );
 export const employeesGrid = [
   {
-    headerText: "",
-    width: "40px",
-    template: gridProfile,
-    textAlign: "Center",
+    headerText: "ID Patient",
+    width: "100px",
+    field: "patientno",
+    textAlign: "start",
   },
   {
     headerText: "Patient",
@@ -62,19 +62,25 @@ export const employeesGrid = [
     field: "birthDate",
     width: "135",
     format: "yMd",
-    textAlign: "Center",
+    textAlign: "start",
   },
 
   {
     headerText: "Addresse",
     width: "120",
-    textAlign: "Center",
+    textAlign: "start",
     field: "address",
+  },
+  {
+    headerText: "Téléphone",
+    width: "120",
+    textAlign: "start",
+    field: "tel",
   },
   {
     headerText: "Programme",
     width: "80",
-    textAlign: "Center",
+    textAlign: "start",
     field: "program",
   },
 
@@ -82,25 +88,25 @@ export const employeesGrid = [
     headerText: "Notes",
     field: "notes",
     width: "120",
-    textAlign: "Center",
+    textAlign: "start",
   },
   {
     headerText: "Demandes",
     field: "requests",
     width: "100",
-    textAlign: "Center",
+    textAlign: "start",
   },
   {
     headerText: "Médecin",
     field: "doctor",
     width: "100",
-    textAlign: "Center",
+    textAlign: "start",
   },
   {
     headerText: "Actions",
-    width: "40",
+    width: "75",
     template: PatientAction,
-    textAlign: "Center",
+    textAlign: "start",
   },
 ];
 export const reqGrid = [

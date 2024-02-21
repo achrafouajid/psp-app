@@ -13,7 +13,8 @@ import { revalidatePath } from "next/cache";
 type data = {
   firstName: string;
   lastName: string;
-  birthDate: string;
+  patientno: string;
+  birthDate?: string;
   address: string;
   notes?: string;
   doctor?: string;
@@ -25,7 +26,7 @@ type data = {
   isIncomplete: boolean;
   isAbroad: boolean;
   isUnreachable: boolean;
-  inclDate: string;
+  inclDate?: string;
   tel: string;
   mail: string;
   social: SocialEnum;
@@ -36,7 +37,7 @@ type data = {
   caregiverfullName: string;
   caregivertel: string;
   diagnostic: DiagnosticEnum;
-  diagnosticDate: string;
+  diagnosticDate?: string;
   prerequest: boolean;
   statusrequest: boolean;
   refDoc: boolean;
@@ -52,15 +53,17 @@ export default async function addPatient(data: data) {
     data: {
       firstName: data.firstName,
       lastName: data.lastName,
+      patientno: data.patientno,
       program: data.program,
       address: data.address,
-      birthDate: new Date(data.birthDate),
+      birthDate: data.birthDate ? new Date(data.birthDate) : undefined,
       notes: data.notes,
       doctor: {
         connect: {
           id: data.doctor,
         },
       },
+
       diagnostic: data.diagnostic,
       isMajor: data.isMajor,
       isConfDiag: data.isConfDiag,
@@ -69,7 +72,7 @@ export default async function addPatient(data: data) {
       isIncomplete: data.isIncomplete,
       isAbroad: data.isAbroad,
       isUnreachable: data.isUnreachable,
-      inclDate: new Date(data.inclDate),
+      inclDate: data.inclDate ? new Date(data.inclDate) : undefined,
       social: data.social,
       othersocial: data.othersocial,
       education: data.education,

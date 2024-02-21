@@ -15,6 +15,7 @@ import {
 import addDoctor from "../../../../../server/doctor/add_doctor";
 import getAllRegions from "../../../../../server/region/getAllRegions";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 export default function AddDoctor({
   regions,
@@ -24,6 +25,17 @@ export default function AddDoctor({
   const { currentColor } = useStateContext();
   const [region, setRegion] = useState(regions.at(0)?.id as string);
   const router = useRouter();
+  const phoneRegExp = /^[0-9]{10}$/;
+  const validationSchema = Yup.object({
+    tel: Yup.string()
+      .matches(phoneRegExp, "Numéro de téléphone non valide ")
+      .required("Veuillez entrer un numéro de téléphone valide"),
+    title: Yup.string().required("Veuillez remplir ce champ"),
+    firstName: Yup.string().required("Veuillez remplir ce champ"),
+    lastName: Yup.string().required("Veuillez remplir ce champ"),
+    patientno: Yup.string().required("Veuillez remplir ce champ"),
+    doctor: Yup.string().required("Veuillez remplir ce champ"),
+  });
   const formik = useFormik({
     initialValues: {
       title: TitleEnum.Dr as TitleEnum,
@@ -39,6 +51,7 @@ export default function AddDoctor({
       priority: null as never as PriorityEnum,
       attache: "",
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       console.log(values);
       const res = await addDoctor(values);
@@ -70,8 +83,11 @@ export default function AddDoctor({
             <div className="relative">
               <Select
                 label="Titre"
-                isRequired={true}
+                isRequired
                 onChange={formik.handleChange}
+                isInvalid={
+                  formik.touched.title && formik.errors.title ? true : false
+                }
                 name="title"
                 value={formik.values.title}
                 disabled={formik.isSubmitting}
@@ -82,10 +98,12 @@ export default function AddDoctor({
                   </SelectItem>
                 ))}
               </Select>
+              {formik.touched.title && formik.errors.title ? (
+                <div className="text-red-500 text-xs italic">
+                  {formik.errors.title}
+                </div>
+              ) : null}
             </div>
-            <p className="text-red-500 text-xs italic">
-              * Champs obligatoires.
-            </p>
           </div>
           <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
             <label
@@ -95,14 +113,22 @@ export default function AddDoctor({
               Nom Médecin traitant <span className="text-red-500">*</span>
             </label>
             <Input
-              isRequired={true}
+              isRequired
               label="Nom Médecin"
               onChange={formik.handleChange}
+              isInvalid={
+                formik.touched.lastName && formik.errors.lastName ? true : false
+              }
               name="lastName"
               value={formik.values.lastName}
               disabled={formik.isSubmitting}
               type="text"
             />
+            {formik.touched.lastName && formik.errors.lastName ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.lastName}
+              </div>
+            ) : null}
           </div>
           <div className="w-full md:w-1/3 px-3">
             <label
@@ -112,14 +138,24 @@ export default function AddDoctor({
               Prénom Médecin traitant <span className="text-red-500">*</span>
             </label>
             <Input
-              isRequired={true}
+              isRequired
               onChange={formik.handleChange}
               name="firstName"
               label="Prénom Médecin"
+              isInvalid={
+                formik.touched.firstName && formik.errors.firstName
+                  ? true
+                  : false
+              }
               value={formik.values.firstName}
               disabled={formik.isSubmitting}
               type="text"
             />
+            {formik.touched.firstName && formik.errors.firstName ? (
+              <div className="text-red-500 text-xs italic">
+                {formik.errors.firstName}
+              </div>
+            ) : null}
           </div>
 
           <div className=" flex flex-row  w-full justify-between">
