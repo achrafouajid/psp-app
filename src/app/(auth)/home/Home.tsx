@@ -29,6 +29,7 @@ import {
 } from "react-icons/lu";
 import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
 import getAllRegions from "../../../../server/region/getAllRegions";
+import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 {
   /*const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -56,6 +57,7 @@ const Home = ({
   refuse,
   cree,
   doctors,
+  docpatients,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -67,6 +69,7 @@ const Home = ({
   refuse: number;
   cree: number;
   doctors: number;
+  docpatients: Awaited<ReturnType<typeof getAllDoctors>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -86,19 +89,10 @@ const Home = ({
       { x: "Nov", y: 0 },
       { x: "Déc", y: 0 },
     ],
-    [
-      { x: "Pr Nahid ZAGHBA", y: data },
-      { x: "Pr Wiam EL KHATTABI", y: 0 },
-      { x: "Pr Khadij ECH-CHILLALI", y: 0 },
-      { x: "Dr Lamia HASSANI", y: 0 },
-      { x: "Dr Rachid  KHETTAR", y: 0 },
-      { x: "Dr Wasila GADDAR", y: 0 },
-      { x: "Dr Hind JANAH", y: 0 },
-      { x: "Pr Bouchra DAHER", y: 0 },
-      { x: "Pr Lamyae AMRO", y: 0 },
-      { x: "Pr Amine BENJELLOUNE", y: 0 },
-      { x: "Dr Azedine MOHAMMADI", y: 0 },
-    ],
+    docpatients.map((e) => ({
+      x: e.title + "." + e.lastName,
+      y: e._count.Patient,
+    })),
   ];
 
   const stackedCustomSeries = [
@@ -191,7 +185,7 @@ const Home = ({
     { x: 2027, yval: 0 },
   ];
   const ecomPieChartData = [
-    { x: "Complets", y: complete, text: "33%" },
+    { x: "Complets", y: attente, text: "33%" },
     { x: "Constitués", y: constitue, text: "33%" },
     { x: "Créé", y: cree, text: "33%" },
     { x: "Attente", y: attente, text: "33%" },

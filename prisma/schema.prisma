@@ -97,7 +97,7 @@ enum RepeatEnum {
 model Patient {
   id String @id @default(cuid()) @map("_id") 
   firstName String
-  patientno String? 
+  patientno String
   lastName String 
   address String?
   birthDate DateTime?
@@ -119,7 +119,7 @@ model Patient {
   isIncomplete Boolean
   isAbroad Boolean
   isUnreachable Boolean
-  tel String?
+  tel String
   mail String?
   social SocialEnum?
   othersocial String?
@@ -132,8 +132,7 @@ model Patient {
   prerequest Boolean?
   statusRequest Boolean?
   refDoc Boolean?
-  appointment Appointment[]
-
+  appointments Appointment[]
 }
 
 model CareGiver {
@@ -177,7 +176,7 @@ model Doctor{
   priority PriorityEnum?
   tel String?
   mail String?
-  appointment Appointment[]
+
 
 }
 
@@ -301,18 +300,11 @@ model Message {
 
 model Appointment {
   id String @id @default(cuid()) @map("_id")
-  UserId String 
-  startDate DateTime
-  endDate DateTime
-  Patient Patient @relation(fields:[UserId],references: [id],onDelete: Cascade)
-  Doctor Doctor? @relation(fields:[doctorId],references: [id],onDelete: Cascade)
-  content String @db.MediumText
-  doctorId String?
-  status Boolean @default(true)
-  Repeat RepeatEnum @default(Null)
-  Location String?
-  Title String?
-  Medicament String?
+  patientId String
+  subject String
+  startTime DateTime
+  endTime DateTime
+  patient Patient @relation(fields: [patientId], references: [id])
 }
 
 

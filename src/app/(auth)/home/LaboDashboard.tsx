@@ -12,6 +12,7 @@ import {
 import getAllRegions from "../../../../server/region/getAllRegions";
 import Home from "./Home";
 import getDocPatientCount from "../../../../server/doctor/doc_patientCount";
+import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 export default async function LaboDashboard() {
   const [
     count,
@@ -24,6 +25,7 @@ export default async function LaboDashboard() {
     refuse,
     cree,
     doctors,
+    docpatients,
   ] = await Promise.all([
     getPatientCount(),
     getRequestCount(),
@@ -35,6 +37,7 @@ export default async function LaboDashboard() {
     getRefusedRequestsCount(),
     getCreatedequestsCount(),
     getDocPatientCount(),
+    getAllDoctors(),
   ]);
 
   return (
@@ -49,6 +52,7 @@ export default async function LaboDashboard() {
       refuse={refuse}
       cree={cree}
       doctors={doctors}
+      docpatients={docpatients}
     />
   );
 }

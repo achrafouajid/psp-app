@@ -1,40 +1,9 @@
 import React from "react";
 
-import {
-  FiBarChart,
-  FiCreditCard,
-  FiStar,
-  FiShoppingCart,
-} from "react-icons/fi";
-import {
-  BsCurrencyDollar,
-  BsShield,
-  BsChatLeft,
-  BsClipboard2Pulse,
-} from "react-icons/bs";
-import {
-  LuFolderArchive,
-  LuFolderCheck,
-  LuFolderClock,
-  LuFolderX,
-} from "react-icons/lu";
-
-import { TiTick } from "react-icons/ti";
-import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
-import avatar4 from "./avatar4.jpg";
-import product1 from "./product1.jpg";
-import product2 from "./product2.jpg";
-import product3 from "./product3.jpg";
-import product4 from "./product4.jpg";
-import product5 from "./product5.jpg";
-import product6 from "./product6.jpg";
-import product7 from "./product7.jpg";
 
 import { ContextMenuItem } from "@syncfusion/ej2-react-grids";
-import { FaRegClipboard } from "react-icons/fa";
-import { TbClipboardCheck } from "react-icons/tb";
 
 export const EditorData = () => (
   <div>
@@ -172,27 +141,6 @@ export const LinePrimaryYAxis = {
   minorTickLines: { width: 0 },
 };
 
-export const cartData = [
-  {
-    image: product5,
-    name: "butterscotch ice-cream",
-    category: "Milk product",
-    price: "$250",
-  },
-  {
-    image: product6,
-    name: "Supreme fresh tomato",
-    category: "Vegetable Item",
-    price: "$450",
-  },
-  {
-    image: product7,
-    name: "Red color candy",
-    category: "Food Item",
-    price: "$190",
-  },
-];
-
 export const themeColors = [
   {
     name: "blue-theme",
@@ -279,22 +227,7 @@ export const lineChartData = [
     { x: new Date(2011, 0, 1), y: 100 },
   ],
 ];
-{
-  /*export const dropdownData = [
-  {
-    Id: "1",
-    Time: "Janvier 2024",
-  },
-  {
-    Id: "2",
-    Time: " Février 2024",
-  },
-  {
-    Id: "3",
-    Time: "Mars 2024",
-  },
-];*/
-}
+
 export const lineCustomSeries = [
   {
     dataSource: lineChartData[0],

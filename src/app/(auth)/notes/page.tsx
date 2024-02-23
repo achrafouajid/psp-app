@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Kanban from "./Kanban";
 import Header from "@/components/Header";

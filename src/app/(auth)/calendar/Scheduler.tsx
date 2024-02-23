@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ScheduleComponent,
   ViewsDirective,
@@ -8,77 +9,106 @@ import {
   Week,
   WorkWeek,
   Month,
-  Agenda,
   Inject,
-  Resize,
-  DragAndDrop,
 } from "@syncfusion/ej2-react-schedule";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
+import { Button } from "@nextui-org/react";
+import getAppointments from "../../../../server/appointment/get_appointments";
 
 const PropertyPane = (props: { children?: React.ReactNode }) => (
   <div className="mt-5">{props.children}</div>
 );
 
-const Scheduler = () => {
-  const [scheduleObj, setScheduleObj] = useState(undefined);
+const Scheduler = ({
+  data,
+}: {
+  data: Awaited<ReturnType<typeof getAppointments>>;
+}) => {
+  const scheduleObj = useRef<any>(null);
+
+  const fieldsData = {
+    id: "Id",
+    subject: { name: "Subject", title: "Event Name" },
+    location: { name: "Location", title: "Event Location" },
+    description: { name: "Description", title: "Event Description" },
+    startTime: { name: "StartTime", title: "Start Duration" },
+    endTime: { name: "EndTime", title: "End Duration" },
+  };
   const scheduleData = [
     {
-      Id: 1,
-      Subject: "TEST",
-      Location: "Casablanca",
-      StartTime: "2021-01-10T04:00:00.000Z",
-      EndTime: "2021-01-10T05:30:00.000Z",
-      CategoryColor: "#396EA5",
+      Id: 3,
+      Subject: "Testing",
+      StartTime: new Date(2018, 1, 11, 9, 0),
+      EndTime: new Date(2018, 1, 11, 10, 0),
+    },
+    {
+      Id: 4,
+      Subject: "Vacation",
+      StartTime: new Date(2018, 1, 13, 9, 0),
+      EndTime: new Date(2018, 1, 13, 10, 0),
     },
   ];
+  const eventSettings = { dataSource: scheduleData };
 
-  const change = (args: { value: Date }) => {
-    /* @ts-ignore */
-    scheduleObj!.selectedDate = args.value;
-    /* @ts-ignore */
-    scheduleObj!.dataBind();
+  const onClickAdd = () => {
+    let Data = data.map((appointment) => ({
+      Id: appointment.id, // Assuming 'id' is the unique identifier for appointments
+      Subject: appointment.subject, // Assuming 'subject' is the title of the appointment
+      StartTime: new Date(appointment.startTime), // Convert startTime to Date object
+      EndTime: new Date(appointment.endTime), // Convert endTime to Date object
+      // Add any other fields you need here
+    }));
+    if (scheduleObj.current) {
+      scheduleObj.current.addEvent(Data);
+    }
   };
 
-  const onDragStart = (arg: { navigation: { enable: boolean } }) => {
-    arg.navigation.enable = true;
+  const onClickSave = () => {
+    let Data = {
+      Id: 3,
+      Subject: "Testing-edited",
+      StartTime: new Date(2018, 1, 11, 10, 0),
+      EndTime: new Date(2018, 1, 11, 11, 0),
+    };
+    if (scheduleObj.current) {
+      scheduleObj.current.saveEvent(Data);
+    }
   };
+
+  const onClickDelete = () => {
+    if (scheduleObj.current) {
+      scheduleObj.current.deleteEvent(4);
+    }
+  };
+
   return (
     <>
-      <ScheduleComponent
-        height="650px"
-        /* @ts-ignore */
-        ref={(schedule) => setScheduleObj(schedule)}
-        selectedDate={new Date(2021, 0, 10)}
-        eventSettings={{ dataSource: scheduleData }}
-        dragStart={onDragStart}
-      >
-        <ViewsDirective>
-          {["Day", "Week", "WorkWeek", "Month", "Agenda"].map((item) => (
-            /* @ts-ignore */
-            <ViewDirective key={item} option={item} />
-          ))}
-        </ViewsDirective>
-        <Inject
-          services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]}
-        />
-      </ScheduleComponent>
-      <PropertyPane>
-        <table style={{ width: "100%", background: "white" }}>
-          <tbody>
-            <tr style={{ height: "50px" }}>
-              <td style={{ width: "100%" }}>
-                <DatePickerComponent
-                  value={new Date(2021, 0, 10)}
-                  showClearButton={false}
-                  placeholder="Current Date"
-                  floatLabelType="Always"
-                  change={change}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </PropertyPane>
+      <div>
+        <Button id="add" title="Add" onClick={onClickAdd}>
+          Add
+        </Button>
+        <Button id="edit" title="Edit" onClick={onClickSave}>
+          Edit
+        </Button>
+        <Button id="delete" title="Delete" onClick={onClickDelete}>
+          Delete
+        </Button>{" "}
+        <ScheduleComponent
+          ref={scheduleObj}
+          width="100%"
+          height="550px"
+          selectedDate={new Date()}
+          eventSettings={eventSettings}
+        >
+          <ViewsDirective>
+            <ViewDirective option="Day" />
+            <ViewDirective option="Week" />
+            <ViewDirective option="WorkWeek" />
+            <ViewDirective option="Month" />
+          </ViewsDirective>
+          <Inject services={[Day, Week, WorkWeek, Month]} />
+        </ScheduleComponent>
+      </div>
     </>
   );
 };
