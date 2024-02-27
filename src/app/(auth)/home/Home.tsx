@@ -10,9 +10,12 @@ import {
   Category,
   StackingColumnSeries,
   Tooltip,
+  ScrollBar,
+  DataLabel,
+  LineSeries,
 } from "@syncfusion/ej2-react-charts";
 
-import { Pie, SparkLine } from "@/components/charts";
+import { LineChart, Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/Contexts/ThemeContext";
@@ -126,6 +129,13 @@ const Home = ({
     lineStyle: { width: 0 },
     labelIntersectAction: "Rotate45",
     valueType: "Category",
+    scrollbarSettings: {
+      enableZoom: false,
+      gripColor: "transparent",
+      scrollbarColor: "#0ae",
+      scrollbarRadius: 5,
+      height: 10,
+    },
   };
 
   const stackedPrimaryYAxis = {
@@ -236,7 +246,15 @@ const Home = ({
         tooltip={{ enable: true }}
         background={currentMode === "Dark" ? "#33373E" : "#fff"}
       >
-        <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
+        <Inject
+          services={[
+            StackingColumnSeries,
+            Category,
+            Legend,
+            Tooltip,
+            ScrollBar,
+          ]}
+        />
         <SeriesCollectionDirective>
           {stackedCustomSeries.map((item, index) => (
             <SeriesDirective key={index} {...item} />
@@ -259,7 +277,15 @@ const Home = ({
         tooltip={{ enable: true }}
         background={currentMode === "Dark" ? "#33373E" : "#fff"}
       >
-        <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
+        <Inject
+          services={[
+            StackingColumnSeries,
+            Category,
+            Legend,
+            Tooltip,
+            ScrollBar,
+          ]}
+        />
         <SeriesCollectionDirective>
           {stackedData.map((item, index) => (
             <SeriesDirective key={index} {...item} />
@@ -345,9 +371,7 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <div className="">
-              <Stacked currentMode={currentMode} width="320px" height="360px" />
-            </div>
+            <Stacked currentMode={currentMode} width="320px" height="360px" />
           </div>
         </div>
         <div>
@@ -608,6 +632,48 @@ const Home = ({
                 height="360px"
               />
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-10 flex-wrap justify-center">
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl border md:w-780  "
+          style={{ borderColor: currentColor }}
+        >
+          <div className="flex justify-between">
+            <p className="font-semibold text-xl">
+              Charge de travail de chaque médecin
+            </p>
+            <div className="flex items-center gap-4">
+              <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
+                <span>
+                  <GoDotFill />
+                </span>
+                <span>Patients suivis</span>
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 flex gap-10 flex-wrap justify-center"></div>
+        </div>
+        <div
+          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl border md:w-780  "
+          style={{ borderColor: currentColor }}
+        >
+          <div className="flex justify-between">
+            <p className="font-semibold text-xl">
+              Charge de travail de chaque médecin
+            </p>
+            <div className="flex items-center gap-4">
+              <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
+                <span>
+                  <GoDotFill />
+                </span>
+                <span>Patients suivis</span>
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 flex gap-10 flex-wrap justify-center">
+            <Stacked2 currentMode={currentMode} width="320px" height="360px" />
           </div>
         </div>
       </div>
