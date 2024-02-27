@@ -642,38 +642,25 @@ const Home = ({
         >
           <div className="flex justify-between">
             <p className="font-semibold text-xl">
-              Charge de travail de chaque médecin
+              Temps de complétion et réponse de dossier
             </p>
             <div className="flex items-center gap-4">
               <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
                 <span>
                   <GoDotFill />
                 </span>
-                <span>Patients suivis</span>
+                <span>Complétion</span>
               </p>
-            </div>
-          </div>
-          <div className="mt-10 flex gap-10 flex-wrap justify-center"></div>
-        </div>
-        <div
-          className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  m-3 p-4 rounded-2xl border md:w-780  "
-          style={{ borderColor: currentColor }}
-        >
-          <div className="flex justify-between">
-            <p className="font-semibold text-xl">
-              Charge de travail de chaque médecin
-            </p>
-            <div className="flex items-center gap-4">
-              <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
+              <p className="flex items-center gap-2 text-black hover:drop-shadow-xl">
                 <span>
                   <GoDotFill />
                 </span>
-                <span>Patients suivis</span>
+                <span>Réponse</span>
               </p>
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <Stacked2 currentMode={currentMode} width="320px" height="360px" />
+            <LineChart />
           </div>
         </div>
       </div>
