@@ -12,10 +12,10 @@ import {
 } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
-import { CiCirclePlus } from "react-icons/ci";
 import { object, string, ref, InferType } from "yup";
 import changePasswordAdmin from "../../../../server/auth/change_password_admin";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { CiSettings } from "react-icons/ci";
 
 const userSchema = object({
   password: string()
@@ -49,7 +49,7 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
         isIconOnly
         onPress={onOpen}
       >
-        <CiCirclePlus size={25} />
+        <CiSettings size={25} />
       </Button>
       <Modal
         isOpen={isOpen}
@@ -123,6 +123,13 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   />
+                  <div className="text-red-600 text-xs">
+                    <p>
+                      {formik.touched.confirmPassword &&
+                        formik.errors.confirmPassword}{" "}
+                    </p>
+                    <p>{formik.touched.password && formik.errors.password} </p>
+                  </div>
                 </ModalBody>
                 <ModalFooter>
                   <Button
@@ -138,7 +145,7 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
                     disabled={formik.isSubmitting}
                     type="submit"
                   >
-                    Ajouter la Ville
+                    Confirmer
                   </Button>
                 </ModalFooter>
               </form>
