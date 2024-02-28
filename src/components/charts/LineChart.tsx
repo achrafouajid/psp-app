@@ -130,9 +130,11 @@ const LineChart = ({ avg }: { avg: avgRespo }) => {
     },
   ];
   const { currentMode } = useStateContext();
+  console.log("TEST");
   console.log(
-    convertToDays(avg.find((e) => e.month === 1)?.avgCompletionTime ?? 0)
+    convertToDays(avg.find((e) => e.month === 2)?.avgCompletionTime ?? 0)
   );
+  console.log("TEST");
   return (
     <ChartComponent
       id="line-chart"
