@@ -7,14 +7,14 @@ import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import updateUserRole from "../../../../server/auth/update_user";
 import getUser from "../../../../server/auth/get_user";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { GrUserSettings } from "react-icons/gr";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useSession } from "@/Contexts/UserContext";
+import updateUser from "../../../../server/auth/update_user";
 
-const UserProfile = ({
+const UserProfileAdmin = ({
   data,
 }: {
   data: NonNullable<Awaited<ReturnType<typeof getUser>>>;
@@ -32,7 +32,15 @@ const UserProfile = ({
       birthDate: data.birthDate?.toISOString().slice(0, 10),
     },
     onSubmit: async (values) => {
-      const res = await updateUserRole(values.id, values.role);
+      if (isDisabled) return setisDisabled(false);
+      const formData = new FormData();
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("email", values.email ?? "");
+      formData.append("birthDate", values.birthDate?.toString() ?? "");
+      formData.append("role", values.role ?? "");
+      values.image && formData.append("image", values.image);
+      const res = await updateUser(formData);
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
@@ -79,14 +87,16 @@ const UserProfile = ({
                       icon={<GrUserSettings />}
                       borderRadius="10px"
                     />
-                    <Button
-                      disabled={isDisabled}
-                      onClick={(e) => ref.current?.click()}
-                      color="white"
-                      bgColor={currentColor}
-                      text="Changer Photo"
-                      borderRadius="10px"
-                    />
+                    {!isDisabled && (
+                      <Button
+                        disabled={isDisabled}
+                        onClick={(e) => ref.current?.click()}
+                        color="white"
+                        bgColor={currentColor}
+                        text="Changer Photo"
+                        borderRadius="10px"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -102,6 +112,7 @@ const UserProfile = ({
                       <Input
                         readOnly={isDisabled}
                         type="text"
+                        label="Prénom"
                         onChange={formik.handleChange}
                         name="firstName"
                         value={formik.values.firstName}
@@ -120,8 +131,7 @@ const UserProfile = ({
                         readOnly={isDisabled}
                         type="text"
                         defaultValue={data.lastName}
-                        id="last_name"
-                        placeholder="Your last name"
+                        label="Nom"
                         onChange={formik.handleChange}
                         name="lastName"
                         value={formik.values.lastName}
@@ -132,7 +142,7 @@ const UserProfile = ({
 
                   <div className="mb-2 sm:mb-6">
                     <label
-                      htmlFor="profession"
+                      htmlFor="email"
                       className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                     >
                       Email
@@ -140,16 +150,34 @@ const UserProfile = ({
                     <Input
                       readOnly={isDisabled}
                       type="text"
-                      id="profession"
                       onChange={formik.handleChange}
-                      name="address"
+                      name="email"
+                      label="Email"
                       value={formik.values.email ?? ""}
                       disabled={formik.isSubmitting}
                     />
                   </div>
                   <div className="mb-2 sm:mb-6">
                     <label
-                      htmlFor="profession"
+                      htmlFor="birthDate"
+                      className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
+                    >
+                      Date de naissance
+                    </label>
+                    <Input
+                      isReadOnly={isDisabled}
+                      required
+                      onChange={formik.handleChange}
+                      name="birthDate"
+                      value={formik.values.birthDate}
+                      disabled={formik.isSubmitting}
+                      type="date"
+                      label="Date naissance"
+                    />
+                  </div>
+                  <div className="mb-2 sm:mb-6">
+                    <label
+                      htmlFor="status"
                       className="block mb-2 text-sm font-medium text-[#396EA5] dark:text-white"
                     >
                       Status
@@ -157,7 +185,7 @@ const UserProfile = ({
                     <Input
                       readOnly={isDisabled}
                       type="text"
-                      id="profession"
+                      label="Status"
                       onChange={formik.handleChange}
                       name="address"
                       value={formik.values.status ?? ""}
@@ -174,7 +202,6 @@ const UserProfile = ({
                     <Input
                       readOnly={isDisabled}
                       label="Mot de passe"
-                      placeholder="Enter your password"
                       value="djklfshdsszdsq"
                       endContent={
                         <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
@@ -194,6 +221,7 @@ const UserProfile = ({
                         <Select
                           onChange={formik.handleChange}
                           name="role"
+                          label="Rôle"
                           value={formik.values.role}
                           selectedKeys={[formik.values.role]}
                           disabled={formik.isSubmitting}
@@ -211,15 +239,17 @@ const UserProfile = ({
                   </div>
 
                   <div className="flex justify-end">
-                    <Button
-                      type="submit"
-                      color="white"
-                      bgColor={currentColor}
-                      text="Sauvegarder"
-                      borderRadius="10px"
-                      disabled={formik.isSubmitting}
-                      width="full"
-                    />
+                    {!isDisabled && (
+                      <Button
+                        type="submit"
+                        color="white"
+                        bgColor={currentColor}
+                        text="Sauvegarder"
+                        borderRadius="10px"
+                        disabled={formik.isSubmitting}
+                        width="full"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
@@ -231,4 +261,4 @@ const UserProfile = ({
   );
 };
 
-export default UserProfile;
+export default UserProfileAdmin;

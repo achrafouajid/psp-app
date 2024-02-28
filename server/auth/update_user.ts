@@ -1,18 +1,30 @@
 "use server";
 import prisma from "../../prisma/client";
 import { revalidatePath } from "next/cache";
-import getUser from "./get_user";
 import { UserRole } from "@prisma/client";
+import upload from "../upload/upload";
+import currentUser from "./currentUser";
 
-export default async function updateUserRole(id: string, role: UserRole) {
-  const user = await getUser(id!);
+export default async function updateUser(data: FormData) {
+  const firstName = data.get("firstName")?.toString();
+  const lastName = data.get("lastName")?.toString();
+  const birthDate = data.get("birthDate")?.toString();
+  const email = data.get("email")?.toString();
+  const role = data.get("role")?.toString() as UserRole;
+  const image = data.get("image") as File;
+  const user = await currentUser();
   if (user == null) return false;
-
+  var imageid = image ? (await upload(image)).id : user.avatarId;
   await prisma.user.update({
     where: {
-      id: id,
+      id: user.id,
     },
     data: {
+      firstName: firstName,
+      lastName: lastName,
+      birthDate: new Date(birthDate!),
+      email: email,
+      avatarId: imageid,
       role: role,
     },
   });

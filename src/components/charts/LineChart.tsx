@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   ChartComponent,
   SeriesCollectionDirective,
@@ -12,9 +12,6 @@ import {
 
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { avgRespo } from "../../../server/patient/requests/AvgCompReq";
-import convertSecondsToDaysHoursMinutes from "../../../server/patient/requests/timeConvert";
-import convertToDays from "../../../server/patient/requests/toDays";
-
 const LineChart = ({ avg }: { avg: avgRespo }) => {
   const LinePrimaryXAxis = {
     valueType: "DateTime",
@@ -36,77 +33,36 @@ const LineChart = ({ avg }: { avg: avgRespo }) => {
     majorTickLines: { width: 0 },
     minorTickLines: { width: 0 },
   };
-
-  const lineChartData = [
-    [
-      {
-        x: new Date(2024, 0, 1),
-        y: convertToDays(
-          avg.find((e) => e.month === 1)?.avgCompletionTime ?? 0
+  const secInDay = 60 * 60 * 24;
+  const lineChartData = useMemo(() => {
+    const data = [];
+    for (let month = 0; month < 12; month++) {
+      data.push({
+        x: new Date(2024, month, 1),
+        y: Math.ceil(
+          (avg.find((e) => e.month === month + 1)?.avgCompletionTime ?? 0) /
+            secInDay
         ),
-      },
-      {
-        x: new Date(2024, 1, 1),
-        y: convertToDays(
-          avg.find((e) => e.month === 2)?.avgCompletionTime ?? 0
-        ),
-      },
-      {
-        x: new Date(2024, 2, 1),
-        y: avg.find((e) => e.month === 3)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 3, 1),
-        y: avg.find((e) => e.month === 4)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 4, 1),
-        y: avg.find((e) => e.month === 5)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 5, 1),
-        y: avg.find((e) => e.month === 6)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 6, 1),
-        y: avg.find((e) => e.month === 7)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 7, 1),
-        y: avg.find((e) => e.month === 8)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 8, 1),
-        y: avg.find((e) => e.month === 9)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 9, 1),
-        y: avg.find((e) => e.month === 10)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 10, 1),
-        y: avg.find((e) => e.month === 11)?.avgCompletionTime ?? 0,
-      },
-      {
-        x: new Date(2024, 11, 1),
-        y: avg.find((e) => e.month === 12)?.avgCompletionTime ?? 0,
-      },
-    ],
-    [
-      { x: new Date(2024, 0, 1), y: 28 },
-      { x: new Date(2024, 1, 1), y: 44 },
-      { x: new Date(2024, 2, 1), y: 48 },
-      { x: new Date(2024, 3, 1), y: 50 },
-      { x: new Date(2024, 4, 1), y: 66 },
-      { x: new Date(2024, 5, 1), y: 78 },
-      { x: new Date(2024, 6, 1), y: 84 },
-      { x: new Date(2024, 7, 1), y: 45 },
-      { x: new Date(2024, 8, 1), y: 65 },
-      { x: new Date(2024, 9, 1), y: 90 },
-      { x: new Date(2024, 10, 1), y: 50 },
-      { x: new Date(2024, 11, 1), y: 30 },
-    ],
-  ];
+      });
+    }
+    return [
+      data,
+      [
+        { x: new Date(2024, 0, 1), y: 1 },
+        { x: new Date(2024, 1, 1), y: 2 },
+        { x: new Date(2024, 2, 1), y: 0 },
+        { x: new Date(2024, 3, 1), y: 0 },
+        { x: new Date(2024, 4, 1), y: 0 },
+        { x: new Date(2024, 5, 1), y: 0 },
+        { x: new Date(2024, 6, 1), y: 0 },
+        { x: new Date(2024, 7, 1), y: 0 },
+        { x: new Date(2024, 8, 1), y: 0 },
+        { x: new Date(2024, 9, 1), y: 0 },
+        { x: new Date(2024, 10, 1), y: 0 },
+        { x: new Date(2024, 11, 1), y: 0 },
+      ],
+    ];
+  }, [avg]);
 
   const lineCustomSeries = [
     {
@@ -130,11 +86,7 @@ const LineChart = ({ avg }: { avg: avgRespo }) => {
     },
   ];
   const { currentMode } = useStateContext();
-  console.log("TEST");
-  console.log(
-    convertToDays(avg.find((e) => e.month === 2)?.avgCompletionTime ?? 0)
-  );
-  console.log("TEST");
+
   return (
     <ChartComponent
       id="line-chart"

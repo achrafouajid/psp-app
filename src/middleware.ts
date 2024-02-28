@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
     const jwt = request.nextUrl.searchParams.get("jwt") as string;
     var isValid = await verifyToken(jwt);
     if (isValid) {
-      var response = NextResponse.redirect("/");
+      var response = NextResponse.redirect(new URL("/", request.url));
       var decoded = jwtDecoded(jwt);
       response.cookies.set({
         name: "authToken",

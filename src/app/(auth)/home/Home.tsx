@@ -15,7 +15,7 @@ import {
   LineSeries,
 } from "@syncfusion/ej2-react-charts";
 
-import { LineChart, Pie, SparkLine } from "@/components/charts";
+import { Pie, SparkLine } from "@/components/charts";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/Contexts/ThemeContext";
@@ -34,6 +34,11 @@ import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
 import getAllRegions from "../../../../server/region/getAllRegions";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
+  ssr: false,
+});
 {
   /*const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -648,7 +653,7 @@ const Home = ({
               Temps de complétion et réponse de dossier
             </p>
             <div className="flex items-center gap-4">
-              <p className="flex items-center gap-2 text-[#396EA5] hover:drop-shadow-xl">
+              <p className="flex items-center gap-2 text-[#00BDAE] hover:drop-shadow-xl">
                 <span>
                   <GoDotFill />
                 </span>

@@ -151,7 +151,7 @@ const PatientProfileCopy = ({
               </label>
               <Input
                 isReadOnly={isDisabled}
-                required
+                isRequired={true}
                 onChange={formik.handleChange}
                 name="lastName"
                 value={formik.values.lastName}
@@ -169,7 +169,7 @@ const PatientProfileCopy = ({
               </label>
               <Input
                 isReadOnly={isDisabled}
-                required
+                isRequired={true}
                 onChange={formik.handleChange}
                 name="firstName"
                 value={formik.values.firstName}
@@ -216,7 +216,7 @@ const PatientProfileCopy = ({
               </label>
               <Input
                 isReadOnly={isDisabled}
-                required
+                isRequired={true}
                 onChange={formik.handleChange}
                 name="birthDate"
                 value={formik.values.birthDate}

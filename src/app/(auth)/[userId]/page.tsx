@@ -1,10 +1,9 @@
-"use server";
 import React from "react";
-import PatientProfile from "./UserProfile";
+
 import { notFound } from "next/navigation";
-import UserProfile from "./UserProfile";
 import Header from "@/components/Header";
 import getUser from "../../../../server/auth/get_user";
+import UserProfileAdmin from "./UserProfileAdmin";
 
 export default async function page({ params: { userId } }: any) {
   const user = await getUser(userId);
@@ -16,7 +15,7 @@ export default async function page({ params: { userId } }: any) {
         category="Profil"
         title={`Informations de ${user.firstName} ${user.lastName}`}
       />
-      <UserProfile data={user} />
+      <UserProfileAdmin data={user} />
     </div>
   );
 }
