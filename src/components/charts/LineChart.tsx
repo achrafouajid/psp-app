@@ -11,8 +11,11 @@ import {
 } from "@syncfusion/ej2-react-charts";
 
 import { useStateContext } from "@/Contexts/ThemeContext";
+import { avgRespo } from "../../../server/patient/requests/AvgCompReq";
+import convertSecondsToDaysHoursMinutes from "../../../server/patient/requests/timeConvert";
+import convertToDays from "../../../server/patient/requests/toDays";
 
-const LineChart = () => {
+const LineChart = ({ avg }: { avg: avgRespo }) => {
   const LinePrimaryXAxis = {
     valueType: "DateTime",
     labelFormat: "MMM",
@@ -23,11 +26,12 @@ const LineChart = () => {
   };
 
   const LinePrimaryYAxis = {
-    labelFormat: "{value}%",
+    labelFormat: "{value}jrs",
+    valueType: "Double",
     rangePadding: "None",
     minimum: 0,
-    maximum: 100,
-    interval: 20,
+    maximum: 31,
+    interval: 7,
     lineStyle: { width: 0 },
     majorTickLines: { width: 0 },
     minorTickLines: { width: 0 },
@@ -35,18 +39,58 @@ const LineChart = () => {
 
   const lineChartData = [
     [
-      { x: new Date(2024, 0, 1), y: 21 },
-      { x: new Date(2024, 1, 1), y: 24 },
-      { x: new Date(2024, 2, 1), y: 36 },
-      { x: new Date(2024, 3, 1), y: 38 },
-      { x: new Date(2024, 4, 1), y: 54 },
-      { x: new Date(2024, 5, 1), y: 57 },
-      { x: new Date(2024, 6, 1), y: 74 },
-      { x: new Date(2024, 7, 1), y: 25 },
-      { x: new Date(2024, 8, 1), y: 50 },
-      { x: new Date(2024, 9, 1), y: 40 },
-      { x: new Date(2024, 10, 1), y: 30 },
-      { x: new Date(2024, 11, 1), y: 80 },
+      {
+        x: new Date(2024, 0, 1),
+        y: convertToDays(
+          avg.find((e) => e.month === 1)?.avgCompletionTime ?? 0
+        ),
+      },
+      {
+        x: new Date(2024, 1, 1),
+        y: convertToDays(
+          avg.find((e) => e.month === 2)?.avgCompletionTime ?? 0
+        ),
+      },
+      {
+        x: new Date(2024, 2, 1),
+        y: avg.find((e) => e.month === 3)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 3, 1),
+        y: avg.find((e) => e.month === 4)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 4, 1),
+        y: avg.find((e) => e.month === 5)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 5, 1),
+        y: avg.find((e) => e.month === 6)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 6, 1),
+        y: avg.find((e) => e.month === 7)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 7, 1),
+        y: avg.find((e) => e.month === 8)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 8, 1),
+        y: avg.find((e) => e.month === 9)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 9, 1),
+        y: avg.find((e) => e.month === 10)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 10, 1),
+        y: avg.find((e) => e.month === 11)?.avgCompletionTime ?? 0,
+      },
+      {
+        x: new Date(2024, 11, 1),
+        y: avg.find((e) => e.month === 12)?.avgCompletionTime ?? 0,
+      },
     ],
     [
       { x: new Date(2024, 0, 1), y: 28 },
@@ -86,7 +130,9 @@ const LineChart = () => {
     },
   ];
   const { currentMode } = useStateContext();
-
+  console.log(
+    convertToDays(avg.find((e) => e.month === 1)?.avgCompletionTime ?? 0)
+  );
   return (
     <ChartComponent
       id="line-chart"

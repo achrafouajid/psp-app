@@ -1,5 +1,5 @@
 "use client";
-import React, { useId, useRef } from "react";
+import React, { use, useId, useRef } from "react";
 import { GoDotFill } from "react-icons/go";
 import {
   ChartComponent,
@@ -33,6 +33,7 @@ import {
 import { downloadElementAsImage } from "@/app/api/htmlcanvas/htmlcanvas";
 import getAllRegions from "../../../../server/region/getAllRegions";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
+import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
 {
   /*const DropDown = ({ currentMode }: any) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -61,6 +62,7 @@ const Home = ({
   cree,
   doctors,
   docpatients,
+  avg,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -73,6 +75,7 @@ const Home = ({
   cree: number;
   doctors: number;
   docpatients: Awaited<ReturnType<typeof getAllDoctors>>;
+  avg: Awaited<ReturnType<typeof calculateAverageCompletionTime>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -660,7 +663,7 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <LineChart />
+            <LineChart avg={avg} />
           </div>
         </div>
       </div>
