@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/Button";
+import MyButton from "@/components/Button";
 import React, { useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
@@ -8,11 +8,14 @@ import toast from "react-hot-toast";
 import { UserRole } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import getUser from "../../../../server/auth/get_user";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { GrUserSettings } from "react-icons/gr";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { useSession } from "@/Contexts/UserContext";
-import updateUser from "../../../../server/auth/update_user";
+import { CiMail, CiSettings } from "react-icons/ci";
+import updateUserAdmin from "../../../../server/auth/update_user_admin";
+import Link from "next/link";
+import ChangePasswordPopUp from "./ChangePasswordPopUp";
 
 const UserProfileAdmin = ({
   data,
@@ -24,6 +27,17 @@ const UserProfileAdmin = ({
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
   const user = useSession();
+  const [photo, setPhoto] = useState(
+    data.avatar?.url ? "/" + data.avatar?.url : undefined
+  );
+  const handlePhotoChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setPhoto(fileUrl);
+      formik.setFieldValue("image", file);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -34,13 +48,14 @@ const UserProfileAdmin = ({
     onSubmit: async (values) => {
       if (isDisabled) return setisDisabled(false);
       const formData = new FormData();
+      formData.append("id", data.id);
       formData.append("firstName", values.firstName);
       formData.append("lastName", values.lastName);
       formData.append("email", values.email ?? "");
       formData.append("birthDate", values.birthDate?.toString() ?? "");
       formData.append("role", values.role ?? "");
       values.image && formData.append("image", values.image);
-      const res = await updateUser(formData);
+      const res = await updateUserAdmin(formData);
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
@@ -58,13 +73,9 @@ const UserProfileAdmin = ({
               <div className="grid max-w-2xl mx-auto mt-8">
                 <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
                   <Image
-                    key={data.avatar?.url}
+                    key={photo}
                     className="object-fill w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                    src={
-                      data.avatar?.url
-                        ? "/" + data.avatar?.url
-                        : "/noavatar.png"
-                    }
+                    src={photo ? photo : "/noavatar.png"}
                     alt="Bordered avatar"
                     width={500}
                     height={500}
@@ -74,12 +85,10 @@ const UserProfileAdmin = ({
                     type="file"
                     ref={ref}
                     hidden
-                    onChange={(e) =>
-                      formik.setFieldValue("image", e.target.files?.item(0))
-                    }
+                    onChange={handlePhotoChange}
                   />
                   <div className="flex flex-col space-y-5 sm:ml-8">
-                    <Button
+                    <MyButton
                       onClick={() => setisDisabled(!isDisabled)}
                       color="white"
                       bgColor={currentColor}
@@ -88,7 +97,7 @@ const UserProfileAdmin = ({
                       borderRadius="10px"
                     />
                     {!isDisabled && (
-                      <Button
+                      <MyButton
                         disabled={isDisabled}
                         onClick={(e) => ref.current?.click()}
                         color="white"
@@ -199,15 +208,26 @@ const UserProfileAdmin = ({
                     >
                       Mot de Passe
                     </label>
-                    <Input
-                      readOnly={isDisabled}
-                      label="Mot de passe"
-                      value="djklfshdsszdsq"
-                      endContent={
-                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-                      }
-                      type="password"
-                    />
+                    <div className="flex">
+                      <Input
+                        readOnly={isDisabled}
+                        label="Mot de passe"
+                        value="djklfshdsszdsq"
+                        endContent={
+                          <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                        }
+                        type="password"
+                      />
+                      <ChangePasswordPopUp Id={data.id} />
+                      <Button
+                        isIconOnly
+                        color="primary"
+                        variant="faded"
+                        aria-label="Envoyer récupération..."
+                      >
+                        <CiMail size={50} />
+                      </Button>
+                    </div>
                   </div>
                   <div className="mb-2 sm:mb-6">
                     <label
@@ -240,7 +260,7 @@ const UserProfileAdmin = ({
 
                   <div className="flex justify-end">
                     {!isDisabled && (
-                      <Button
+                      <MyButton
                         type="submit"
                         color="white"
                         bgColor={currentColor}

@@ -1,7 +1,6 @@
 import React from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { cartData } from "@/data/dummy";
 import Button from "./Button";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
@@ -22,7 +21,7 @@ const Cart = () => {
             borderRadius="50%"
           />
         </div>
-        {cartData?.map((item, index) => (
+        {/*cartData?.map((item, index) => (
           <div key={index}>
             <div>
               <div className="flex items-center   leading-8 gap-5 border-b-1 border-color dark:border-gray-600 p-4">
@@ -54,7 +53,7 @@ const Cart = () => {
               </div>
             </div>
           </div>
-        ))}
+        ))*/}
         <div className="mt-3 mb-3">
           <div className="flex justify-between items-center">
             <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
