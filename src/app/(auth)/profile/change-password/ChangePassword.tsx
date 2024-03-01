@@ -1,14 +1,23 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import Link from "next/link";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import logo from "public/rafiki.jpg";
+import { object, string, ref, InferType } from "yup";
 import changePassword from "../../../../../server/auth/change_password";
 import { useRouter } from "next/navigation";
-
+import { Button, Input } from "@nextui-org/react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+const userSchema = object({
+  password: string()
+    .min(8, "Mot de passe doit contenir au moins 8 caractères")
+    .required("Mot de passe est requis"),
+  confirmPassword: string()
+    .oneOf([ref("password"), ""], "Les mots de passes doivent correspondre")
+    .required("Confirmation du mot de passe est requise"),
+});
 export default function ChangePassword() {
+  const [isVisible, setIsVisible] = React.useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -23,6 +32,7 @@ export default function ChangePassword() {
         toast.success("Votre mot de passe a été mis à jour !");
       }
     },
+    validationSchema: userSchema,
   });
 
   return (
@@ -33,32 +43,77 @@ export default function ChangePassword() {
         formik.handleSubmit(e); // Manually trigger formik's handleSubmit
       }}
     >
-      <input
-        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#116272] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        type="password"
-        placeholder="Nouveau mot de passe"
+      <Input
+        isRequired
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+          >
+            {isVisible ? (
+              <FaEyeSlash
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            ) : (
+              <FaEye
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            )}
+          </button>
+        }
+        type={isVisible ? "text" : "password"}
+        label="Mot de passe"
         name="password"
+        className="border border-[#396EA5] rounded-xl"
         readOnly={formik.isSubmitting}
+        onBlur={formik.handleBlur}
         onChange={formik.handleChange}
-        min="3"
       />
-      <input
-        className="bg-transparent p-4 border border-[#396EA5] rounded-md text-[#116272] w-full text-lg focus:border-[#f17c34] focus:outline-none"
-        type="password"
+      <Input
+        isRequired
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+          >
+            {isVisible ? (
+              <FaEyeSlash
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            ) : (
+              <FaEye
+                size={30}
+                className="text-2xl text-[#396EA5]  pointer-events-none"
+              />
+            )}
+          </button>
+        }
+        type={isVisible ? "text" : "password"}
+        className="border border-[#396EA5] rounded-xl"
         placeholder="Confirmer mot de passe"
         name="confirmPassword"
         readOnly={formik.isSubmitting}
         onChange={formik.handleChange}
-        min="3"
+        onBlur={formik.handleBlur}
       />
-
-      <button
-        type="submit"
+      <div className="text-red-600 text-xs">
+        <p>
+          {formik.touched.confirmPassword && formik.errors.confirmPassword}{" "}
+        </p>
+        <p>{formik.touched.password && formik.errors.password} </p>
+      </div>
+      <Button
+        style={{ backgroundColor: "#396EA5", color: "white" }}
         disabled={formik.isSubmitting}
-        className="bg-[#396EA5] text-white py-4 px-8 border-none font-bold cursor-pointer rounded-md text-lg uppercase hover:bg-[#3965a5]"
+        type="submit"
       >
-        {formik.isSubmitting ? "Envoi..." : "Vérifier"}
-      </button>
+        {formik.isSubmitting ? "..." : "Confirmer"}
+      </Button>
     </form>
   );
 }

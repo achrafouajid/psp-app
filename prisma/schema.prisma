@@ -87,6 +87,11 @@ enum BlogStatusEnum {
   Modifications
 }
 
+enum AppointmentStatusEnum {
+  Pending
+  Expired
+  Rescheduled
+}
 enum RepeatEnum {
   Null
   Daily
@@ -97,7 +102,7 @@ enum RepeatEnum {
 model Patient {
   id String @id @default(cuid()) @map("_id") 
   firstName String
-  patientno String?
+  patientno String
   lastName String 
   address String?
   birthDate DateTime?
@@ -176,6 +181,7 @@ model Doctor{
   priority PriorityEnum?
   tel String?
   mail String?
+  appointment Appointment[]
 
 
 }
@@ -305,6 +311,12 @@ model Appointment {
   startTime DateTime
   endTime DateTime
   patient Patient @relation(fields: [patientId], references: [id])
+  doctorId String?
+  doctor Doctor? @relation(fields: [doctorId], references: [id])
+  note String?
+  status AppointmentStatusEnum? @default(Pending)
+  room String?
+
 }
 
 

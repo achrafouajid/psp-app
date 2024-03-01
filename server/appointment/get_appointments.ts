@@ -4,6 +4,7 @@ export default async function getAppointments() {
   return await prisma.appointment.findMany({
     include: {
       patient: true,
+      doctor: true,
     },
   });
 }

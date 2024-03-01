@@ -66,7 +66,7 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
               <form onSubmit={formik.handleSubmit} className="w-full max-w-sm">
                 <ModalBody>
                   <Input
-                    required
+                    isRequired
                     endContent={
                       <button
                         className="focus:outline-none"
@@ -95,7 +95,7 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
                     onChange={formik.handleChange}
                   />
                   <Input
-                    required
+                    isRequired
                     endContent={
                       <button
                         className="focus:outline-none"
@@ -145,7 +145,7 @@ export default function ChangePasswordPopUp({ Id }: { Id: string }) {
                     disabled={formik.isSubmitting}
                     type="submit"
                   >
-                    Confirmer
+                    {formik.isSubmitting ? "..." : "Confirmer"}
                   </Button>
                 </ModalFooter>
               </form>

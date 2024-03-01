@@ -11,6 +11,8 @@ import newRequestStatus from "../../../../../../../../../server/patient/requests
 import { RequestStatusEnum } from "@prisma/client";
 import toast from "react-hot-toast";
 import { FaCheck, FaXmark } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import { usePatient } from "@/Contexts/PatientContext";
 
 export default function StatusRequest({
   data,
@@ -21,6 +23,8 @@ export default function StatusRequest({
   const currentStatus = data.statuses.find((e) => e.current);
   const [showRequest, setShowRequest] = useState(false);
   const [loading, start] = useTransition();
+  const router = useRouter();
+  const patient = usePatient();
 
   return (
     <>
@@ -64,6 +68,9 @@ export default function StatusRequest({
                         RequestStatusEnum.Refuse,
                         motif ?? undefined
                       ).then((re) => {
+                        router.replace(
+                          `/patients/${patient.id}/requests/?id=${patient.id}`
+                        );
                         toast.error("Dossier refusé");
                       })
                     );
@@ -86,6 +93,9 @@ export default function StatusRequest({
                     start(() =>
                       newRequestStatus(data.id, RequestStatusEnum.Accepte).then(
                         (re) => {
+                          router.replace(
+                            `/patients/${patient.id}/requests/?id=${patient.id}`
+                          );
                           toast.success("Dossier accepté");
                         }
                       )

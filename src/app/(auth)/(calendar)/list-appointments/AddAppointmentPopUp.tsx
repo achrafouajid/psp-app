@@ -14,16 +14,19 @@ import {
 } from "@nextui-org/react";
 import { FiFileText } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import getAllPatients from "../../../../server/patient/getAllpatients";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import createAppointmentForPatient from "../../../../server/appointment/create_appointment";
+import createAppointmentForPatient from "../../../../../server/appointment/create_appointment";
 import toast from "react-hot-toast";
+import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 
 export default function AddAppointmentPopUp({
   patients,
+  doctors,
 }: {
   patients: NonNullable<Awaited<ReturnType<typeof getAllPatients>>>;
+  doctors: NonNullable<Awaited<ReturnType<typeof getAllDoctors>>>;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter();
@@ -46,13 +49,18 @@ export default function AddAppointmentPopUp({
         .toISOString()
         .substring(0, 16),
       patientId: "",
+      doctorId: "",
       subject: "",
+      note: "",
+      room: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const res = await createAppointmentForPatient(values);
-      if (res) toast.success("Rendez vous créé avec succès!");
-      else {
+      if (res) {
+        toast.success("Rendez vous créé avec succès!");
+        router.refresh();
+      } else {
         toast.error("Erreur lors de la création du rendez-vous!");
         formik.resetForm();
       }
@@ -81,7 +89,7 @@ export default function AddAppointmentPopUp({
               </ModalHeader>
               <ModalBody>
                 <form onSubmit={formik.handleSubmit}>
-                  <div className="mb-6">
+                  <div className="mb-3">
                     <label
                       className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                       htmlFor="subject"
@@ -116,12 +124,12 @@ export default function AddAppointmentPopUp({
                       </div>
                     ) : null}
                   </div>
-                  <div className="mb-6">
+                  <div className="mb-3">
                     <label
                       className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                       htmlFor="subject"
                     >
-                      Date de début
+                      Sujet
                     </label>
                     <Input
                       isRequired
@@ -143,12 +151,12 @@ export default function AddAppointmentPopUp({
                       </div>
                     ) : null}
                   </div>
-                  <div className="mb-6">
+                  <div className="mb-3">
                     <label
                       className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                       htmlFor="startTime"
                     >
-                      Date de fin
+                      Date de début
                     </label>
                     <Input
                       isRequired
@@ -170,7 +178,7 @@ export default function AddAppointmentPopUp({
                       </div>
                     ) : null}
                   </div>
-                  <div className="mb-6">
+                  <div className="mb-3">
                     <label
                       className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
                       htmlFor="endTime"
@@ -194,6 +202,88 @@ export default function AddAppointmentPopUp({
                     {formik.touched.endTime && formik.errors.endTime ? (
                       <div className="text-red-500 text-xs italic">
                         {formik.errors.endTime}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                      htmlFor="doctor"
+                    >
+                      Choississez médecin:
+                    </label>
+                    <Select
+                      items={doctors}
+                      label="Médecin"
+                      placeholder="Choisissez un médecin"
+                      onChange={(event) =>
+                        formik.setFieldValue("doctorId", event.target.value)
+                      }
+                      selectedKeys={[formik.values.doctorId]}
+                      value={formik.values.doctorId}
+                      isInvalid={
+                        formik.touched.doctorId && formik.errors.doctorId
+                          ? true
+                          : false
+                      }
+                    >
+                      {(doctor) => (
+                        <SelectItem value={doctor.id} key={doctor.id}>
+                          {doctor.lastName.concat(" ", doctor.firstName)}
+                        </SelectItem>
+                      )}
+                    </Select>
+                    {formik.touched.doctorId && formik.errors.doctorId ? (
+                      <div className="text-red-500 text-xs italic">
+                        {formik.errors.doctorId}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                      htmlFor="room"
+                    >
+                      Salle ou Fauteuil
+                    </label>
+                    <Input
+                      onChange={formik.handleChange}
+                      name="room"
+                      value={formik.values.room}
+                      disabled={formik.isSubmitting}
+                      type="text"
+                      label="Salle/Fauteuil"
+                      isInvalid={
+                        formik.touched.room && formik.errors.room ? true : false
+                      }
+                    />
+                    {formik.touched.room && formik.errors.room ? (
+                      <div className="text-red-500 text-xs italic">
+                        {formik.errors.room}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
+                      htmlFor="note"
+                    >
+                      Commentaire
+                    </label>
+                    <Input
+                      onChange={formik.handleChange}
+                      name="note"
+                      value={formik.values.note}
+                      disabled={formik.isSubmitting}
+                      type="text"
+                      label="Commentaire"
+                      isInvalid={
+                        formik.touched.note && formik.errors.note ? true : false
+                      }
+                    />
+                    {formik.touched.note && formik.errors.note ? (
+                      <div className="text-red-500 text-xs italic">
+                        {formik.errors.note}
                       </div>
                     ) : null}
                   </div>

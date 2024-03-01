@@ -1,6 +1,6 @@
 "use client";
 import MyButton from "@/components/Button";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import Image from "next/image";
 import { useFormik } from "formik";
@@ -26,6 +26,7 @@ const UserProfileAdmin = ({
   const ref = useRef<HTMLInputElement>(null);
   const { currentColor } = useStateContext();
   const [isDisabled, setisDisabled] = useState(true);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const user = useSession();
   const [photo, setPhoto] = useState(
     data.avatar?.url ? "/" + data.avatar?.url : undefined
@@ -58,12 +59,18 @@ const UserProfileAdmin = ({
       const res = await updateUserAdmin(formData);
       if (res == false) toast.error("Erreur ! ");
       else {
+        setFormSubmitted(true);
         router.refresh();
         toast.success("Informations utilisateur mises à jour !");
       }
     },
   });
-
+  useEffect(() => {
+    if (formSubmitted) {
+      setisDisabled(true); // Reset isDisabled to its default value
+      setFormSubmitted(false); // Reset formSubmitted state
+    }
+  }, [formSubmitted]);
   return (
     <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
       <main className="w-full min-h-screen py-1 md:w-2/3 lg:w-3/4">
@@ -218,15 +225,17 @@ const UserProfileAdmin = ({
                         }
                         type="password"
                       />
-                      <ChangePasswordPopUp Id={data.id} />
-                      <Button
-                        isIconOnly
-                        color="primary"
-                        variant="faded"
-                        aria-label="Envoyer récupération..."
-                      >
-                        <CiMail size={50} />
-                      </Button>
+                      {!isDisabled && <ChangePasswordPopUp Id={data.id} />}
+                      {!isDisabled && (
+                        <Button
+                          isIconOnly
+                          color="primary"
+                          variant="faded"
+                          aria-label="Envoyer récupération..."
+                        >
+                          <CiMail size={50} />
+                        </Button>
+                      )}
                     </div>
                   </div>
                   <div className="mb-2 sm:mb-6">

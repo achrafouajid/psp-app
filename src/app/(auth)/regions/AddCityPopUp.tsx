@@ -34,8 +34,9 @@ export default function AddCityPopUp({ regionId }: { regionId: string }) {
       <Button
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}
+        isIconOnly
       >
-        <CiCirclePlus size={25} /> Villes
+        <CiCirclePlus size={25} />
       </Button>
       <Modal
         isOpen={isOpen}

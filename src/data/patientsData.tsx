@@ -111,50 +111,50 @@ export const employeesGrid = [
 ];
 export const reqGrid = [
   {
-    headerText: "Numéro de Demande",
+    headerText: "No demande",
     field: "number",
-    width: "10",
+    width: "50",
     format: "yMd",
-    textAlign: "left",
+    textAlign: "start",
   },
   {
     headerText: "Nom du Patient",
     field: "name",
-    width: "120",
+    width: "100",
     format: "yMd",
-    textAlign: "left",
+    textAlign: "start",
   },
   {
     headerText: "Date de création",
     field: "date",
-    width: "50",
+    width: "100",
     format: "yMd",
-    textAlign: "Center",
+    textAlign: "start",
   },
 
   {
     headerText: "Remarque",
     field: "remark",
     width: "120",
-    textAlign: "Center",
+    textAlign: "start",
   },
 
   {
     headerText: "Nb de documents",
     width: "100",
     field: "documentCount",
-    textAlign: "Center",
+    textAlign: "start",
   },
   {
     headerText: "Dernier status",
     width: "100",
     field: "status",
-    textAlign: "Center",
+    textAlign: "start",
   },
   {
     headerText: "Actions",
     width: "40",
     template: ReqAction,
-    textAlign: "Center",
+    textAlign: "start",
   },
 ];

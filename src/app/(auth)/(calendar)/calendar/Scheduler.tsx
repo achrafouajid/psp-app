@@ -13,7 +13,7 @@ import {
 } from "@syncfusion/ej2-react-schedule";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Button } from "@nextui-org/react";
-import getAppointments from "../../../../server/appointment/get_appointments";
+import getAppointments from "../../../../../server/appointment/get_appointments";
 
 const PropertyPane = (props: { children?: React.ReactNode }) => (
   <div className="mt-5">{props.children}</div>

@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState, useTransition } from "react";
-import getRequest from "../../../../../../../../../server/patient/requests/getRequest";
+import React, { useEffect, useRef, useState } from "react";
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
@@ -10,11 +9,8 @@ import updateRequest, {
   refuseRequest,
 } from "../../../../../../../../../server/patient/requests/updateRequest";
 import { FaCheck, FaEdit, FaHistory } from "react-icons/fa";
-import { FaDownload, FaXmark } from "react-icons/fa6";
-import Dropzone from "react-dropzone";
-import { CiEdit } from "react-icons/ci";
-import newRequestStatus from "../../../../../../../../../server/patient/requests/newRequestStatus";
-import { RequestStatusEnum } from "@prisma/client";
+import { FaDownload } from "react-icons/fa6";
+
 import {
   Accordion,
   AccordionItem,
@@ -63,7 +59,7 @@ export default function ModifyRequest() {
       if (res == false) toast.error("Erreur ! ");
       else {
         router.refresh();
-        toast.success("Le dossier a été mis à jour !");
+        toast.error("Erreur !");
       }
 
       const res2 = await acceptRequest(formdata);

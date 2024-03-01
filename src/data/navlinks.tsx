@@ -51,6 +51,11 @@ const TbSitemap = dynamic(
   () => import("react-icons/tb").then((e) => e.TbSitemap),
   { ssr: false }
 );
+
+const TbCalendarTime = dynamic(
+  () => import("react-icons/tb").then((e) => e.TbCalendarTime),
+  { ssr: false }
+);
 type LinksGroup = {
   title: string;
   links: NavLinkProps[];
@@ -195,9 +200,16 @@ export const links: LinksGroup[] = [
         ],
       },*/
       {
-        title: "Rendez-vous",
+        title: "Calendrier",
         href: "/calendar",
         icon: <AiOutlineCalendar />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
+      },
+      {
+        title: "Liste des Rendez-vous",
+        href: "/list-appointments",
+        icon: <TbCalendarTime />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
