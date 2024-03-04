@@ -1,3 +1,4 @@
+"use server";
 import { UserRole } from "@prisma/client";
 import prisma from "../../prisma/client";
 

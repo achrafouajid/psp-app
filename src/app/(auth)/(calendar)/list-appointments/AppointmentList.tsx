@@ -21,6 +21,7 @@ import { LuCalendarOff } from "react-icons/lu";
 import { Button } from "@nextui-org/react";
 import removeAppointment from "../../../../../server/appointment/remove_appointment";
 import { MdSchedule } from "react-icons/md";
+import EditAppointmentPopUp from "./EditAppointmentPopUp";
 
 const AppointmentList = ({
   data,
@@ -30,28 +31,22 @@ const AppointmentList = ({
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
-  const ApptAction = (props: any) => (
-    <div className="flex gap-1 justify-end">
-      <Button isIconOnly color="danger" variant="bordered">
-        <LuCalendarOff
-          size={25}
-          style={{ color: "red" }}
-          onClick={() => {
-            removeAppointment(props.data.id);
-          }}
-        />
-      </Button>
-      <Button isIconOnly color="primary" variant="bordered">
-        <MdSchedule
-          size={25}
-          style={{ color: "#396EA5" }}
-          onClick={() => {
-            removeAppointment(props.data.id);
-          }}
-        />
-      </Button>
-    </div>
-  );
+  const ApptAction = (props: any) => {
+    return (
+      <div className="flex gap-1 justify-around">
+        <Button isIconOnly color="danger" variant="bordered">
+          <LuCalendarOff
+            size={25}
+            style={{ color: "red" }}
+            onClick={() => {
+              removeAppointment(props.id);
+            }}
+          />
+        </Button>
+        <Button isIconOnly color="primary" variant="bordered"></Button>
+      </div>
+    );
+  };
 
   const apptGrid = [
     {
@@ -109,9 +104,9 @@ const AppointmentList = ({
     },
     {
       headerText: "Actions",
-      width: "40",
+      width: "50",
       template: ApptAction,
-      textAlign: "start",
+      textAlign: "Center",
     },
   ];
 
@@ -136,6 +131,7 @@ const AppointmentList = ({
             status: e.status,
             subject: e.subject,
             note: e.note,
+            id: e.id,
           };
         })}
         width="auto"

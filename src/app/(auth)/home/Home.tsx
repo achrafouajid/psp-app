@@ -35,6 +35,7 @@ import getAllRegions from "../../../../server/region/getAllRegions";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
 import dynamic from "next/dynamic";
+import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
 
 const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
   ssr: false,
@@ -68,6 +69,7 @@ const Home = ({
   doctors,
   docpatients,
   avg,
+  avg2,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -81,6 +83,7 @@ const Home = ({
   doctors: number;
   docpatients: Awaited<ReturnType<typeof getAllDoctors>>;
   avg: Awaited<ReturnType<typeof calculateAverageCompletionTime>>;
+  avg2: Awaited<ReturnType<typeof calculateAverageResponseTime>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -668,7 +671,7 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <LineChart avg={avg} />
+            <LineChart avg={avg} avg2={avg2} />
           </div>
         </div>
       </div>

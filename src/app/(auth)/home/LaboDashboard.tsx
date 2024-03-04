@@ -14,6 +14,7 @@ import Home from "./Home";
 import getDocPatientCount from "../../../../server/doctor/doc_patientCount";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
+import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
 export default async function LaboDashboard() {
   const [
     count,
@@ -28,6 +29,7 @@ export default async function LaboDashboard() {
     doctors,
     docpatients,
     avg,
+    avg2,
   ] = await Promise.all([
     getPatientCount(),
     getRequestCount(),
@@ -41,6 +43,7 @@ export default async function LaboDashboard() {
     getDocPatientCount(),
     getAllDoctors(),
     calculateAverageCompletionTime(),
+    calculateAverageResponseTime(),
   ]);
 
   return (
@@ -57,6 +60,7 @@ export default async function LaboDashboard() {
       doctors={doctors}
       docpatients={docpatients}
       avg={avg}
+      avg2={avg2}
     />
   );
 }

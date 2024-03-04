@@ -12,7 +12,8 @@ import {
 
 import { useStateContext } from "@/Contexts/ThemeContext";
 import { avgRespo } from "../../../server/patient/requests/AvgCompReq";
-const LineChart = ({ avg }: { avg: avgRespo }) => {
+import { avgRespo2 } from "../../../server/patient/requests/AvgResRequest";
+const LineChart = ({ avg, avg2 }: { avg: avgRespo; avg2: avgRespo2 }) => {
   const LinePrimaryXAxis = {
     valueType: "DateTime",
     labelFormat: "MMM",
@@ -35,34 +36,32 @@ const LineChart = ({ avg }: { avg: avgRespo }) => {
   };
   const secInDay = 60 * 60 * 24;
   const lineChartData = useMemo(() => {
-    const data = [];
+    const completionData = [];
+    const responseData = [];
+
     for (let month = 0; month < 12; month++) {
-      data.push({
+      const completionTime = Math.ceil(
+        (avg.find((e) => e.month === month + 1)?.avgCompletionTime ?? 0) /
+          secInDay
+      );
+      const responseTime = Math.ceil(
+        (avg2.find((e) => e.month === month + 1)?.avgResponseTime ?? 0) /
+          secInDay
+      );
+
+      completionData.push({
         x: new Date(2024, month, 1),
-        y: Math.ceil(
-          (avg.find((e) => e.month === month + 1)?.avgCompletionTime ?? 0) /
-            secInDay
-        ),
+        y: completionTime,
+      });
+
+      responseData.push({
+        x: new Date(2024, month, 1),
+        y: responseTime,
       });
     }
-    return [
-      data,
-      [
-        { x: new Date(2024, 0, 1), y: 1 },
-        { x: new Date(2024, 1, 1), y: 2 },
-        { x: new Date(2024, 2, 1), y: 0 },
-        { x: new Date(2024, 3, 1), y: 0 },
-        { x: new Date(2024, 4, 1), y: 0 },
-        { x: new Date(2024, 5, 1), y: 0 },
-        { x: new Date(2024, 6, 1), y: 0 },
-        { x: new Date(2024, 7, 1), y: 0 },
-        { x: new Date(2024, 8, 1), y: 0 },
-        { x: new Date(2024, 9, 1), y: 0 },
-        { x: new Date(2024, 10, 1), y: 0 },
-        { x: new Date(2024, 11, 1), y: 0 },
-      ],
-    ];
-  }, [avg]);
+
+    return [completionData, responseData];
+  }, [avg, avg2]);
 
   const lineCustomSeries = [
     {

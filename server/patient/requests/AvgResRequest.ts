@@ -1,13 +1,13 @@
 "use server";
 import prisma from "../../../prisma/client";
 
-export type avgRespo = {
+export type avgRespo2 = {
   month: number;
   year: number;
-  avgCompletionTime: number;
+  avgResponseTime: number;
 }[];
-export default async function calculateAverageCompletionTime() {
-  const result: avgRespo = await prisma.$queryRaw`
+export default async function calculateAverageResponseTime() {
+  const result: avgRespo2 = await prisma.$queryRaw`
   WITH CompletedRequests AS (
     SELECT
         r1.requestId,
@@ -18,8 +18,8 @@ export default async function calculateAverageCompletionTime() {
     INNER JOIN
         RequestStatus r2 ON r1.requestId = r2.requestId
     WHERE
-        r1.status = 'Cree' AND
-        r2.status = 'Complete' AND
+        r1.status = 'Complete' AND
+        (r2.status = 'Accepted' OR r2.status = 'Refused') AND
         EXTRACT(MONTH FROM r1.createdAt) = EXTRACT(MONTH FROM r2.createdAt) AND
         EXTRACT(YEAR FROM r1.createdAt) = EXTRACT(YEAR FROM r2.createdAt)
     GROUP BY
@@ -41,7 +41,7 @@ GROUP BY
 
   const res = result.map((e) => ({
     ...e,
-    avgCompletionTime: Number(e.avgCompletionTime),
+    avgResponseTime: Number(e.avgResponseTime),
   }));
   return res;
 }

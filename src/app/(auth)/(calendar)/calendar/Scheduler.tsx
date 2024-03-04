@@ -10,10 +10,17 @@ import {
   WorkWeek,
   Month,
   Inject,
+  ActionEventArgs,
 } from "@syncfusion/ej2-react-schedule";
 import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { Button } from "@nextui-org/react";
 import getAppointments from "../../../../../server/appointment/get_appointments";
+import { EmitType } from "@syncfusion/ej2-base";
+import { on } from "events";
+import createAppointmentForPatient from "../../../../../server/appointment/create_appointment";
+import AddAppointmentPopUp from "../list-appointments/AddAppointmentPopUp";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
+import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 
 const PropertyPane = (props: { children?: React.ReactNode }) => (
   <div className="mt-5">{props.children}</div>
@@ -24,81 +31,35 @@ const Scheduler = ({
 }: {
   data: Awaited<ReturnType<typeof getAppointments>>;
 }) => {
-  const scheduleObj = useRef<any>(null);
+  const scheduleObj = useRef<ScheduleComponent>(null);
 
-  const fieldsData = {
-    id: "Id",
-    subject: { name: "Subject", title: "Event Name" },
-    location: { name: "Location", title: "Event Location" },
-    description: { name: "Description", title: "Event Description" },
-    startTime: { name: "StartTime", title: "Start Duration" },
-    endTime: { name: "EndTime", title: "End Duration" },
+  const appos = data.map((appo) => ({
+    Id: appo.id,
+    Subject: appo.subject,
+    Patient: appo.patientId,
+    Doctor: appo.doctorId,
+    StartTime: new Date(appo.startTime),
+    EndTime: new Date(appo.endTime),
+  }));
+
+  const actionComplete: EmitType<ActionEventArgs> = (args: ActionEventArgs) => {
+    console.log(args.requestType);
   };
-  const scheduleData = [
-    {
-      Id: 3,
-      Subject: "Testing",
-      StartTime: new Date(2018, 1, 11, 9, 0),
-      EndTime: new Date(2018, 1, 11, 10, 0),
-    },
-    {
-      Id: 4,
-      Subject: "Vacation",
-      StartTime: new Date(2018, 1, 13, 9, 0),
-      EndTime: new Date(2018, 1, 13, 10, 0),
-    },
-  ];
-  const eventSettings = { dataSource: scheduleData };
-
-  const onClickAdd = () => {
-    let Data = data.map((appointment) => ({
-      Id: appointment.id, // Assuming 'id' is the unique identifier for appointments
-      Subject: appointment.subject, // Assuming 'subject' is the title of the appointment
-      StartTime: new Date(appointment.startTime), // Convert startTime to Date object
-      EndTime: new Date(appointment.endTime), // Convert endTime to Date object
-      // Add any other fields you need here
-    }));
-    if (scheduleObj.current) {
-      scheduleObj.current.addEvent(Data);
-    }
-  };
-
-  const onClickSave = () => {
-    let Data = {
-      Id: 3,
-      Subject: "Testing-edited",
-      StartTime: new Date(2018, 1, 11, 10, 0),
-      EndTime: new Date(2018, 1, 11, 11, 0),
-    };
-    if (scheduleObj.current) {
-      scheduleObj.current.saveEvent(Data);
-    }
-  };
-
-  const onClickDelete = () => {
-    if (scheduleObj.current) {
-      scheduleObj.current.deleteEvent(4);
-    }
-  };
-
   return (
     <>
       <div>
-        <Button id="add" title="Add" onClick={onClickAdd}>
-          Add
-        </Button>
-        <Button id="edit" title="Edit" onClick={onClickSave}>
-          Edit
-        </Button>
-        <Button id="delete" title="Delete" onClick={onClickDelete}>
-          Delete
-        </Button>{" "}
         <ScheduleComponent
           ref={scheduleObj}
           width="100%"
           height="550px"
           selectedDate={new Date()}
-          eventSettings={eventSettings}
+          actionComplete={actionComplete}
+          eventSettings={{
+            dataSource: appos,
+            allowAdding: false,
+            allowDeleting: false,
+            allowEditing: false,
+          }}
         >
           <ViewsDirective>
             <ViewDirective option="Day" />

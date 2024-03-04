@@ -1,20 +1,38 @@
 "use server";
 import prisma from "../../prisma/client";
 import { revalidatePath } from "next/cache";
+type data = {
+  id: string;
+  startTime: Date;
+  endTime: Date;
+  patientId: string;
+  subject: string;
+  note: string | null;
+  room: string | null;
+  doctorId: string | null;
+};
 
-export default async function updateAppointment(id: string) {
+export default async function updateAppointment(data: data) {
   const appointment = await prisma.appointment.findFirst({
     where: {
-      id: id,
+      id: data.id,
     },
   });
   if (appointment == null) return false;
 
   await prisma.appointment.update({
     where: {
-      id: id,
+      id: data.id,
     },
-    data: {},
+    data: {
+      startTime: new Date(data.startTime),
+      endTime: new Date(data.endTime),
+      patientId: data.patientId,
+      subject: data.subject,
+      note: data.note,
+      room: data.room,
+      doctorId: data.doctorId,
+    },
   });
   revalidatePath("/");
 
