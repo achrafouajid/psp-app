@@ -245,6 +245,7 @@ model User {
   avatarId String? @unique
   avatar Document?  @relation(fields: [avatarId],references: [id])
   blogs Blog[]
+  emails Email[]
   messageSent Message[] @relation("messageSent")
   messageReceived Message[] @relation("messageReceived")
   notes String?
@@ -294,14 +295,17 @@ model Blog{
 }
 
 
-model Message {
-  id String @id @default(cuid()) @map("_id")
-  senderId String 
+
+
+model Email {
+ id          String    @id @default(cuid()) @map("_id")
+senderId String 
   receiverId String 
-  content String @db.MediumText
-  createdAt DateTime
-  sender User  @relation("messageSent",fields: [senderId], references: [id])
-  receiver User @relation("messageReceived",fields: [receiverId], references: [id])
+ subject     String
+ body        String @db.MediumText
+ sentDate    DateTime @default(now())
+ sender User  @relation("messageSent",fields: [senderId], references: [id])
+receiver User @relation("messageReceived",fields: [receiverId], references: [id])
 }
 
 model Appointment {
