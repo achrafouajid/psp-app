@@ -2,6 +2,7 @@ import React from "react";
 import Scheduler from "./Scheduler";
 import Header from "@/components/Header";
 import getAppointments from "../../../../../server/appointment/get_appointments";
+import SchedulerTest from "./SchedulerTest";
 
 export default async function page() {
   const data = await getAppointments();

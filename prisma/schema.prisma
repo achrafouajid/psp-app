@@ -245,9 +245,8 @@ model User {
   avatarId String? @unique
   avatar Document?  @relation(fields: [avatarId],references: [id])
   blogs Blog[]
-  emails Email[]
-  messageSent Message[] @relation("messageSent")
-  messageReceived Message[] @relation("messageReceived")
+  emailSent Email[] @relation("emailSent")
+  emailReceived Email[] @relation("emailReceived")
   notes String?
   program ProgramEnum?
   
@@ -262,6 +261,7 @@ model Document {
   blog Blog?
   patient Patient?
   request RequestDocument?
+  email Email?
 }
 model Category{
   id String @id @default(cuid()) @map("_id")
@@ -294,9 +294,6 @@ model Blog{
 
 }
 
-
-
-
 model Email {
  id          String    @id @default(cuid()) @map("_id")
 senderId String 
@@ -304,8 +301,10 @@ senderId String
  subject     String
  body        String @db.MediumText
  sentDate    DateTime @default(now())
- sender User  @relation("messageSent",fields: [senderId], references: [id])
-receiver User @relation("messageReceived",fields: [receiverId], references: [id])
+ sender User  @relation("emailSent",fields: [senderId], references: [id])
+receiver User @relation("emailReceived",fields: [receiverId], references: [id])
+ attachmentId String  @unique
+  attachment Document @relation(fields: [attachmentId], references: [id])
 }
 
 model Appointment {

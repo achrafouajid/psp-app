@@ -16,6 +16,11 @@ const IoChatbubblesOutline = dynamic(
   () => import("react-icons/io5").then((e) => e.IoChatbubblesOutline),
   { ssr: false }
 );
+
+const IoMailOutline = dynamic(
+  () => import("react-icons/io5").then((e) => e.IoMailOutline),
+  { ssr: false }
+);
 const MdCategory = dynamic(
   () => import("react-icons/md").then((e) => e.MdCategory),
   { ssr: false }
@@ -185,6 +190,13 @@ export const links: LinksGroup[] = [
         title: "Messagerie",
         href: "/chat",
         icon: <IoChatbubblesOutline />,
+        activatedFor: [UserRole.Admin, UserRole.Nurse],
+        visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
+      },
+      {
+        title: "Courrier",
+        href: "/email",
+        icon: <IoMailOutline />,
         activatedFor: [UserRole.Admin, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
