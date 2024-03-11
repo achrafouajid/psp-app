@@ -28,7 +28,7 @@ export default async function login(username: string, password: string) {
 }
 
 export async function makeJwt(user: User) {
-  const expiresIn = new Date(new Date().setMonth(new Date().getDay() + 1));
+  const expiresIn = new Date(new Date().setDate(new Date().getDate() + 1));
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
   const alg = "HS256";
   const jwt = await new jose.SignJWT({
