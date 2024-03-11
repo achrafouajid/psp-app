@@ -1,4 +1,5 @@
-import React from "react";
+{
+  /*import React from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { compareAsc, format } from "date-fns";
 
@@ -22,4 +23,6 @@ export default function SchedulerTest() {
       ]}
     />
   );
+}
+*/
 }

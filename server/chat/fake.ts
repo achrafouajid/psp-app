@@ -1,8 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+{
+  /*import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import prisma from "../../prisma/client";
 export default async function main() {
-  await prisma.message.createMany({
+  await prisma.mail.createMany({
     data: Array.from(Array(100000).keys()).map((e) => ({
       content: faker.lorem.paragraph(),
       receiverId: "cls1l2fb00000t6zob2v6jso6",
@@ -10,4 +11,6 @@ export default async function main() {
       createdAt: faker.date.past(),
     })),
   });
+}
+*/
 }

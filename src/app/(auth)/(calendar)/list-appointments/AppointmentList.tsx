@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   GridComponent,
   Inject,
@@ -18,35 +18,67 @@ import getAppointments from "../../../../../server/appointment/get_appointments"
 import Link from "next/link";
 
 import { LuCalendarOff } from "react-icons/lu";
-import { Button } from "@nextui-org/react";
+import { Button, Chip, useDisclosure } from "@nextui-org/react";
 import removeAppointment from "../../../../../server/appointment/remove_appointment";
 import { MdSchedule } from "react-icons/md";
 import EditAppointmentPopUp from "./EditAppointmentPopUp";
+import getAllPatients from "../../../../../server/patient/getAllpatients";
+import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
+import { useStateContext } from "@/Contexts/ThemeContext";
+const ApptAction = (props: any) => {
+  const [open, setopen] = useState(false);
+  console.log(props.patients, props.doctors);
 
+  return (
+    <div className="flex gap-1 justify-around">
+      <Button
+        onClick={() => {
+          removeAppointment(props.id);
+        }}
+        isIconOnly
+        color="danger"
+        variant="bordered"
+      >
+        <LuCalendarOff size={25} style={{ color: "red" }} />
+      </Button>
+
+      <EditAppointmentPopUp
+        patients={props.patients}
+        doctors={props.doctors}
+        appointment={props.appointment}
+        isOpen={open}
+        onOpenChange={setopen}
+      />
+
+      <Button
+        onClick={(e) => setopen(true)}
+        isIconOnly
+        color="primary"
+        variant="bordered"
+      >
+        <MdSchedule size={25} style={{ color: "#396EA5" }} />
+      </Button>
+    </div>
+  );
+};
 const AppointmentList = ({
   data,
+  patients,
+  doctors,
 }: {
+  patients: NonNullable<Awaited<ReturnType<typeof getAllPatients>>>;
+  doctors: NonNullable<Awaited<ReturnType<typeof getAllDoctors>>>;
   data: Awaited<ReturnType<typeof getAppointments>>;
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
   const editing = { allowDeleting: true, allowEditing: true };
-  const ApptAction = (props: any) => {
-    return (
-      <div className="flex gap-1 justify-around">
-        <Button isIconOnly color="danger" variant="bordered">
-          <LuCalendarOff
-            size={25}
-            style={{ color: "red" }}
-            onClick={() => {
-              removeAppointment(props.id);
-            }}
-          />
-        </Button>
-        <Button isIconOnly color="primary" variant="bordered"></Button>
-      </div>
-    );
-  };
+
+  const appoStatus = (props: any) => (
+    <Chip size="lg" style={{ backgroundColor: "red", color: "white" }}>
+      {props.status}
+    </Chip>
+  );
 
   const apptGrid = [
     {
@@ -86,16 +118,12 @@ const AppointmentList = ({
 
     {
       headerText: "Status",
+      template: appoStatus,
       width: "100",
       field: "status",
       textAlign: "start",
     },
-    {
-      headerText: "Salle/Fauteuil",
-      width: "50",
-      field: "room",
-      textAlign: "start",
-    },
+
     {
       headerText: "Commentaire",
       width: "50",
@@ -126,12 +154,14 @@ const AppointmentList = ({
                 60 +
               "h",
             name: e.patient.firstName + " " + e.patient.lastName,
-            room: e.room,
             doctor: e.doctor?.firstName + " " + e.doctor?.lastName,
             status: e.status,
             subject: e.subject,
             note: e.note,
             id: e.id,
+            patients,
+            doctors,
+            appointment: e,
           };
         })}
         width="auto"

@@ -1,4 +1,5 @@
-"use server";
+{
+  /*"use server";
 import currentUser from "../auth/currentUser";
 import prisma from "../../prisma/client";
 
@@ -18,4 +19,6 @@ export default async function sendMessage({
       receiverId: receiverId,
     },
   });
+}
+*/
 }

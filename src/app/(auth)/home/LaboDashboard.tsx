@@ -15,6 +15,9 @@ import getDocPatientCount from "../../../../server/doctor/doc_patientCount";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
 import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
+import { getAllCallPatients } from "../../../../server/patient/getAllCallPatients";
+import { getNewPatientsCountByMonth } from "../../../../server/patient/newPatientsCount";
+import doctorWorkload from "../../../../server/doctor/doctorWorkLoad";
 export default async function LaboDashboard() {
   const [
     count,
@@ -30,6 +33,8 @@ export default async function LaboDashboard() {
     docpatients,
     avg,
     avg2,
+    callpatients,
+    newpatientsmonth,
   ] = await Promise.all([
     getPatientCount(),
     getRequestCount(),
@@ -41,9 +46,11 @@ export default async function LaboDashboard() {
     getRefusedRequestsCount(),
     getCreatedequestsCount(),
     getDocPatientCount(),
-    getAllDoctors(),
+    doctorWorkload(),
     calculateAverageCompletionTime(),
     calculateAverageResponseTime(),
+    getAllCallPatients(),
+    getNewPatientsCountByMonth(),
   ]);
 
   return (
@@ -61,6 +68,8 @@ export default async function LaboDashboard() {
       docpatients={docpatients}
       avg={avg}
       avg2={avg2}
+      callpatients={callpatients}
+      newpatientsmonth={newpatientsmonth}
     />
   );
 }

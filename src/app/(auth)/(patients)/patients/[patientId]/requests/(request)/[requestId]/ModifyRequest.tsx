@@ -27,6 +27,8 @@ import ViewRequest from "./ViewRequest";
 import { IoFileTrayFullOutline } from "react-icons/io5";
 import { LuFileX } from "react-icons/lu";
 import deleteRequest from "../../../../../../../../../server/patient/requests/deleteRequest";
+import { CiTimer } from "react-icons/ci";
+import { RequestStatusEnum } from "@prisma/client";
 
 export default function ModifyRequest() {
   const { data } = useRequest();
@@ -86,6 +88,79 @@ export default function ModifyRequest() {
   }, [formik.values.documents]);
 
   const currentStatus = data.statuses.find((e) => e.current);
+  var completed = data.statuses.find(
+    (e) => e.status == RequestStatusEnum.Complete
+  );
+
+  var created = data.statuses.find((e) => e.status == RequestStatusEnum.Cree);
+
+  var response = data.statuses.find(
+    (e) =>
+      e.status == RequestStatusEnum.Accepte ||
+      e.status == RequestStatusEnum.Refuse
+  );
+
+  var completedAt = new Date(completed?.createdAt ?? new Date());
+  var createdAt = new Date(created?.createdAt ?? new Date());
+
+  // Step 2: Calculate the difference in milliseconds
+  var differenceInMilliseconds = completedAt.getTime() - createdAt.getTime();
+
+  // Step 3: Convert the difference to days, hours, and minutes
+  var differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+  var days = Math.floor(differenceInSeconds / (60 * 60 * 24));
+  var hours = Math.floor((differenceInSeconds % (60 * 60 * 24)) / (60 * 60));
+  var minutes = Math.floor((differenceInSeconds % (60 * 60)) / 60);
+
+  var formattedTime = "";
+  if (days > 0) {
+    formattedTime += `${days} jours `;
+  }
+  if (hours > 0) {
+    formattedTime += `${hours} heures `;
+  }
+  if (minutes > 0) {
+    formattedTime += `${minutes} minutes`;
+  }
+
+  // Remove the last space if it exists
+  if (formattedTime.endsWith(" ")) {
+    formattedTime = formattedTime.trim();
+  }
+  var responseAt = new Date(response?.createdAt ?? new Date());
+
+  // Calculate the difference between responseAt and createdAt
+  var responseDifferenceInMilliseconds =
+    responseAt.getTime() - createdAt.getTime();
+
+  // Convert the difference to days, hours, and minutes
+  var responseDifferenceInSeconds = Math.floor(
+    responseDifferenceInMilliseconds / 1000
+  );
+  var responseDays = Math.floor(responseDifferenceInSeconds / (60 * 60 * 24));
+  var responseHours = Math.floor(
+    (responseDifferenceInSeconds % (60 * 60 * 24)) / (60 * 60)
+  );
+  var responseMinutes = Math.floor(
+    (responseDifferenceInSeconds % (60 * 60)) / 60
+  );
+
+  // Construct the formatted response time string conditionally
+  var responseFormattedTime = "";
+  if (responseDays > 0) {
+    responseFormattedTime += `${responseDays} jours `;
+  }
+  if (responseHours > 0) {
+    responseFormattedTime += `${responseHours} heures `;
+  }
+  if (responseMinutes > 0) {
+    responseFormattedTime += `${responseMinutes} minutes`;
+  }
+
+  // Remove the last space if it exists
+  if (responseFormattedTime.endsWith(" ")) {
+    responseFormattedTime = responseFormattedTime.trim();
+  }
 
   return (
     <form onSubmit={formik.handleSubmit} className="mt-20">
@@ -121,6 +196,21 @@ export default function ModifyRequest() {
               title={status.status}
               key={status.id}
             >
+              {status.status === RequestStatusEnum.Complete && (
+                <p className="text-[#396EA5] items-center text-sm font-semibold flex gap-1">
+                  <CiTimer size={20} />
+                  Temps de préparation de dossier:
+                  {formattedTime}
+                </p>
+              )}
+              {status.status ===
+                (RequestStatusEnum.Accepte || RequestStatusEnum.Refuse) && (
+                <p className="text-[#396EA5] items-center text-sm font-semibold flex gap-1">
+                  <CiTimer size={20} />
+                  Temps de réponse:
+                  {responseFormattedTime}
+                </p>
+              )}
               <p className="text-[#396EA5] items-center text-sm font-semibold flex gap-1">
                 {" "}
                 <FaEdit size={20} />

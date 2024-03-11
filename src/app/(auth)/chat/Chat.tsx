@@ -1,8 +1,9 @@
-"use client";
+{
+  /*"use client";
 import { User } from "@prisma/client";
 import React, { useState, useEffect, useRef } from "react";
 import Welcome from "./Welcome";
-import ChatContainer from "./ChatContainer";
+
 import { Socket, io } from "socket.io-client";
 import { useSession } from "@/Contexts/UserContext";
 import { Contacts } from "./Contacts";
@@ -23,9 +24,22 @@ export default function Chat({ contacts }: { contacts: data["contacts"] }) {
         {!selected ? (
           <Welcome />
         ) : (
+          
           <ChatContainer key={selected.id} currentUser={selected} />
         )}
       </div>
     </div>
   );
+}
+*/
+}
+import { User } from "@prisma/client";
+import React from "react";
+export type data = {
+  contacts: User[];
+  changeChat: (user: User) => void;
+  selected?: User;
+};
+export default function Chat({ contacts }: { contacts: data["contacts"] }) {
+  return <div>Chat</div>;
 }

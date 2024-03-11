@@ -20,7 +20,7 @@ import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/Contexts/ThemeContext";
 
-const PageContent = ({
+const PatientList = ({
   data,
 }: {
   data: Awaited<ReturnType<typeof getAllPatients>>;
@@ -81,4 +81,4 @@ const PageContent = ({
     </>
   );
 };
-export default PageContent;
+export default PatientList;

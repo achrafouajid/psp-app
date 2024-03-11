@@ -12,9 +12,12 @@ export default async function page() {
   const doctors = await getAllDoctors();
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
-      <Header category="Applications" title="Liste des Rendez-vous" />
+      <Header
+        category="Applications"
+        title="Liste des Rendez-vous et Rappels"
+      />
       <AddAppointmentPopUp patients={patients} doctors={doctors} />
-      <AppointmentList data={data} />
+      <AppointmentList data={data} patients={patients} doctors={doctors} />
     </div>
   );
 }

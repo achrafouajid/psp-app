@@ -16,7 +16,5 @@ export default async function getAllRequests() {
       Patient: true,
     },
   });
-
-  console.log(request);
   return request;
 }

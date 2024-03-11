@@ -52,7 +52,6 @@ export default function AddAppointmentPopUp({
       doctorId: "",
       subject: "",
       note: "",
-      room: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -239,30 +238,7 @@ export default function AddAppointmentPopUp({
                       </div>
                     ) : null}
                   </div>
-                  <div className="mb-3">
-                    <label
-                      className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"
-                      htmlFor="room"
-                    >
-                      Salle ou Fauteuil
-                    </label>
-                    <Input
-                      onChange={formik.handleChange}
-                      name="room"
-                      value={formik.values.room}
-                      disabled={formik.isSubmitting}
-                      type="text"
-                      label="Salle/Fauteuil"
-                      isInvalid={
-                        formik.touched.room && formik.errors.room ? true : false
-                      }
-                    />
-                    {formik.touched.room && formik.errors.room ? (
-                      <div className="text-red-500 text-xs italic">
-                        {formik.errors.room}
-                      </div>
-                    ) : null}
-                  </div>
+
                   <div className="mb-3">
                     <label
                       className="block uppercase tracking-wide text-[#396EA5] text-xs font-bold mb-2"

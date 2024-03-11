@@ -36,6 +36,13 @@ import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
 import dynamic from "next/dynamic";
 import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
+import CompResStacked from "@/components/charts/CompResStacked";
+import NewPatientsStacked from "@/components/charts/NewPatientsStacked";
+import DocWorkLoadStacked from "@/components/charts/DocWorkLoadStacked";
+import PatientCallTable from "@/components/PatientCallTable";
+import { getAllCallPatients } from "../../../../server/patient/getAllCallPatients";
+import { getNewPatientsCountByMonth } from "../../../../server/patient/newPatientsCount";
+import doctorWorkload from "../../../../server/doctor/doctorWorkLoad";
 
 const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
   ssr: false,
@@ -70,6 +77,8 @@ const Home = ({
   docpatients,
   avg,
   avg2,
+  callpatients,
+  newpatientsmonth,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -81,85 +90,15 @@ const Home = ({
   refuse: number;
   cree: number;
   doctors: number;
-  docpatients: Awaited<ReturnType<typeof getAllDoctors>>;
+  docpatients: Awaited<ReturnType<typeof doctorWorkload>>;
   avg: Awaited<ReturnType<typeof calculateAverageCompletionTime>>;
   avg2: Awaited<ReturnType<typeof calculateAverageResponseTime>>;
+  callpatients: Awaited<ReturnType<typeof getAllCallPatients>>;
+  newpatientsmonth: Awaited<ReturnType<typeof getNewPatientsCountByMonth>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  const stackedChartData = [
-    [
-      { x: "Jan", y: 0 },
-      { x: "Feb", y: data },
-      { x: "Mar", y: 0 },
-      { x: "Apr", y: 0 },
-      { x: "May", y: 0 },
-      { x: "Jun", y: 0 },
-      { x: "Jul", y: 0 },
-      { x: "Aug", y: 0 },
-      { x: "Sep", y: 0 },
-      { x: "Oct", y: 0 },
-      { x: "Nov", y: 0 },
-      { x: "Déc", y: 0 },
-    ],
-    docpatients.map((e) => ({
-      x: e.title + "." + e.lastName,
-      y: e._count.Patient,
-    })),
-  ];
-
-  const stackedCustomSeries = [
-    {
-      dataSource: stackedChartData[0],
-      xName: "x",
-      yName: "y",
-      name: "Patients",
-      type: "StackingColumn",
-      background: "blue",
-    },
-  ];
-
-  const stackedData = [
-    {
-      dataSource: stackedChartData[1],
-      xName: "x",
-      yName: "y",
-      name: "Patients",
-      type: "StackingColumn",
-      background: "blue",
-    },
-  ];
-
-  const stackedPrimaryXAxis = {
-    majorGridLines: { width: 0 },
-    minorGridLines: { width: 0 },
-    majorTickLines: { width: 0 },
-    minorTickLines: { width: 0 },
-    interval: 1,
-    lineStyle: { width: 0 },
-    labelIntersectAction: "Rotate45",
-    valueType: "Category",
-    scrollbarSettings: {
-      enableZoom: false,
-      gripColor: "transparent",
-      scrollbarColor: "#0ae",
-      scrollbarRadius: 5,
-      height: 10,
-    },
-  };
-
-  const stackedPrimaryYAxis = {
-    lineStyle: { width: 0 },
-    minimum: 0,
-    maximum: 20,
-    interval: 100,
-    majorTickLines: { width: 0 },
-    majorGridLines: { width: 1 },
-    minorGridLines: { width: 1 },
-    minorTickLines: { width: 0 },
-    labelFormat: "{value}",
-  };
 
   const demandes = [
     {
@@ -243,68 +182,6 @@ const Home = ({
       .reduce((a, b) => a + b, 0),
   }));
 
-  const Stacked = ({ width, height }: any) => {
-    const { currentMode } = useStateContext();
-    const id = useId();
-    return (
-      <ChartComponent
-        id={id}
-        primaryXAxis={stackedPrimaryXAxis as any}
-        primaryYAxis={stackedPrimaryYAxis}
-        width="675"
-        height={height}
-        chartArea={{ border: { width: 0 } }}
-        tooltip={{ enable: true }}
-        background={currentMode === "Dark" ? "#33373E" : "#fff"}
-      >
-        <Inject
-          services={[
-            StackingColumnSeries,
-            Category,
-            Legend,
-            Tooltip,
-            ScrollBar,
-          ]}
-        />
-        <SeriesCollectionDirective>
-          {stackedCustomSeries.map((item, index) => (
-            <SeriesDirective key={index} {...item} />
-          ))}
-        </SeriesCollectionDirective>
-      </ChartComponent>
-    );
-  };
-  const Stacked2 = ({ width, height }: any) => {
-    const { currentMode } = useStateContext();
-    const id = useId();
-    return (
-      <ChartComponent
-        id={id}
-        primaryXAxis={stackedPrimaryXAxis as any}
-        primaryYAxis={stackedPrimaryYAxis}
-        width="675"
-        height={height}
-        chartArea={{ border: { width: 0 } }}
-        tooltip={{ enable: true }}
-        background={currentMode === "Dark" ? "#33373E" : "#fff"}
-      >
-        <Inject
-          services={[
-            StackingColumnSeries,
-            Category,
-            Legend,
-            Tooltip,
-            ScrollBar,
-          ]}
-        />
-        <SeriesCollectionDirective>
-          {stackedData.map((item, index) => (
-            <SeriesDirective key={index} {...item} />
-          ))}
-        </SeriesCollectionDirective>
-      </ChartComponent>
-    );
-  };
   return (
     <div className="" ref={ref}>
       <div className="flex flex-wrap lg:flex-nowrap justify-center ">
@@ -382,7 +259,7 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <Stacked currentMode={currentMode} width="320px" height="360px" />
+            <NewPatientsStacked newpatientsmonth={newpatientsmonth} />
           </div>
         </div>
         <div>
@@ -493,9 +370,6 @@ const Home = ({
             <div>
               <p>
                 <span className="text-3xl font-semibold">{data}</span>
-                <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
-                  0%
-                </span>
               </p>
               <p className="text-gray-500 mt-1">Patients ce mois</p>
             </div>
@@ -637,11 +511,7 @@ const Home = ({
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
             <div className="">
-              <Stacked2
-                currentMode={currentMode}
-                width="320px"
-                height="360px"
-              />
+              <DocWorkLoadStacked docpatients={docpatients} />
             </div>
           </div>
         </div>
@@ -653,14 +523,14 @@ const Home = ({
         >
           <div className="flex justify-between">
             <p className="font-semibold text-xl">
-              Temps de complétion et réponse de dossier
+              Temps de préparation et réponse de dossier
             </p>
             <div className="flex items-center gap-4">
               <p className="flex items-center gap-2 text-[#00BDAE] hover:drop-shadow-xl">
                 <span>
                   <GoDotFill />
                 </span>
-                <span>Complétion</span>
+                <span>Préparation</span>
               </p>
               <p className="flex items-center gap-2 text-black hover:drop-shadow-xl">
                 <span>
@@ -671,7 +541,31 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <LineChart avg={avg} avg2={avg2} />
+            <CompResStacked avg={avg} avg2={avg2} />
+          </div>
+        </div>
+        <div>
+          <div
+            className=" rounded-2xl md:w-400 p-4 m-3 border border-white"
+            style={{ backgroundColor: currentColor }}
+          >
+            <div className="flex justify-between items-center ">
+              <p className="font-semibold text-white text-2xl">
+                Nombre de patients à rappeler
+              </p>
+
+              <p className="text-2xl text-white font-semibold mt-8">
+                {callpatients.length}
+              </p>
+            </div>
+          </div>
+
+          <div
+            className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400  m-3 flex justify-center items-center gap-10
+            "
+            style={{ borderColor: currentColor }}
+          >
+            <PatientCallTable callpatients={callpatients} />
           </div>
         </div>
       </div>

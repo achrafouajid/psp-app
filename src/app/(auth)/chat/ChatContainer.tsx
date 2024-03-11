@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, Ref } from "react";
+{
+  /*import React, { useState, useEffect, useRef, Ref } from "react";
 import { Socket, io } from "socket.io-client";
 import getMessages from "../../../../server/chat/getMessages";
 import { Message, User } from "@prisma/client";
@@ -96,4 +97,6 @@ export default function ChatContainer({ currentUser }: { currentUser: User }) {
       <ChatInput handleSendMsg={handleSendMsg} />
     </div>
   );
+}
+*/
 }

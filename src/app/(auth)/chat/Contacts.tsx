@@ -1,4 +1,5 @@
-import { Input } from "@nextui-org/react";
+{
+  /*import { Input } from "@nextui-org/react";
 import { data } from "./Chat";
 import { CiSearch } from "react-icons/ci";
 
@@ -50,4 +51,5 @@ export function Contacts({ contacts, changeChat, selected }: data) {
       }
     </>
   );
+}*/
 }

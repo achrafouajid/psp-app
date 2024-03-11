@@ -8,7 +8,6 @@ type data = {
   patientId: string;
   subject: string;
   note: string | null;
-  room: string | null;
   doctorId: string | null;
 };
 
@@ -30,7 +29,6 @@ export default async function updateAppointment(data: data) {
       patientId: data.patientId,
       subject: data.subject,
       note: data.note,
-      room: data.room,
       doctorId: data.doctorId,
     },
   });

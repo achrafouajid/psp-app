@@ -12,15 +12,8 @@ import {
   Inject,
   ActionEventArgs,
 } from "@syncfusion/ej2-react-schedule";
-import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
-import { Button } from "@nextui-org/react";
 import getAppointments from "../../../../../server/appointment/get_appointments";
 import { EmitType } from "@syncfusion/ej2-base";
-import { on } from "events";
-import createAppointmentForPatient from "../../../../../server/appointment/create_appointment";
-import AddAppointmentPopUp from "../list-appointments/AddAppointmentPopUp";
-import getAllPatients from "../../../../../server/patient/getAllpatients";
-import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 
 const PropertyPane = (props: { children?: React.ReactNode }) => (
   <div className="mt-5">{props.children}</div>

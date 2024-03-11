@@ -9,7 +9,6 @@ type data = {
   patientId: string;
   subject: string;
   note: string;
-  room: string;
   doctorId: string;
 };
 
@@ -23,7 +22,6 @@ export default async function createAppointmentForPatient(data: data) {
       endTime: new Date(data.endTime),
       subject: data.subject,
       note: data.note,
-      room: data.room,
       doctorId: data.doctorId,
     },
   });
