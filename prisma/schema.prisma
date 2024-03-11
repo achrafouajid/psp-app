@@ -102,7 +102,7 @@ enum RepeatEnum {
 model Patient {
   id String @id @default(cuid()) @map("_id") 
   firstName String
-  patientno String
+  patientno String?
   lastName String 
   address String?
   birthDate DateTime?
