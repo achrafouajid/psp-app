@@ -40,7 +40,7 @@ export default function AddUserPopUp() {
   });
 
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex flex-col items-start gap-2 mt-5">
       <Button
         style={{ backgroundColor: "#396EA5", color: "white" }}
         onPress={onOpen}

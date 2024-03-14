@@ -77,7 +77,7 @@ export default function CompResStackedTwo({
 
   return (
     <ChartComponent
-      id="comp-res-stacled-2"
+      id="comp-res-stacked-2"
       primaryXAxis={primaryxAxis as any}
       primaryYAxis={primaryyAxis}
       tooltip={{ enable: true }}

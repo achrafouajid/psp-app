@@ -17,22 +17,106 @@ import {
 import getAllUsers from "../../../../server/auth/getAllUsers";
 import { CiSettings } from "react-icons/ci";
 import Link from "next/link";
+import { UserRole, UserStatus } from "@prisma/client";
+import { Avatar, Chip } from "@nextui-org/react";
+const Status = (props: any) => {
+  let bgColor = ""; // Default color
+  let statusTranslation = "";
+  switch (props.status) {
+    case UserStatus.Active:
+      bgColor = "#4CAF50"; // Green for success
+      statusTranslation = "Actif";
+      break;
+    case UserStatus.NeedInitialization:
+      bgColor = "#f7cb73"; // Yelllow for pending
+      statusTranslation = "Inactif";
+      break;
+
+    default:
+      bgColor = "#f7cb73"; // Default color if status is not recognized
+      statusTranslation = props.status;
+      return { status: statusTranslation, bgColor };
+  }
+
+  return (
+    <Chip size="lg" style={{ backgroundColor: bgColor, color: "white" }}>
+      {props.statusTranslation || statusTranslation}
+    </Chip>
+  );
+};
+const Role = (props: any) => {
+  let bgColor = ""; // Default color
+  let roleTranslation = "";
+  switch (props.role) {
+    case UserRole.Admin:
+      bgColor = "#396EA5"; // Green for success
+      roleTranslation = "Administrateur";
+      break;
+    case UserRole.Lab:
+      bgColor = "#f7cb73"; // Yelllow for pending
+      roleTranslation = "Laboratoire";
+      break;
+    case UserRole.Nurse:
+      bgColor = "#4CAF50"; // Red for expired
+      roleTranslation = "Infirmière";
+      break;
+    case UserRole.Patient:
+      bgColor = "#F44336"; // Orange for modifications
+      roleTranslation = "Patient";
+      break;
+
+    default:
+      bgColor = "#f7cb73"; // Default color if status is not recognized
+      roleTranslation = props.role;
+      return { role: roleTranslation, bgColor };
+  }
+
+  return (
+    <Chip size="lg" style={{ backgroundColor: bgColor, color: "white" }}>
+      {props.roleTranslation || roleTranslation}
+    </Chip>
+  );
+};
 const gridUserProfile = (props: any) => (
   <Link href={`/${props.id}`}>
-    <CiSettings size={25} style={{ color: "#396EA5" }} />
+    <CiSettings size={33} style={{ color: "#396EA5" }} />
   </Link>
 );
 
-const gridProfile = (props: any) =>
-  props.avatar ? (
-    <img
-      className="rounded-full w-10 h-10"
-      src={`${props.avatar?.url}`}
-      alt="employee"
-    />
+const gridProfile = (props: any) => {
+  let avatarColor:
+    | "primary"
+    | "default"
+    | "success"
+    | "danger"
+    | "warning"
+    | "secondary"
+    | undefined = "primary"; // Default color
+  switch (props.role) {
+    case UserRole.Admin:
+      avatarColor = "primary"; // Green for success
+      break;
+    case UserRole.Lab:
+      avatarColor = "warning"; // Assuming "primary" is the closest match for yellow
+      break;
+    case UserRole.Nurse:
+      avatarColor = "success"; // Red for expired
+      break;
+    case UserRole.Patient:
+      avatarColor = "danger"; // Orange for modifications
+      break;
+    default:
+      avatarColor = "primary"; // Default color if status is not recognized
+      break;
+  }
+
+  return props.avatar ? (
+    <Avatar isBordered color={avatarColor} src={`${props.avatar?.url}`} />
   ) : (
-    <div className="rounded-full w-10 h-10">{props.avatar?.url}</div>
+    <Avatar name={props.name} color={avatarColor} />
   );
+};
+
 const usersGrid = [
   {
     headerText: "Photo de Profil",
@@ -56,11 +140,11 @@ const usersGrid = [
   },
   {
     field: "Status",
-    headerText: "Status",
+    headerText: "Statut",
+    template: Status,
     width: "130",
     format: "yMd",
     textAlign: "Center",
-    template: "",
   },
   {
     field: "Role",
@@ -68,6 +152,7 @@ const usersGrid = [
     width: "100",
     format: "C2",
     textAlign: "Center",
+    template: Role,
   },
   {
     headerText: "",
