@@ -17,7 +17,6 @@ import {
 import getAllUsers from "../../../../server/auth/getAllUsers";
 import { CiSettings } from "react-icons/ci";
 import Link from "next/link";
-import { useStateContext } from "@/Contexts/ThemeContext";
 const gridUserProfile = (props: any) => (
   <Link href={`/${props.id}`}>
     <CiSettings size={25} style={{ color: "#396EA5" }} />
@@ -35,9 +34,8 @@ const gridProfile = (props: any) =>
     <div className="rounded-full w-10 h-10">{props.avatar?.url}</div>
   );
 const usersGrid = [
-  { type: "checkbox", width: "50" },
   {
-    headerText: "",
+    headerText: "Photo de Profil",
     field: "Avatar",
     width: "40px",
     template: gridProfile,
@@ -84,9 +82,7 @@ const UsersData = ({
 }: {
   data: Awaited<ReturnType<typeof getAllUsers>>;
 }) => {
-  const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Search"];
-  const editing = { allowDeleting: true, allowEditing: true };
 
   return (
     <GridComponent
@@ -101,9 +97,7 @@ const UsersData = ({
       enableHover={true}
       allowPaging
       pageSettings={{ pageSize: 5 }}
-      selectionSettings={selectionsettings}
       toolbar={toolbarOptions}
-      editSettings={editing}
       allowSorting
     >
       <ColumnsDirective>
@@ -111,9 +105,7 @@ const UsersData = ({
           <ColumnDirective key={index} {...item} />
         ))}
       </ColumnsDirective>
-      <Inject
-        services={[Search, Page, Selection, Toolbar, Edit, Sort, Filter]}
-      />
+      <Inject services={[Search, Page, Toolbar, Sort, Filter]} />
     </GridComponent>
   );
 };

@@ -10,13 +10,13 @@ import {
 import React from "react";
 import Link from "next/link";
 import { MdDateRange } from "react-icons/md";
-import get_blogs from "../../server/blog/get_blogs";
 import Image from "next/image";
 import { FaExternalLinkAlt, FaTag } from "react-icons/fa";
 import { FaUserPen } from "react-icons/fa6";
+import getPublishedBlogs from "../../server/blog/get_published_Blogs";
 
 export default function CardBlog(
-  props: Awaited<ReturnType<typeof get_blogs>>[number]
+  props: Awaited<ReturnType<typeof getPublishedBlogs>>[number]
 ) {
   const html = document.createElement("div");
   html.innerHTML = props.content;

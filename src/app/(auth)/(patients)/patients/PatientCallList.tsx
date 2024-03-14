@@ -24,7 +24,6 @@ const PatientCallList = ({
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
-  const editing = { allowDeleting: true, allowEditing: true };
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
   const callPatientsGrid = [
@@ -78,7 +77,6 @@ const PatientCallList = ({
         pageSettings={{ pageSize: 5 }}
         selectionSettings={selectionsettings}
         toolbar={toolbarOptions}
-        editSettings={editing}
         allowSorting
       >
         <ColumnsDirective>

@@ -1,4 +1,5 @@
 "use server";
+import { AppointmentStatusEnum } from "@prisma/client";
 import prisma from "../../prisma/client";
 import { revalidatePath } from "next/cache";
 type data = {
@@ -30,6 +31,7 @@ export default async function updateAppointment(data: data) {
       subject: data.subject,
       note: data.note,
       doctorId: data.doctorId,
+      status: AppointmentStatusEnum.Rescheduled,
     },
   });
   revalidatePath("/");

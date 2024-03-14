@@ -25,7 +25,6 @@ const DoctorList = ({
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Search"];
-  const editing = { allowDeleting: true, allowEditing: true };
   const DocAction = (props: any) => (
     <div className="flex gap-1 justify-end">
       <Link
@@ -120,7 +119,6 @@ const DoctorList = ({
         pageSettings={{ pageSize: 5 }}
         selectionSettings={selectionsettings}
         toolbar={toolbarOptions}
-        editSettings={editing}
         allowSorting
       >
         <ColumnsDirective>

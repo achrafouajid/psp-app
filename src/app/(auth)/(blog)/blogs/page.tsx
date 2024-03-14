@@ -5,9 +5,10 @@ import get_blogs from "../../../../../server/blog/get_blogs";
 import CardBlog from "@/components/CardBlog";
 import { Chip } from "@nextui-org/react";
 import FeaturedPosts from "@/components/FeaturedPosts";
+import getPublishedBlogs from "../../../../../server/blog/get_published_Blogs";
 
 const Blogs = async () => {
-  const data = await get_blogs();
+  const data = await getPublishedBlogs();
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
       <Header

@@ -1,7 +1,10 @@
 import prisma from "../../prisma/client";
 
-export default async function get_blogs() {
+export default async function getPublishedBlogs() {
   return await prisma.blog.findMany({
+    where: {
+      status: "Publie", // Filter blogs with status 'Publie'
+    },
     select: {
       status: true,
       notes: true,

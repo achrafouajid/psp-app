@@ -14,10 +14,12 @@ import Home from "./Home";
 import getDocPatientCount from "../../../../server/doctor/doc_patientCount";
 import getAllDoctors from "../../../../server/doctor/getAllDoctors";
 import calculateAverageCompletionTime from "../../../../server/patient/requests/AvgCompReq";
-import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
 import { getAllCallPatients } from "../../../../server/patient/getAllCallPatients";
 import { getNewPatientsCountByMonth } from "../../../../server/patient/newPatientsCount";
 import doctorWorkload from "../../../../server/doctor/doctorWorkLoad";
+import calculateAverageResponseTime from "../../../../server/patient/requests/AvgResRequest";
+import calculateAverageResponseTimeFromCreations from "../../../../server/patient/requests/AvgResfromCreation";
+
 export default async function LaboDashboard() {
   const [
     count,
@@ -35,6 +37,7 @@ export default async function LaboDashboard() {
     avg2,
     callpatients,
     newpatientsmonth,
+    avg3,
   ] = await Promise.all([
     getPatientCount(),
     getRequestCount(),
@@ -51,6 +54,7 @@ export default async function LaboDashboard() {
     calculateAverageResponseTime(),
     getAllCallPatients(),
     getNewPatientsCountByMonth(),
+    calculateAverageResponseTimeFromCreations(),
   ]);
 
   return (
@@ -70,6 +74,7 @@ export default async function LaboDashboard() {
       avg2={avg2}
       callpatients={callpatients}
       newpatientsmonth={newpatientsmonth}
+      avg3={avg3}
     />
   );
 }

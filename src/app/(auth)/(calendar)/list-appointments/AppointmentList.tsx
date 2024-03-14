@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   GridComponent,
   Inject,
@@ -25,9 +25,10 @@ import EditAppointmentPopUp from "./EditAppointmentPopUp";
 import getAllPatients from "../../../../../server/patient/getAllpatients";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 import { useStateContext } from "@/Contexts/ThemeContext";
+import { AppointmentStatusEnum } from "@prisma/client";
+import { updateExpiredAppointments } from "../../../../../server/appointment/update_expired_appointments";
 const ApptAction = (props: any) => {
   const [open, setopen] = useState(false);
-  console.log(props.patients, props.doctors);
 
   return (
     <div className="flex gap-1 justify-around">
@@ -71,14 +72,41 @@ const AppointmentList = ({
   data: Awaited<ReturnType<typeof getAppointments>>;
 }) => {
   const selectionsettings = { persistSelection: true };
-  const toolbarOptions = ["Delete", "Search"];
-  const editing = { allowDeleting: true, allowEditing: true };
+  const toolbarOptions = ["Search"];
 
-  const appoStatus = (props: any) => (
-    <Chip size="lg" style={{ backgroundColor: "red", color: "white" }}>
-      {props.status}
-    </Chip>
-  );
+  useEffect(() => {
+    updateExpiredAppointments();
+  }, []);
+
+  const appoStatus = (props: any) => {
+    let bgColor = ""; // Default color
+    let statusTranslation = "";
+    switch (props.status) {
+      case AppointmentStatusEnum.Pending:
+        bgColor = "#4CAF50"; // Green for success
+        statusTranslation = "En cours";
+        break;
+      case AppointmentStatusEnum.Rescheduled:
+        bgColor = "#f7cb73"; // Yelllow for pending
+        statusTranslation = "Reporté";
+        break;
+      case AppointmentStatusEnum.Expired:
+        bgColor = "#F44336"; // Red for expired
+        statusTranslation = "Dépassé";
+        break;
+
+      default:
+        bgColor = "#f7cb73"; // Default color if status is not recognized
+        statusTranslation = props.status;
+        return { status: statusTranslation, bgColor };
+    }
+
+    return (
+      <Chip size="lg" style={{ backgroundColor: bgColor, color: "white" }}>
+        {props.statusTranslation || statusTranslation}
+      </Chip>
+    );
+  };
 
   const apptGrid = [
     {
@@ -170,7 +198,6 @@ const AppointmentList = ({
         pageSettings={{ pageSize: 5 }}
         selectionSettings={selectionsettings}
         toolbar={toolbarOptions}
-        editSettings={editing}
         allowSorting
       >
         <ColumnsDirective>

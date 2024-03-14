@@ -5,17 +5,24 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import create_blog from "../../../../../server/blog/create_blog";
 import { Category } from "@prisma/client";
 import Editor from "./Editor";
+import { toast } from "react-hot-toast"; // Import the toast function
 
 export default function AddBlog(props: { categories: Category[] }) {
   const { currentColor } = useStateContext();
   const [content, setcontent] = useState("");
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
     formData.set("content", content);
 
-    await create_blog(formData);
+    try {
+      await create_blog(formData);
+      toast.success("Blog created successfully!"); // Display a success toast
+    } catch (error) {
+      toast.error("Failed to create blog. Please try again."); // Display an error toast
+    }
   }
   return (
     <div className=" w-full mx-4 rounded-lg p-8">

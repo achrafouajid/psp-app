@@ -27,7 +27,6 @@ const RequestListPatient = ({
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
-  const editing = { allowDeleting: true, allowEditing: true };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
@@ -59,7 +58,6 @@ const RequestListPatient = ({
         pageSettings={{ pageSize: 5 }}
         selectionSettings={selectionsettings}
         toolbar={toolbarOptions}
-        editSettings={editing}
         allowSorting
       >
         <ColumnsDirective>

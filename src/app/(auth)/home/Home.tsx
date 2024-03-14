@@ -43,6 +43,8 @@ import PatientCallTable from "@/components/PatientCallTable";
 import { getAllCallPatients } from "../../../../server/patient/getAllCallPatients";
 import { getNewPatientsCountByMonth } from "../../../../server/patient/newPatientsCount";
 import doctorWorkload from "../../../../server/doctor/doctorWorkLoad";
+import calculateAverageResponseTimeFromCreations from "../../../../server/patient/requests/AvgResfromCreation";
+import CompResStackedTwo from "@/components/charts/CompResStackedTwo";
 
 const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
   ssr: false,
@@ -79,6 +81,7 @@ const Home = ({
   avg2,
   callpatients,
   newpatientsmonth,
+  avg3,
 }: {
   data: Awaited<ReturnType<typeof getPatientCount>>;
   data2: Awaited<ReturnType<typeof getRequestCount>>;
@@ -95,6 +98,7 @@ const Home = ({
   avg2: Awaited<ReturnType<typeof calculateAverageResponseTime>>;
   callpatients: Awaited<ReturnType<typeof getAllCallPatients>>;
   newpatientsmonth: Awaited<ReturnType<typeof getNewPatientsCountByMonth>>;
+  avg3: Awaited<ReturnType<typeof calculateAverageResponseTimeFromCreations>>;
 }) => {
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
@@ -541,7 +545,8 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            <CompResStacked avg={avg} avg2={avg2} />
+            {/*<CompResStacked avg={avg} avg2={avg2} avg3={avg3} />*/}
+            <CompResStackedTwo avg={avg} avg2={avg2} avg3={avg3} />
           </div>
         </div>
         <div>
