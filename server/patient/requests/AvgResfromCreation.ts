@@ -1,4 +1,5 @@
 "use server";
+import { RequestStatusEnum } from "@prisma/client";
 import prisma from "../../../prisma/client";
 
 export type avgRespo = {
@@ -19,9 +20,8 @@ export default async function calculateAverageResponseTimeFromCreations() {
     INNER JOIN
         RequestStatus r2 ON r1.requestId = r2.requestId
     WHERE
-        r1.status = 'Cree' AND
-        (r2.status = 'Accepte' OR r2.status = 'Refuse') AND
-        EXTRACT(MONTH FROM r1.createdAt) = EXTRACT(MONTH FROM r2.createdAt) AND
+        r1.status = ${RequestStatusEnum.Cree} AND
+        (r2.status = ${RequestStatusEnum.Accepte} OR r2.status = ${RequestStatusEnum.Refuse}) AND
         EXTRACT(YEAR FROM r1.createdAt) = EXTRACT(YEAR FROM r2.createdAt)
     GROUP BY
         r1.requestId,
