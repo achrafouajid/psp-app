@@ -22,14 +22,6 @@ NeedInitialization
 Active
 }
 
-enum RequestStatusEnum {
-Constitue
-Cree
-Complete
-Attente
-Accepte
-Refuse
-}
 
 enum DiagnosticEnum {
 Scanner
@@ -209,15 +201,6 @@ model Request {
   Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
   
 }
-
-
-model RequestDocument {
-  requestStatusId String
-  documentId String @unique
-  @@id([requestStatusId,documentId])
-  request RequestStatus @relation(fields:[requestStatusId],references:[id],onDelete: Cascade)
-  document Document @relation(fields: [documentId],references: [id])
-}
 model RequestStatus {
   id String @id @default(cuid()) @map("_id")
   createdAt DateTime
@@ -229,6 +212,24 @@ model RequestStatus {
   documents RequestDocument[]
   
 }
+enum RequestStatusEnum {
+Constitue
+Cree
+Complete
+Attente
+Accepte
+Refuse
+}
+
+
+model RequestDocument {
+  requestStatusId String
+  documentId String @unique
+  @@id([requestStatusId,documentId])
+  request RequestStatus @relation(fields:[requestStatusId],references:[id],onDelete: Cascade)
+  document Document @relation(fields: [documentId],references: [id])
+}
+
 model User {
   id String @id @default(cuid()) @map("_id")
   firstName String 
