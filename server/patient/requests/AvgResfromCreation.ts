@@ -9,7 +9,7 @@ export type avgRespo = {
 
 export default async function calculateAverageResponseTimeFromCreations() {
   const result: avgRespo = await prisma.$queryRaw`
- WITH CompletedRequests AS (
+    WITH CompletedRequests AS (
     SELECT
         r1.requestId,
         r1.createdAt AS startedAt,
