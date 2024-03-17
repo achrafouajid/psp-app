@@ -276,6 +276,7 @@ const PatientProfileCopy = ({
             </label>
             <div className="relative">
               <Select
+                isDisabled={isDisabled}
                 onChange={formik.handleChange}
                 name="program"
                 value={formik.values.program ?? ProgramEnum.PSP}
@@ -317,9 +318,16 @@ const PatientProfileCopy = ({
               Médecin
             </label>
             <Select
+              isDisabled={isDisabled || formik.isSubmitting}
               name="doctor"
               value={formik.values.doctor?.id}
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                // Directly find and set the selected doctor object in the formik state
+                const selectedDoctor = doctors.find(
+                  (doctor) => doctor.id === e.target.value
+                );
+                formik.setFieldValue("doctor", selectedDoctor);
+              }}
               selectedKeys={[formik.values.doctor?.id ?? ""]}
               items={doctors}
               label="Médecin"

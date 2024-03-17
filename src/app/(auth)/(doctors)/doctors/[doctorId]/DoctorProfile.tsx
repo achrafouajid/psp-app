@@ -14,7 +14,6 @@ import {
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import getAllRegions from "../../../../../../server/region/getAllRegions";
-import { registerResponseEnum } from "../../../../../../server/auth/types";
 import deleteDoctor from "../../../../../../server/doctor/delete_doctor";
 import getDoctor from "../../../../../../server/doctor/get_doctor";
 import updateDoctor from "../../../../../../server/doctor/update_doctor";
@@ -55,11 +54,20 @@ export default function DoctorProfile({
     },
   });
   useEffect(() => {
-    formik.setFieldValue(
-      "city",
-      regions.find((r) => r.id == region)?.city.at(0)?.id
-    );
-  }, [region]);
+    // Find the selected region and its cities
+    const selectedRegion = regions.find((r) => r.id === region);
+    const cities = selectedRegion?.city || [];
+
+    // Check if the current city is not in the new list of cities for the selected region
+    if (
+      formik.values.city &&
+      !cities.some((city) => city.id === formik.values.city)
+    ) {
+      // If the current city is not in the new list, update it to the first city of the new list
+      formik.setFieldValue("city", cities.length > 0 ? cities[0].id : "");
+    }
+    // Note: This does not directly set the city field if it's already in the list, avoiding unnecessary updates
+  }, [region, regions, formik]);
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl border border-[#396EA5]">
       <Header
@@ -261,9 +269,11 @@ export default function DoctorProfile({
               <Select
                 name="city"
                 value={formik.values.city}
-                selectedKeys={[formik.values.city]}
-                onChange={formik.handleChange}
-                items={regions.find((item) => item.id == region)?.city ?? []}
+                onChange={(e) => {
+                  // Update the city field in Formik
+                  formik.setFieldValue("city", e.target.value);
+                }}
+                items={regions.find((item) => item.id === region)?.city ?? []}
                 label="Ville"
                 placeholder="Choisissez une Ville"
                 className="max-w-s"

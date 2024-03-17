@@ -17,6 +17,8 @@ import { Selection } from "@syncfusion/ej2-react-charts";
 import getAllDoctors from "../../../../../server/doctor/getAllDoctors";
 import Link from "next/link";
 import { CiSettings } from "react-icons/ci";
+import { PriorityEnum } from "@prisma/client";
+import { Chip } from "@nextui-org/react";
 
 const DoctorList = ({
   data,
@@ -25,6 +27,29 @@ const DoctorList = ({
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Search"];
+  const Priority = (props: any) => {
+    let bgColor = ""; // Default color
+    switch (props.priority) {
+      case PriorityEnum.LVT:
+        bgColor = "#4CAF50"; // Green for success
+        break;
+
+      case PriorityEnum.HVT:
+        bgColor = "#F44336"; // Red for expired
+
+        break;
+
+      default:
+        bgColor = "#f7cb73"; // Default color if status is not recognized
+    }
+
+    return (
+      <Chip size="lg" style={{ backgroundColor: bgColor, color: "white" }}>
+        {props.priority}
+      </Chip>
+    );
+  };
+
   const DocAction = (props: any) => (
     <div className="flex gap-1 justify-end">
       <Link
@@ -85,6 +110,7 @@ const DoctorList = ({
       field: "priority",
       width: "50",
       textAlign: "Center",
+      template: Priority,
     },
     {
       headerText: "Actions",

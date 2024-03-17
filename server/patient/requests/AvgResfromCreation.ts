@@ -22,6 +22,7 @@ export default async function calculateAverageResponseTimeFromCreations() {
     WHERE
         r1.status = ${RequestStatusEnum.Cree} AND
         (r2.status = ${RequestStatusEnum.Accepte} OR r2.status = ${RequestStatusEnum.Refuse}) AND
+        EXTRACT(MONTH FROM r1.createdAt) = EXTRACT(MONTH FROM r2.createdAt) AND
         EXTRACT(YEAR FROM r1.createdAt) = EXTRACT(YEAR FROM r2.createdAt)
     GROUP BY
         r1.requestId,

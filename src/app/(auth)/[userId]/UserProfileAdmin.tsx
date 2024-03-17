@@ -253,7 +253,7 @@ const UserProfileAdmin = ({
                           label="Rôle"
                           value={formik.values.role}
                           selectedKeys={[formik.values.role]}
-                          disabled={formik.isSubmitting}
+                          isDisabled={isDisabled || formik.isSubmitting}
                         >
                           {Object.values(UserRole).map((role) => (
                             <SelectItem isReadOnly={isDisabled} key={role}>

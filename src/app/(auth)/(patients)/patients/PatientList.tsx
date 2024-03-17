@@ -21,6 +21,8 @@ import { useStateContext } from "@/Contexts/ThemeContext";
 import Link from "next/link";
 import { PiFiles } from "react-icons/pi";
 import { CiSettings } from "react-icons/ci";
+import { ProgramEnum } from "@prisma/client";
+import { Chip } from "@nextui-org/react";
 
 const PatientList = ({
   data,
@@ -32,6 +34,31 @@ const PatientList = ({
   const editing = { allowDeleting: true, allowEditing: true };
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
+  const Program = (props: any) => {
+    let bgColor = ""; // Default color
+    switch (props.program) {
+      case ProgramEnum.PAP:
+        bgColor = "#4CAF50"; // Green for success
+        break;
+      case ProgramEnum.DAP:
+        bgColor = "#f7cb73"; // Yelllow for pending
+
+        break;
+      case ProgramEnum.PSP:
+        bgColor = "#F44336"; // Red for expired
+
+        break;
+
+      default:
+        bgColor = "#f7cb73"; // Default color if status is not recognized
+    }
+
+    return (
+      <Chip size="lg" style={{ backgroundColor: bgColor, color: "white" }}>
+        {props.program}
+      </Chip>
+    );
+  };
 
   const PatientAction = (props: any) => (
     <div className="flex gap-1 justify-center">
@@ -87,6 +114,7 @@ const PatientList = ({
       width: "80",
       textAlign: "start",
       field: "program",
+      template: Program,
     },
 
     {
