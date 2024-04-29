@@ -47,7 +47,7 @@ const RequestListPatient = ({
         statusTranslation = "Refusé";
         break;
       case RequestStatusEnum.Complete:
-        bgColor = "#F44336"; // Orange for modifications
+        bgColor = "#ff8000"; // Orange for modifications
         statusTranslation = "Complet";
         break;
       case RequestStatusEnum.Constitue:

@@ -18,28 +18,29 @@ enum UserRole {
 }
 
 enum UserStatus {
-NeedInitialization
-Active
+  NeedInitialization
+  Active
 }
 
-
 enum DiagnosticEnum {
-Scanner
-Biopsie
+  Scanner
+  Biopsie
 }
 
 enum ProgramEnum {
   PAP
   DAP
-  PSP 
+  PSP
 }
+
 enum SocialEnum {
   CNOPS
   CNSS
   FAR
   Prive
   Other
-}  
+}
+
 enum EducationEnum {
   Analphabete
   Primaire
@@ -47,11 +48,13 @@ enum EducationEnum {
   Lycee
   Universitaire
 }
+
 enum HabitatEnum {
   Urbain
   SubUrbain
   Rural
 }
+
 enum EstablishmentEnum {
   Hopital
   Clinique
@@ -67,6 +70,7 @@ enum SecteurEnum {
   Public
   Prive
 }
+
 enum PriorityEnum {
   HVT
   LVT
@@ -84,6 +88,7 @@ enum AppointmentStatusEnum {
   Expired
   Rescheduled
 }
+
 enum RepeatEnum {
   Null
   Daily
@@ -91,237 +96,258 @@ enum RepeatEnum {
   Monthly
   Yearly
 }
+
+enum MailStatusEnum {
+  None
+  Draft
+  Flagged
+  Deleted
+}
+
 model Patient {
-  id String @id @default(cuid()) @map("_id") 
-  firstName String
-  patientno String?
-  lastName String 
-  address String?
-  birthDate DateTime?
-  avatarId String? @unique
-  notes String?
-  program ProgramEnum?
-  image Document? @relation(fields: [avatarId],references: [id])
-  createdAt DateTime @default(now())
-  requests Request[] 
-  isConsent Boolean @default(false)
-  doctor Doctor? @relation(fields: [doctorId],references: [id])
-  doctorId String?
-  inclCriteria inclCriteria? 
-  exclCriteria exclCriteria? 
-  inclDate DateTime?
-  isMajor Boolean
-  isSocial Boolean
-  isConfDiag Boolean
-  isIncomplete Boolean
-  isAbroad Boolean
-  isUnreachable Boolean
-  tel String
-  mail String?
-  social SocialEnum?
-  othersocial String?
-  education EducationEnum?
-  habitat HabitatEnum?
-  iscaregiver Boolean
-  caregiver CareGiver? 
-  diagnostic DiagnosticEnum?
+  id             String          @id @default(cuid()) @map("_id")
+  firstName      String
+  patientno      String?
+  lastName       String
+  address        String?
+  birthDate      DateTime?
+  avatarId       String?         @unique
+  notes          String?
+  program        ProgramEnum?
+  image          Document?       @relation(fields: [avatarId], references: [id])
+  createdAt      DateTime        @default(now())
+  requests       Request[]
+  isConsent      Boolean         @default(false)
+  doctor         Doctor?         @relation(fields: [doctorId], references: [id])
+  doctorId       String?
+  inclCriteria   inclCriteria?
+  exclCriteria   exclCriteria?
+  inclDate       DateTime?
+  isMajor        Boolean
+  isSocial       Boolean
+  isConfDiag     Boolean
+  isIncomplete   Boolean
+  isAbroad       Boolean
+  isUnreachable  Boolean
+  tel            String
+  mail           String?
+  social         SocialEnum?
+  othersocial    String?
+  education      EducationEnum?
+  habitat        HabitatEnum?
+  iscaregiver    Boolean
+  caregiver      CareGiver?
+  diagnostic     DiagnosticEnum?
   diagnosticDate DateTime?
-  prerequest Boolean?
-  statusRequest Boolean?
-  refDoc Boolean?
-  appointments Appointment[]
+  prerequest     Boolean?
+  statusRequest  Boolean?
+  refDoc         Boolean?
+  appointments   Appointment[]
 }
 
 model CareGiver {
-  id String @id @default(cuid()) @map("_id")
-  fullName String? 
-  patientId String @unique
-  tel String?
-  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
-
+  id        String  @id @default(cuid()) @map("_id")
+  fullName  String?
+  patientId String  @unique
+  tel       String?
+  Patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
 
 model inclCriteria {
-  id String @id @default(cuid()) @map("_id")
-  patientId String @unique
-  isMajor Boolean
+  id         String  @id @default(cuid()) @map("_id")
+  patientId  String  @unique
+  isMajor    Boolean
   isConfDiag Boolean
-  isSocial Boolean
-  isConsent Boolean
-  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
+  isSocial   Boolean
+  isConsent  Boolean
+  Patient    Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
 
 model exclCriteria {
-  id String @id @default(cuid()) @map("_id")
-  patientId String @unique
-  isIncomplete Boolean
-  isAbroad Boolean
+  id            String  @id @default(cuid()) @map("_id")
+  patientId     String  @unique
+  isIncomplete  Boolean
+  isAbroad      Boolean
   isUnreachable Boolean
-  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
+  Patient       Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
-model Doctor{
-  id String @id @default(cuid()) @map("_id")
-  title TitleEnum @default(Dr)
-  firstName String
-  lastName String
+
+model Doctor {
+  id            String             @id @default(cuid()) @map("_id")
+  title         TitleEnum          @default(Dr)
+  firstName     String
+  lastName      String
   establishment EstablishmentEnum?
-  service String?
-  secteur SecteurEnum?
-  Patient Patient[]
-  city City? @relation(fields:[cityId],references: [id],onDelete: Cascade)
-  cityId String?
-  priority PriorityEnum?
-  tel String?
-  mail String?
-  appointment Appointment[]
-
-
+  service       String?
+  secteur       SecteurEnum?
+  Patient       Patient[]
+  city          City?              @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId        String?
+  priority      PriorityEnum?
+  tel           String?
+  mail          String?
+  appointment   Appointment[]
 }
 
 model City {
-  id String @id @default(cuid()) @map("_id")
-  name String @unique
-  region Region @relation(fields:[regionId],references: [id],onDelete: Cascade)
+  id       String   @id @default(cuid()) @map("_id")
+  name     String   @unique
+  region   Region   @relation(fields: [regionId], references: [id], onDelete: Cascade)
   regionId String
-  doctors Doctor[]
+  doctors  Doctor[]
 }
+
 model Region {
-  id String @id @default(cuid()) @map("_id")
-  name String @unique
-  city City[]
+  id      String  @id @default(cuid()) @map("_id")
+  name    String  @unique
+  city    City[]
   attache String?
 }
 
 model Request {
-  id String @id @default(cuid()) @map("_id")
-  number Int @default(autoincrement()) @unique
+  id        String          @id @default(cuid()) @map("_id")
+  number    Int             @unique @default(autoincrement())
   createdAt DateTime
-  statuses RequestStatus[]
+  statuses  RequestStatus[]
   patientId String
-  Patient Patient @relation(fields:[patientId],references: [id],onDelete: Cascade)
-  
-}
-model RequestStatus {
-  id String @id @default(cuid()) @map("_id")
-  createdAt DateTime
-  current Boolean
-  remark String?
-  status RequestStatusEnum 
-  requestId String 
-  request Request @relation(fields: [requestId],references: [id],onDelete: Cascade)
-  documents RequestDocument[]
-  
-}
-enum RequestStatusEnum {
-Constitue
-Cree
-Complete
-Attente
-Accepte
-Refuse
+  Patient   Patient         @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
 
+model RequestStatus {
+  id        String            @id @default(cuid()) @map("_id")
+  createdAt DateTime
+  current   Boolean
+  remark    String?
+  status    RequestStatusEnum
+  requestId String
+  request   Request           @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  documents RequestDocument[]
+}
+
+enum RequestStatusEnum {
+  Constitue
+  Cree
+  Complete
+  Attente
+  Accepte
+  Refuse
+}
 
 model RequestDocument {
   requestStatusId String
-  documentId String @unique
-  @@id([requestStatusId,documentId])
-  request RequestStatus @relation(fields:[requestStatusId],references:[id],onDelete: Cascade)
-  document Document @relation(fields: [documentId],references: [id])
+  documentId      String        @unique
+  request         RequestStatus @relation(fields: [requestStatusId], references: [id], onDelete: Cascade)
+  document        Document      @relation(fields: [documentId], references: [id])
+
+  @@id([requestStatusId, documentId])
 }
 
 model User {
-  id String @id @default(cuid()) @map("_id")
-  firstName String 
-  lastName String 
-  address String? 
-  email String @unique
-  role UserRole @default(Patient)
-  passwordHash String 
-  emailVerified DateTime?
-  birthDate DateTime?
-  status UserStatus @default(NeedInitialization)
-  otp String?
+  id                    String       @id @default(cuid()) @map("_id")
+  firstName             String
+  lastName              String
+  address               String?
+  email                 String       @unique
+  role                  UserRole     @default(Patient)
+  passwordHash          String
+  emailVerified         DateTime?
+  birthDate             DateTime?
+  status                UserStatus   @default(NeedInitialization)
+  otp                   String?
   emailVerificationCode String?
-  avatarId String? @unique
-  avatar Document?  @relation(fields: [avatarId],references: [id])
-  blogs Blog[]
-  mailSent Mail[] @relation("mailSent")
-  mailReceived Mail[] @relation("mailReceived")
-  notes String?
-  program ProgramEnum?
-  
+  avatarId              String?      @unique
+  avatar                Document?    @relation(fields: [avatarId], references: [id])
+  blogs                 Blog[]
+  mailSent              Mail[]       @relation("mailSent")
+  mailReceived          Mail[]       @relation("mailReceived")
+  notes                 String?
+  program               ProgramEnum?
+  comments              Comment[]
 }
 
 model Document {
-  id String @id @default(cuid()) @map("_id")
+  id       String           @id @default(cuid()) @map("_id")
   memeType String
-  path String
-  url String
-  user User? 
-  blog Blog?
-  patient Patient?
-  request RequestDocument?
-  mail Mail?
+  path     String
+  url      String
+  user     User?
+  blog     Blog?
+  patient  Patient?
+  request  RequestDocument?
+  mail     Mail?
 }
-model Category{
-  id String @id @default(cuid()) @map("_id")
-  label String @unique
-  color String
+
+model Category {
+  id            String         @id @default(cuid()) @map("_id")
+  label         String         @unique
+  color         String
   CategoryBlogs BlogCategory[]
 }
 
-model BlogCategory{
-  blogId String 
-  categoryId String 
-  category Category @relation(fields: [categoryId], references: [id])
-  blog Blog  @relation(fields: [blogId], references: [id])
-  @@id([blogId,categoryId])
+model BlogCategory {
+  blogId     String
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  blog       Blog     @relation(fields: [blogId], references: [id])
+
+  @@id([blogId, categoryId])
 }
 
-model Blog{
-  id String @id @default(cuid()) @map("_id")
-  title String
-  content String @db.LongText
-  publishedAt DateTime @default(now())
-  categories BlogCategory[] 
-  authorId String
-  imageId String  @unique
-  image Document @relation(fields: [imageId], references: [id])
-  author User @relation(fields:[authorId],references: [id])
-  status BlogStatusEnum @default(Attente)
-  viewCount Int @default(0)
-  notes String?
+model Blog {
+  id          String         @id @default(cuid()) @map("_id")
+  title       String
+  content     String         @db.LongText
+  publishedAt DateTime       @default(now())
+  categories  BlogCategory[]
+  authorId    String
+  imageId     String         @unique
+  image       Document       @relation(fields: [imageId], references: [id])
+  author      User           @relation(fields: [authorId], references: [id])
+  status      BlogStatusEnum @default(Attente)
+  viewCount   Int            @default(0)
+  notes       String?
+  comments    Comment[]
+}
 
+model Comment {
+  id              String    @id @default(cuid()) @map("_id")
+  blogId          String
+  content         String    @db.LongText
+  userId          String
+  blog            Blog      @relation(fields: [blogId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+  parentCommentId String?
+  replies         Comment[] @relation("replies")
+  comment         Comment?  @relation(name: "replies", fields: [parentCommentId], references: [id])
 }
 
 model Mail {
- id          String    @id @default(cuid()) @map("_id")
-senderId String 
-  receiverId String 
- subject     String
- body        String @db.MediumText
- sentDate    DateTime @default(now())
- sender User  @relation("mailSent",fields: [senderId], references: [id])
-receiver User @relation("mailReceived",fields: [receiverId], references: [id])
- attachmentId String  @unique
-  attachment Document @relation(fields: [attachmentId], references: [id])
+  id           String          @id @default(cuid()) @map("_id")
+  senderId     String
+  receiverId   String
+  subject      String
+  body         String          @db.MediumText
+  sentDate     DateTime        @default(now())
+  sender       User            @relation("mailSent", fields: [senderId], references: [id])
+  receiver     User            @relation("mailReceived", fields: [receiverId], references: [id])
+  attachmentId String          @unique
+  attachment   Document        @relation(fields: [attachmentId], references: [id])
+  status       MailStatusEnum? @default(None)
 }
 
 model Appointment {
-  id String @id @default(cuid()) @map("_id")
+  id        String                 @id @default(cuid()) @map("_id")
   patientId String
-  subject String
+  subject   String
   startTime DateTime
-  endTime DateTime
-  patient Patient @relation(fields: [patientId], references: [id])
-  doctorId String?
-  doctor Doctor? @relation(fields: [doctorId], references: [id])
-  note String?
-  status AppointmentStatusEnum? @default(Pending)
-  room String?
-
+  endTime   DateTime
+  patient   Patient                @relation(fields: [patientId], references: [id])
+  doctorId  String?
+  doctor    Doctor?                @relation(fields: [doctorId], references: [id])
+  note      String?
+  status    AppointmentStatusEnum? @default(Pending)
+  room      String?
 }
-
-
-

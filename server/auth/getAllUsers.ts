@@ -13,3 +13,11 @@ export default async function getAllUsers() {
     },
   });
 }
+
+export async function getAllUserswithcurrent() {
+  return await prisma.user.findMany({
+    include: {
+      avatar: true,
+    },
+  });
+}

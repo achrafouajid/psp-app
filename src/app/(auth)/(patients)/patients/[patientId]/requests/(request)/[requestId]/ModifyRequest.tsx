@@ -39,7 +39,21 @@ export default function ModifyRequest() {
   const [isDisabled, setisDisabled] = useState(true);
   const [imgPrvs, setimgPrvs] = useState<string[]>([]);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const handleOpenDeleteModal = () => setIsDeleteModalOpen(true);
+  const handleCloseDeleteModal = () => setIsDeleteModalOpen(false);
 
+  const handleDeleteRequest = () => {
+    deleteRequest(data.id)
+      .then(() => {
+        handleCloseDeleteModal();
+        router.push("/");
+        toast.success("Demande supprimée avec succès");
+      })
+      .catch((error) => {
+        toast.error("Erreur de suppression de la demande");
+      });
+  };
   const formik = useFormik({
     initialValues: {
       ...data,
@@ -289,17 +303,41 @@ export default function ModifyRequest() {
         <Button
           style={{ backgroundColor: "#396EA5", color: "white" }}
           startContent={<LuFileX size={20} color="red" />}
-          onClick={() => {
-            if (
-              window.confirm("Voulez-vous vraiment supprimer cette demande ?")
-            ) {
-              deleteRequest(data.id);
-            }
-          }}
+          onClick={handleOpenDeleteModal}
         >
           Supprimer la Demande
         </Button>
       </div>
+      <Modal
+        isOpen={isDeleteModalOpen}
+        placement="auto"
+        onOpenChange={handleCloseDeleteModal}
+        className=""
+      >
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">
+            <h2 className="text-base font-semibold">Supprimer la demande</h2>
+          </ModalHeader>
+          <ModalBody>
+            <p className="text-xl font-medium text-center mt-4">
+              Êtes-vous sûr de vouloir supprimer cette demande ? Cette action
+              est irréversible.
+            </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              onClick={handleCloseDeleteModal}
+              color="secondary"
+              variant="light"
+            >
+              Annuler
+            </Button>
+            <Button color="danger" onPress={handleDeleteRequest}>
+              Supprimer
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </form>
   );
 }

@@ -45,6 +45,8 @@ import { getNewPatientsCountByMonth } from "../../../../server/patient/newPatien
 import doctorWorkload from "../../../../server/doctor/doctorWorkLoad";
 import calculateAverageResponseTimeFromCreations from "../../../../server/patient/requests/AvgResfromCreation";
 import CompResStackedTwo from "@/components/charts/CompResStackedTwo";
+import { useSession } from "@/Contexts/UserContext";
+import { UserRole } from "@prisma/client";
 
 const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
   ssr: false,
@@ -103,6 +105,7 @@ const Home = ({
   const { currentColor, currentMode } = useStateContext();
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+  const user = useSession();
 
   const demandes = [
     {
@@ -545,34 +548,36 @@ const Home = ({
             </div>
           </div>
           <div className="mt-10 flex gap-10 flex-wrap justify-center">
-            {/*<CompResStacked avg={avg} avg2={avg2} avg3={avg3} />*/}
-            <CompResStackedTwo avg={avg} avg2={avg2} avg3={avg3} />
+            <CompResStacked avg={avg} avg2={avg2} />
+            <CompResStackedTwo avg={avg} avg3={avg3} />
           </div>
         </div>
-        <div>
-          <div
-            className=" rounded-2xl md:w-400 p-4 m-3 border border-white"
-            style={{ backgroundColor: currentColor }}
-          >
-            <div className="flex justify-between items-center ">
-              <p className="font-semibold text-white text-2xl">
-                Nombre de patients à rappeler
-              </p>
+        {user.role === UserRole.Admin || user.role == UserRole.Nurse ? (
+          <div>
+            <div
+              className=" rounded-2xl md:w-400 p-4 m-3 border border-white"
+              style={{ backgroundColor: currentColor }}
+            >
+              <div className="flex justify-between items-center ">
+                <p className="font-semibold text-white text-2xl">
+                  Nombre de patients à rappeler
+                </p>
 
-              <p className="text-2xl text-white font-semibold mt-8">
-                {callpatients.length}
-              </p>
+                <p className="text-2xl text-white font-semibold mt-8">
+                  {callpatients.length}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400  m-3 flex justify-center items-center gap-10
+            "
+              style={{ borderColor: currentColor }}
+            >
+              <PatientCallTable callpatients={callpatients} />
             </div>
           </div>
-
-          <div
-            className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg border rounded-2xl md:w-400  m-3 flex justify-center items-center gap-10
-            "
-            style={{ borderColor: currentColor }}
-          >
-            <PatientCallTable callpatients={callpatients} />
-          </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

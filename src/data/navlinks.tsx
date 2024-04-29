@@ -190,14 +190,14 @@ export const links: LinksGroup[] = [
         title: "Messagerie",
         href: "/chat",
         icon: <IoChatbubblesOutline />,
-        activatedFor: [],
+        activatedFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       {
         title: "Courrier",
         href: "/email",
         icon: <IoMailOutline />,
-        activatedFor: [],
+        activatedFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
         visibleFor: [UserRole.Admin, UserRole.Lab, UserRole.Nurse],
       },
       /*  {

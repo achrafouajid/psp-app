@@ -100,3 +100,10 @@ body {
 .e-rte-hidden {
   @apply !hidden;
 }
+.custom-font-size {
+  font-size: 16px; /* Adjust as needed */
+}
+
+.title-font-size {
+  font-size: 18px; /* Adjust as needed */
+}

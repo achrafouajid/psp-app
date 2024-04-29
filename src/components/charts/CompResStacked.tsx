@@ -18,16 +18,11 @@ import { avgRespo2 } from "../../../server/patient/requests/AvgResRequest";
 export default function CompResStacked({
   avg,
   avg2,
-  avg3,
 }: {
   avg: avgRespo;
   avg2: avgRespo2;
-  avg3: avgRespo;
 }) {
   const { currentMode } = useStateContext();
-  console.log(avg, "Avg");
-  console.log(avg2, "avg2");
-  console.log(avg3, "avg3");
 
   const stackedCompResXAxis = {
     majorGridLines: { width: 0 },
@@ -63,7 +58,7 @@ export default function CompResStacked({
           secInDay
       );
       const responseTime = Math.ceil(
-        (avg3.find((e) => e.month === month + 1)?.avgCompletionTime ?? 0) /
+        (avg2.find((e) => e.month === month + 1)?.avgResponseTime ?? 0) /
           secInDay
       );
 

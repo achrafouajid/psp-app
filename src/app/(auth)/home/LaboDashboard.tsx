@@ -55,6 +55,7 @@ export default async function LaboDashboard() {
     getAllCallPatients(),
     getNewPatientsCountByMonth(),
     calculateAverageResponseTimeFromCreations(),
+    
   ]);
 
   return (

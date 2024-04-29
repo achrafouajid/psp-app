@@ -17,7 +17,16 @@ import {
 
 import { contextMenuItems } from "@/data/dummy";
 import get_blogs from "../../../../../server/blog/get_blogs";
-import { Button, Chip } from "@nextui-org/react";
+import {
+  Button,
+  Chip,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import { BlogStatusEnum } from "@prisma/client";
 import remove_blog from "../../../../../server/blog/remove_blog";
 import { LuDelete } from "react-icons/lu";
@@ -26,26 +35,40 @@ import { useRouter } from "next/navigation";
 
 const BlogAction = (props: any) => {
   const router = useRouter();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const handleDelete = () => {
+    remove_blog(props.blogId);
+    onOpenChange(); // Close the modal after deletion
+  };
 
   return (
     <div className="flex gap-1 justify-around">
-      <Button
-        onClick={() => {
-          remove_blog(props.blogId);
-        }}
-        isIconOnly
-        color="danger"
-        variant="bordered"
-      >
+      <Button onClick={onOpen} isIconOnly color="danger" variant="bordered">
         <LuDelete size={25} style={{ color: "red" }} />
       </Button>
-
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          <ModalHeader>Supprimer un article</ModalHeader>
+          <ModalBody>
+            Êtes-vous sûr de vouloir supprimer l'article "{props.title}" ? Cette
+            action est irréversible.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" variant="light" onPress={onOpenChange}>
+              Annuler
+            </Button>
+            <Button color="danger" onPress={handleDelete}>
+              Supprimer
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Button
         isIconOnly
         color="primary"
         variant="bordered"
         onClick={() => {
-          router.push(`${props.blogId}/edit`);
+          router.push(`/blogs/${props.blogId}/edit`);
         }}
       >
         <FaEdit size={25} style={{ color: "#396EA5" }} />

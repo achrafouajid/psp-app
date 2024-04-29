@@ -20,11 +20,10 @@ import { avgRespo2 } from "../../../server/patient/requests/AvgResRequest";
 
 export default function CompResStackedTwo({
   avg,
-  avg2,
+
   avg3,
 }: {
   avg: avgRespo;
-  avg2: avgRespo2;
   avg3: avgRespo;
 }) {
   const primaryxAxis = {

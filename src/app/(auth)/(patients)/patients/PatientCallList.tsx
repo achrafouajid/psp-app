@@ -24,8 +24,6 @@ const PatientCallList = ({
 }) => {
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = ["Delete", "Search"];
-  const { currentColor, currentMode } = useStateContext();
-  const router = useRouter();
   const callPatientsGrid = [
     {
       headerText: "ID Patient",

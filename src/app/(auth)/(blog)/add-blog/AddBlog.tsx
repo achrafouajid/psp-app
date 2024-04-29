@@ -6,6 +6,7 @@ import create_blog from "../../../../../server/blog/create_blog";
 import { Category } from "@prisma/client";
 import Editor from "./Editor";
 import { toast } from "react-hot-toast"; // Import the toast function
+import { Input } from "@nextui-org/react";
 
 export default function AddBlog(props: { categories: Category[] }) {
   const { currentColor } = useStateContext();
@@ -34,8 +35,8 @@ export default function AddBlog(props: { categories: Category[] }) {
           >
             Image
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          <Input
+            isRequired={true}
             id="grid-zip"
             type="file"
             name="image"
@@ -49,8 +50,8 @@ export default function AddBlog(props: { categories: Category[] }) {
           >
             Titre du Blog
           </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          <Input
+            isRequired={true}
             id="grid-zip"
             type="text"
             name="title"

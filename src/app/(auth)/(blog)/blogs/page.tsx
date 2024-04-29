@@ -6,6 +6,7 @@ import CardBlog from "@/components/CardBlog";
 import { Chip } from "@nextui-org/react";
 import FeaturedPosts from "@/components/FeaturedPosts";
 import getPublishedBlogs from "../../../../../server/blog/get_published_Blogs";
+import CommentCard from "./CommentCard";
 
 const Blogs = async () => {
   const data = await getPublishedBlogs();
@@ -27,6 +28,7 @@ const Blogs = async () => {
               ))}
             </div>
           </div>
+          <CommentCard />
         </div>
         <div className="w-full lg:w-1/4 px-3 mb-6 row-auto">
           <div className="col-span-3">
@@ -49,8 +51,8 @@ const Blogs = async () => {
               </div>
             </div>
 
-            <div className="filter-card mb-3 bg-white rounded-lg p-6">
-              <h3 className="filter-title text-base font-semibold leading-7 mb-4">
+            <div className="mb-3 bg-white rounded-lg p-6">
+              <h3 className="text-base font-semibold leading-7 mb-4">
                 Articles que vous pourrez apprécier
               </h3>
               {data.map((e) => (
